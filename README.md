@@ -18,6 +18,6 @@
 
 ## Important `Links`
 
-- [Client Side](https://laparis-projectx-csr.vercel.app)
-- [Server Side](https://laparis-projectx-ssr.vercel.app)
-- [Inspiration](https://cs-laparis.myshopify.com)
+- Client Side [Click Here](https://laparis-projectx-csr.vercel.app)
+- Server Side [Click Here](https://laparis-projectx-ssr.vercel.app)
+- Inspiration [Click Here](https://cs-laparis.myshopify.com)
