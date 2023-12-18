@@ -15,3 +15,9 @@
   - Add Product
   - List Product
   - Edit Product
+
+## Important `Links`
+
+- [Client Side](https://laparis-projectx-csr.vercel.app)
+- [Server Side](https://laparis-projectx-ssr.vercel.app)
+- [Inspiration](https://cs-laparis.myshopify.com)
