@@ -73,7 +73,7 @@ const Arrivals = () => {
         >
           {(item) => (
             <Tab key={item._id} title={item.label}>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
                 {item?.products?.slice(0, 8)?.map((product) => (
                   <Grub key={product?._id} product={product} />
                 ))}
