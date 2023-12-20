@@ -46,7 +46,7 @@ const Grub = ({ product }) => {
           </div>
         </CardHeader>
         <CardBody>
-          <p className="text-tiny uppercase font-bold line-clamp-1">
+          <p className="text-tiny font-bold line-clamp-1">
             {product?.name}
           </p>
           <small className="text-default-500">
