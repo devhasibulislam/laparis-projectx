@@ -49,8 +49,8 @@ const Brands = () => {
         onSwiper={(swiper) => console.log(swiper)}
       >
         {brands?.map((brand, index) => (
-          <SwiperSlide>
-            <div key={index} className="">
+          <SwiperSlide key={index}>
+            <div className="">
               <Image
                 isBlurred
                 width={150}
