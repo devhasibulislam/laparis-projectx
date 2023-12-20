@@ -23,7 +23,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="max-w-5xl mx-auto lg:px-10 md:px-8 px-4 py-8 bg-gray-100 rounded">
+    <footer className="max-w-6xl mx-auto lg:px-10 md:px-8 px-4 py-8 bg-gray-100 rounded">
       <div className="flex md:flex-row flex-col flex-wrap gap-8 justify-between">
         <div className="flex flex-col gap-y-4">
           <h5 className="text-xl font-bold">Features</h5>
