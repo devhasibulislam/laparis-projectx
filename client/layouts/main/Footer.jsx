@@ -23,200 +23,198 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="max-w-7xl mx-auto p-8 bg-gray-100 rounded">
-      <div className="container mx-auto px-4">
-        <div className="sm:flex sm:flex-wrap sm:-mx-4 md:py-4">
-          <div className="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6">
-            <h5 className="text-xl font-bold mb-6">Features</h5>
-            <ul className="list-none footer-links">
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Cool stuff
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Random feature
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Team feature
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Stuff for developers
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Another one
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Last time
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 sm:mt-0">
-            <h5 className="text-xl font-bold mb-6">Resources</h5>
-            <ul className="list-none footer-links">
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Resource
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Resource name
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Another resource
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Final resource
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
-            <h5 className="text-xl font-bold mb-6">About</h5>
-            <ul className="list-none footer-links">
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Team
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Locations
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Privacy
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Terms
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
-            <h5 className="text-xl font-bold mb-6">Help</h5>
-            <ul className="list-none footer-links">
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Support
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Help Center
-                </Link>
-              </li>
-              <li className="mb-2">
-                <Link
-                  href="#"
-                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
-                >
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="px-4 mt-4 sm:w-1/3 xl:w-1/6 sm:mx-auto xl:mt-0 xl:ml-auto">
-            <h5 className="text-xl font-bold mb-6 sm:text-center xl:text-left">
-              Stay connected
-            </h5>
-            <div className="flex sm:justify-center xl:justify-start">
-              <Tooltip content="Facebook" placement="bottom">
-                <Link
-                  href="https://www.facebook.com/devhasibulislam"
-                  className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 hover:text-white hover:bg-blue-600 hover:border-blue-600 flex flex-row items-center justify-center"
-                >
-                  <TfiFacebook className="h-5 w-5" />
-                </Link>
-              </Tooltip>
-              <Tooltip content="Twitter" placement="bottom">
-                <Link
-                  href="https://twitter.com/devhasibulislam"
-                  className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-blue-400 hover:border-blue-400 flex flex-row items-center justify-center"
-                >
-                  <RiTwitterXLine className="h-5 w-5" />
-                </Link>
-              </Tooltip>
-              <Tooltip content="Gmail" placement="bottom">
-                <Link
-                  href="mailto:devhasibulislam@gmail.com"
-                  className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-red-600 hover:border-red-600 flex flex-row items-center justify-center"
-                >
-                  <IoLogoGoogle className="h-5 w-5" />
-                </Link>
-              </Tooltip>
-            </div>
+    <footer className="max-w-5xl mx-auto lg:px-10 md:px-8 px-4 py-8 bg-gray-100 rounded">
+      <div className="flex md:flex-row flex-col flex-wrap gap-8 justify-between">
+        <div className="flex flex-col gap-y-4">
+          <h5 className="text-xl font-bold">Features</h5>
+          <ul className="list-none flex flex-col gap-y-1.5">
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Cool stuff
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Random feature
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Team feature
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Stuff for developers
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Another one
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Last time
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="flex flex-col gap-y-4">
+          <h5 className="text-xl font-bold">Resources</h5>
+          <ul className="list-none flex flex-col gap-y-1.5">
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Resource
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Resource name
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Another resource
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Final resource
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="flex flex-col gap-y-4">
+          <h5 className="text-xl font-bold">About</h5>
+          <ul className="list-none flex flex-col gap-y-1.5">
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Team
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Locations
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Privacy
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Terms
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="flex flex-col gap-y-4">
+          <h5 className="text-xl font-bold">Help</h5>
+          <ul className="list-none flex flex-col gap-y-1.5">
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Support
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Help Center
+              </Link>
+            </li>
+            <li className="">
+              <Link
+                href="#"
+                className="border-b border-solid border-transparent hover:border-black hover:text-black"
+              >
+                Contact Us
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="flex flex-col gap-y-4">
+          <h5 className="text-xl font-bold sm:text-center xl:text-left">
+            Stay connected
+          </h5>
+          <div className="flex sm:justify-center xl:justify-start">
+            <Tooltip content="Facebook" placement="bottom">
+              <Link
+                href="https://www.facebook.com/devhasibulislam"
+                className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 hover:text-white hover:bg-blue-600 hover:border-blue-600 flex flex-row items-center justify-center"
+              >
+                <TfiFacebook className="h-5 w-5" />
+              </Link>
+            </Tooltip>
+            <Tooltip content="Twitter" placement="bottom">
+              <Link
+                href="https://twitter.com/devhasibulislam"
+                className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-blue-400 hover:border-blue-400 flex flex-row items-center justify-center"
+              >
+                <RiTwitterXLine className="h-5 w-5" />
+              </Link>
+            </Tooltip>
+            <Tooltip content="Gmail" placement="bottom">
+              <Link
+                href="mailto:devhasibulislam@gmail.com"
+                className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-red-600 hover:border-red-600 flex flex-row items-center justify-center"
+              >
+                <IoLogoGoogle className="h-5 w-5" />
+              </Link>
+            </Tooltip>
           </div>
         </div>
       </div>
 
-      <Divider className="lg:mt-0 mt-4 mb-4" />
+      <Divider className="my-4" />
 
       <p className="text-xs text-gray-500 text-center">
         &copy; {year}. Laparis. All rights reserved.
