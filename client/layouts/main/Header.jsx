@@ -105,7 +105,7 @@ const Header = () => {
 
         {/* mobile items */}
         {showMenu && (
-          <div className="absolute top-3/4 border rounded right-0 bg-white w-fit p-4 flex flex-col gap-y-2">
+          <div className="absolute top-3/4 border rounded right-0 bg-white w-fit p-4 flex flex-col gap-y-2 z-50">
             <div className="flex flex-col gap-y-1">
               <Link href="/men-items" className="" size="md">
                 Men Items
