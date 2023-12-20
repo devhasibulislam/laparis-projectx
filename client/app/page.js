@@ -13,14 +13,15 @@
  * Date: 19, December 2023
  */
 
+import Banner from "@/components/Banner";
 import Main from "@/layouts/main/Main";
 
 export default function Home() {
   return (
     <Main>
-      <main className="px-4">
-        <section className="container mx-auto border">This is banner section</section>
-        <section className="max-w-5xl mx-auto border">This is content section</section>
+      <main className="">
+        <Banner />
+        <section className="max-w-5xl mx-auto px-4 border">This is content section</section>
       </main>
     </Main>
   );
