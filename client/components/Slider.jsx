@@ -1,5 +1,5 @@
 /**
- * Title: Write a program using JavaScript on Banner
+ * Title: Write a program using JavaScript on Slider
  * Author: Hasibul Islam
  * Portfolio: https://devhasibulislam.vercel.app
  * Linkedin: https://linkedin.com/in/devhasibulislam
@@ -22,7 +22,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { kaushanScript } from "@/app/fonts";
 
-const Banner = () => {
+const Slider = () => {
   return (
     <section className="container mx-auto">
       <Swiper
@@ -126,4 +126,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default Slider;
