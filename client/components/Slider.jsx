@@ -37,6 +37,7 @@ const Slider = () => {
         <SwiperSlide>
           <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40">
             <Image
+              isBlurred
               width={1620}
               height={700}
               alt="Slider Image with delay"
@@ -46,7 +47,9 @@ const Slider = () => {
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 z-50 text-white">
               <h1
                 className={
-                  kaushanScript.className + " " + "text-center lg:text-3xl md:text-2xl text-xl"
+                  kaushanScript.className +
+                  " " +
+                  "text-center lg:text-3xl md:text-2xl text-xl"
                 }
               >
                 Top Look-Book Jeans
@@ -66,6 +69,7 @@ const Slider = () => {
         <SwiperSlide>
           <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40">
             <Image
+              isBlurred
               width={1620}
               height={700}
               alt="Slider Image with delay"
@@ -75,7 +79,9 @@ const Slider = () => {
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 z-50 text-white">
               <h1
                 className={
-                  kaushanScript.className + " " + "text-center lg:text-3xl md:text-2xl text-xl"
+                  kaushanScript.className +
+                  " " +
+                  "text-center lg:text-3xl md:text-2xl text-xl"
                 }
               >
                 Best Selling Online Store
@@ -95,6 +101,7 @@ const Slider = () => {
         <SwiperSlide>
           <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40">
             <Image
+              isBlurred
               width={1620}
               height={700}
               alt="Slider Image with delay"
@@ -104,7 +111,9 @@ const Slider = () => {
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 z-50 text-white">
               <h1
                 className={
-                  kaushanScript.className + " " + "text-center lg:text-3xl md:text-2xl text-xl"
+                  kaushanScript.className +
+                  " " +
+                  "text-center lg:text-3xl md:text-2xl text-xl"
                 }
               >
                 Welcome To

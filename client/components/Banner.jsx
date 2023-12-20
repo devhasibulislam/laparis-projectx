@@ -42,6 +42,7 @@ const Banner = () => {
         </article>
         <Image
           isZoomed
+          isBlurred
           width={570}
           height={656}
           alt="Girl's Image with Zoom"
@@ -52,6 +53,7 @@ const Banner = () => {
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4">
         <div className="w-full relative md:-mt-12">
           <Image
+            isBlurred
             width={520}
             height={580}
             alt="Banner hero Image"
@@ -72,6 +74,7 @@ const Banner = () => {
         <div className="grid md:grid-cols-2 grid-cols-1 items-center gap-4 w-full">
           <Image
             isZoomed
+            isBlurred
             width={570}
             height={656}
             alt="Boy's Image with Zoom"
