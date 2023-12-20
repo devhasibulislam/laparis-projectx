@@ -13,7 +13,7 @@
  * Date: 19, December 2023
  */
 
-import { Divider, Link } from "@nextui-org/react";
+import { Divider, Link, Tooltip } from "@nextui-org/react";
 import React from "react";
 import { TfiFacebook } from "react-icons/tfi";
 import { RiTwitterXLine } from "react-icons/ri";
@@ -187,24 +187,30 @@ const Footer = () => {
               Stay connected
             </h5>
             <div className="flex sm:justify-center xl:justify-start">
-              <Link
-                href="https://www.facebook.com/devhasibulislam"
-                className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 hover:text-white hover:bg-blue-600 hover:border-blue-600 flex flex-row items-center justify-center"
-              >
-                <TfiFacebook className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://twitter.com/devhasibulislam"
-                className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-blue-400 hover:border-blue-400 flex flex-row items-center justify-center"
-              >
-                <RiTwitterXLine className="h-5 w-5" />
-              </Link>
-              <Link
-                href="mailto:devhasibulislam@gmail.com"
-                className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-red-600 hover:border-red-600 flex flex-row items-center justify-center"
-              >
-                <IoLogoGoogle className="h-5 w-5" />
-              </Link>
+              <Tooltip content="Facebook" placement="bottom">
+                <Link
+                  href="https://www.facebook.com/devhasibulislam"
+                  className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 hover:text-white hover:bg-blue-600 hover:border-blue-600 flex flex-row items-center justify-center"
+                >
+                  <TfiFacebook className="h-5 w-5" />
+                </Link>
+              </Tooltip>
+              <Tooltip content="Twitter" placement="bottom">
+                <Link
+                  href="https://twitter.com/devhasibulislam"
+                  className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-blue-400 hover:border-blue-400 flex flex-row items-center justify-center"
+                >
+                  <RiTwitterXLine className="h-5 w-5" />
+                </Link>
+              </Tooltip>
+              <Tooltip content="Gmail" placement="bottom">
+                <Link
+                  href="mailto:devhasibulislam@gmail.com"
+                  className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-red-600 hover:border-red-600 flex flex-row items-center justify-center"
+                >
+                  <IoLogoGoogle className="h-5 w-5" />
+                </Link>
+              </Tooltip>
             </div>
           </div>
         </div>
