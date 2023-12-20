@@ -18,12 +18,17 @@ import React from "react";
 import { TfiFacebook } from "react-icons/tfi";
 import { RiTwitterXLine } from "react-icons/ri";
 import { IoLogoGoogle } from "react-icons/io";
+import { GrPaypal } from "react-icons/gr";
+import { SiMastercard } from "react-icons/si";
+import { GrVisa } from "react-icons/gr";
+import { SiPayoneer } from "react-icons/si";
+import { FaRupiahSign } from "react-icons/fa6";
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="max-w-6xl mx-auto lg:px-10 md:px-8 px-4 py-8 bg-gray-100 rounded">
+    <footer className="max-w-7xl mx-auto lg:px-10 md:px-8 px-4 py-8 bg-gray-100 rounded">
       <div className="flex md:flex-row flex-col flex-wrap gap-8 justify-between">
         <div className="flex flex-col gap-y-4">
           <h5 className="text-xl font-bold">Features</h5>
@@ -185,7 +190,7 @@ const Footer = () => {
           <h5 className="text-xl font-bold sm:text-center xl:text-left">
             Stay connected
           </h5>
-          <div className="flex sm:justify-center xl:justify-start">
+          <div className="flex flex-row flex-wrap">
             <Tooltip content="Facebook" placement="bottom">
               <Link
                 href="https://www.facebook.com/devhasibulislam"
@@ -209,6 +214,38 @@ const Footer = () => {
               >
                 <IoLogoGoogle className="h-5 w-5" />
               </Link>
+            </Tooltip>
+          </div>
+        </div>
+        <div className="flex flex-col gap-y-4">
+          <h5 className="text-xl font-bold sm:text-center xl:text-left">
+            Payment Methods
+          </h5>
+          <div className="flex flex-row flex-wrap gap-2">
+            <Tooltip content="Visa" placement="bottom">
+              <span className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 flex flex-row items-center justify-center">
+                <GrVisa className="h-5 w-5" />
+              </span>
+            </Tooltip>
+            <Tooltip content="Master Card" placement="bottom">
+              <span className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 flex flex-row items-center justify-center">
+                <SiMastercard className="h-5 w-5" />
+              </span>
+            </Tooltip>
+            <Tooltip content="Paypal" placement="bottom">
+              <span className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 flex flex-row items-center justify-center">
+                <GrPaypal className="h-5 w-5" />
+              </span>
+            </Tooltip>
+            <Tooltip content="Payoneer" placement="bottom">
+              <span className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 flex flex-row items-center justify-center">
+                <SiPayoneer className="h-5 w-5" />
+              </span>
+            </Tooltip>
+            <Tooltip content="RuPay" placement="bottom">
+              <span className="w-8 h-8 border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 flex flex-row items-center justify-center">
+                <FaRupiahSign className="h-5 w-5" />
+              </span>
             </Tooltip>
           </div>
         </div>
