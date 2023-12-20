@@ -219,7 +219,7 @@ const Footer = () => {
       <Divider className="lg:mt-0 mt-4 mb-4" />
 
       <p className="text-xs text-gray-500 text-center">
-        &copy; {year}. Company Name. All rights reserved.
+        &copy; {year}. Laparis. All rights reserved.
       </p>
     </footer>
   );
