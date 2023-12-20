@@ -29,7 +29,7 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <header className="max-w-7xl mx-auto px-4">
+    <header className="max-w-7xl mx-auto p-4">
       <nav className="flex flex-row items-center justify-between relative">
         {/* logo section */}
         <Image
