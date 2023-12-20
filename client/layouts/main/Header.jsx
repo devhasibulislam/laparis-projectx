@@ -33,7 +33,7 @@ const Header = () => {
       <nav className="flex flex-row items-center justify-between relative">
         {/* logo section */}
         <Image
-          src="/logo.webp"
+          src="/logo.png"
           alt="logo"
           height={80}
           width={160}
