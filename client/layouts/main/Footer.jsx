@@ -32,7 +32,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Cool stuff
                 </Link>
@@ -40,7 +40,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Random feature
                 </Link>
@@ -48,7 +48,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Team feature
                 </Link>
@@ -56,7 +56,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Stuff for developers
                 </Link>
@@ -64,7 +64,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Another one
                 </Link>
@@ -72,7 +72,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Last time
                 </Link>
@@ -85,7 +85,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Resource
                 </Link>
@@ -93,7 +93,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Resource name
                 </Link>
@@ -101,7 +101,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Another resource
                 </Link>
@@ -109,7 +109,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Final resource
                 </Link>
@@ -122,7 +122,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Team
                 </Link>
@@ -130,7 +130,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Locations
                 </Link>
@@ -138,7 +138,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Privacy
                 </Link>
@@ -146,7 +146,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Terms
                 </Link>
@@ -159,7 +159,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Support
                 </Link>
@@ -167,7 +167,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Help Center
                 </Link>
@@ -175,7 +175,7 @@ const Footer = () => {
               <li className="mb-2">
                 <Link
                   href="#"
-                  className="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800"
+                  className="border-b border-solid border-transparent hover:border-black hover:text-black"
                 >
                   Contact Us
                 </Link>

@@ -42,15 +42,24 @@ const Header = () => {
 
         {/* menu items */}
         <div className="md:flex md:flex-row md:gap-x-2 hidden">
-          <Link href="/men-items" className="" size="md">
+          <Link
+            href="/men-items"
+            className="border-b border-solid border-transparent hover:border-black hover:text-black"
+          >
             Men Items
           </Link>
           <Divider orientation="vertical" className="h-5 my-auto" />
-          <Link href="/women-items" className="" size="md">
+          <Link
+            href="/women-items"
+            className="border-b border-solid border-transparent hover:border-black hover:text-black"
+          >
             Women Items
           </Link>
           <Divider orientation="vertical" className="h-5 my-auto" />
-          <Link href="/printed-t-shirts" className="" size="md">
+          <Link
+            href="/printed-t-shirts"
+            className="border-b border-solid border-transparent hover:border-black hover:text-black"
+          >
             Printed T-Shirts
           </Link>
         </div>
