@@ -15,6 +15,7 @@
 
 import Arrivals from "@/components/Arrivals";
 import Banner from "@/components/Banner";
+import Brands from "@/components/Brands";
 import Slider from "@/components/Slider";
 import Main from "@/layouts/main/Main";
 
@@ -26,6 +27,7 @@ export default function Home() {
         <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
           <Banner />
           <Arrivals />
+          <Brands />
         </section>
       </main>
     </Main>
