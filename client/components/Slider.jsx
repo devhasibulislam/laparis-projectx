@@ -39,7 +39,7 @@ const Slider = () => {
             <Image
               width={1620}
               height={700}
-              alt="NextUI hero Image with delay"
+              alt="Slider Image with delay"
               src="/sliders/slider1.png"
               radius="none"
             />
@@ -68,7 +68,7 @@ const Slider = () => {
             <Image
               width={1620}
               height={700}
-              alt="NextUI hero Image with delay"
+              alt="Slider Image with delay"
               src="/sliders/slider2.png"
               radius="none"
             />
@@ -97,7 +97,7 @@ const Slider = () => {
             <Image
               width={1620}
               height={700}
-              alt="NextUI hero Image with delay"
+              alt="Slider Image with delay"
               src="/sliders/slider3.png"
               radius="none"
             />
