@@ -13,6 +13,7 @@
  * Date: 19, December 2023
  */
 
+import Arrivals from "@/components/Arrivals";
 import Banner from "@/components/Banner";
 import Slider from "@/components/Slider";
 import Main from "@/layouts/main/Main";
@@ -22,8 +23,9 @@ export default function Home() {
     <Main>
       <main className="">
         <Slider />
-        <section className="max-w-5xl mx-auto px-4 py-20">
+        <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
           <Banner />
+          <Arrivals />
         </section>
       </main>
     </Main>
