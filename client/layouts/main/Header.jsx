@@ -15,15 +15,7 @@
 
 "use client";
 
-import {
-  Divider,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Link,
-  Tooltip,
-} from "@nextui-org/react";
+import { Avatar, Divider, Link, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -31,14 +23,23 @@ import { IoCartOutline } from "react-icons/io5";
 import { MdFavoriteBorder } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { MdMenu } from "react-icons/md";
-import { RxCross2 } from "react-icons/rx";
+import { CiLogin } from "react-icons/ci";
+import { GiArchiveRegister } from "react-icons/gi";
+import { RiDeviceRecoverLine } from "react-icons/ri";
+import { CiLogout } from "react-icons/ci";
+import OutsideClick from "@/components/OutsideClick";
+import Modal from "@/components/Modal";
+import Search from "@/components/Search";
+import Cart from "@/components/Cart";
+import Favorites from "@/components/Favorites";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="max-w-7xl mx-auto p-4">
-      <nav className="flex flex-row items-center justify-between relative">
+      <nav className="flex flex-row items-center justify-between">
         {/* logo section */}
         <Image
           isBlurred
@@ -75,86 +76,197 @@ const Header = () => {
 
         {/* action items */}
         <div className="md:flex md:flex-row md:gap-x-2.5 hidden">
-          <Tooltip content="Search">
-            <button className="p-1 rounded-full border">
-              <IoSearchOutline className="h-5 w-5" />
-            </button>
-          </Tooltip>
-          <Tooltip content="Cart">
-            <button className="p-1 rounded-full border">
-              <IoCartOutline className="h-5 w-5" />
-            </button>
-          </Tooltip>
-          <Tooltip content="Favorites">
-            <button className="p-1 rounded-full border">
-              <MdFavoriteBorder className="h-5 w-5" />
-            </button>
-          </Tooltip>
-          <Dropdown>
-            <DropdownTrigger>
-              <Tooltip content="Auth">
-                <button className="p-1 rounded-full border">
-                  <FiUser className="h-5 w-5" />
-                </button>
-              </Tooltip>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions" className="z-50">
-              <DropdownItem key="login">Login</DropdownItem>
-              <DropdownItem key="register">Register</DropdownItem>
-              <DropdownItem key="recover">Recover</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <SearchProducts />
+          <MyCart />
+          <MyFavorites />
+          <AuthMenu />
         </div>
 
-        {/* mobile menu */}
-        <Tooltip content="Menu">
-          <button
-            className="p-1 rounded-full border md:hidden"
-            onClick={() => setShowMenu(!showMenu)}
-          >
-            {showMenu ? (
-              <RxCross2 className="h-5 w-5" />
-            ) : (
-              <MdMenu className="h-5 w-5" />
-            )}
-          </button>
-        </Tooltip>
+        <MobileMenu />
+      </nav>
+    </header>
+  );
+};
 
-        {/* mobile items */}
-        {showMenu && (
-          <div className="absolute top-3/4 border rounded right-0 bg-white w-fit p-4 flex flex-col gap-y-2 z-50">
+function MobileMenu() {
+  const [showMenu, setShowMenu] = useState(false);
+
+  return (
+    <div className="relative md:hidden">
+      {/* mobile menu */}
+      <Tooltip content="Menu">
+        <button
+          className="p-1 rounded-full border md:hidden"
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <MdMenu className="h-5 w-5" />
+        </button>
+      </Tooltip>
+
+      {/* mobile items */}
+      {showMenu && (
+        <OutsideClick onOutsideClick={() => setShowMenu(false)}>
+          <div className="absolute top-3/4 mt-2 border rounded right-0 bg-white w-fit p-4 flex flex-col gap-y-2 z-50">
             <div className="flex flex-col gap-y-1">
-              <Link href="/men-items" className="" size="md">
+              <Link href="/men-items" className="text-sm" size="md">
                 Men Items
               </Link>
-              <Link href="/women-items" className="" size="md">
+              <Link href="/women-items" className="text-sm" size="md">
                 Women Items
               </Link>
-              <Link href="/printed-t-shirts" className="" size="md">
+              <Link
+                href="/printed-t-shirts"
+                className="text-sm whitespace-nowrap"
+                size="md"
+              >
                 Printed T-Shirts
               </Link>
             </div>
             <Divider orientation="horizontal" className="" />
             <div className="flex flex-col gap-y-1">
-              <span className="rounded-full flex flex-row items-center gap-x-1">
-                <IoSearchOutline className="h-5 w-5" /> Search
-              </span>
-              <span className="rounded-full flex flex-row items-center gap-x-1">
-                <IoCartOutline className="h-5 w-5" /> Cart
-              </span>
-              <span className="rounded-full flex flex-row items-center gap-x-1">
-                <MdFavoriteBorder className="h-5 w-5" /> Favorites
-              </span>
-              <span className="rounded-full flex flex-row items-center gap-x-1">
+              <SearchProducts />
+              <MyCart />
+              <MyFavorites />
+              <button className="rounded-full flex flex-row items-center gap-x-1 text-sm">
                 <FiUser className="h-5 w-5" /> Login
-              </span>
+              </button>
             </div>
           </div>
-        )}
-      </nav>
-    </header>
+        </OutsideClick>
+      )}
+    </div>
   );
-};
+}
+
+function AuthMenu() {
+  const [showMenu, setShowMenu] = useState(false);
+
+  return (
+    <div className="relative">
+      <Tooltip content="Auth">
+        <button
+          className="p-1 rounded-full border"
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <FiUser className="h-5 w-5" />
+        </button>
+      </Tooltip>
+
+      {showMenu && (
+        <OutsideClick onOutsideClick={() => setShowMenu(false)}>
+          <div className="absolute top-full mt-2 right-0 h-fit w-fit py-2 px-4 bg-white z-50 border flex flex-col gap-y-2 rounded">
+            <button className="flex flex-row items-center gap-x-2 text-sm">
+              <span className="p-0.5">
+                <CiLogin className="h-4 w-4" />
+              </span>{" "}
+              Login
+            </button>
+            <button className="flex flex-row items-center gap-x-2 text-sm">
+              <span className="p-0.5">
+                <GiArchiveRegister className="h-4 w-4" />
+              </span>{" "}
+              Register
+            </button>
+            <button className="flex flex-row items-center gap-x-2 text-sm">
+              <span className="p-0.5">
+                <RiDeviceRecoverLine className="h-4 w-4" />
+              </span>{" "}
+              Recover
+            </button>
+            <button
+              className="flex flex-row items-center gap-x-2 text-sm"
+              onClick={() => router.push("/dashboard")}
+            >
+              <Avatar
+                src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                className="w-5 h-5 text-tiny"
+              />
+              <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                {"John Doe John Doe".slice(0, 6)}.
+              </span>
+            </button>
+
+            <button className="flex flex-row items-center gap-x-2 text-sm">
+              <span className="p-0.5">
+                <CiLogout className="h-4 w-4" />
+              </span>{" "}
+              Logout
+            </button>
+          </div>
+        </OutsideClick>
+      )}
+    </div>
+  );
+}
+
+function SearchProducts() {
+  const [showSearch, setShowSearch] = useState(false);
+
+  return (
+    <>
+      <Tooltip content="Search">
+        <button
+          className="md:p-1 md:border rounded-full flex flex-row items-center gap-x-1 text-sm"
+          onClick={() => setShowSearch(!showSearch)}
+        >
+          <IoSearchOutline className="h-5 w-5" />{" "}
+          <span className="md:hidden">Search</span>
+        </button>
+      </Tooltip>
+      {showSearch && (
+        <Modal isOpen={showSearch} onClose={() => setShowSearch(false)}>
+          <Search />
+        </Modal>
+      )}
+    </>
+  );
+}
+
+function MyCart() {
+  const [showCart, setShowCart] = useState(false);
+
+  return (
+    <>
+      <Tooltip content="Cart">
+        <button
+          className="md:p-1 md:border rounded-full flex flex-row items-center gap-x-1 text-sm"
+          onClick={() => setShowCart(!showCart)}
+        >
+          <IoCartOutline className="h-5 w-5" />{" "}
+          <span className="md:hidden">Cart</span>
+        </button>
+      </Tooltip>
+      {showCart && (
+        <Modal isOpen={showCart} onClose={() => setShowCart(false)}>
+          <Cart />
+        </Modal>
+      )}
+    </>
+  );
+}
+
+function MyFavorites() {
+  const [showFavorites, setShowFavorites] = useState(false);
+
+  return (
+    <>
+      <Tooltip content="Favorites">
+        <button
+          className="md:p-1 md:border rounded-full flex flex-row items-center gap-x-1 text-sm"
+          onClick={() => setShowFavorites(!showFavorites)}
+        >
+          <MdFavoriteBorder className="h-5 w-5" />{" "}
+          <span className="md:hidden">Favorites</span>
+        </button>
+      </Tooltip>
+      {showFavorites && (
+        <Modal isOpen={showFavorites} onClose={() => setShowFavorites(false)}>
+          <Favorites />
+        </Modal>
+      )}
+    </>
+  );
+}
 
 export default Header;
 
