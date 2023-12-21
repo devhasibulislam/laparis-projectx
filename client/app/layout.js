@@ -21,6 +21,17 @@ export const metadata = {
   title: "Laparis - T-Shirt Store",
   description:
     "T-Shirt collection for men, women, children and custom printed signature",
+  openGraph: {
+    title: "Laparis - T-Shirt Store",
+    description:
+      "T-Shirt collection for men, women, children and custom printed signature",
+    url: "https://laparis-projectx-csr.vercel.app/",
+    siteName: "Laparis ProjectX",
+    images:
+      "https://raw.githubusercontent.com/devhasibulislam/laparis-projectx/master/client/public/laparis-projectx.png",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
