@@ -32,7 +32,7 @@ const Related = () => {
       },
       // when window width is >= 768px (Tablet)
       768: {
-        slidesPerView: 2,
+        slidesPerView: 3,
       },
       // when window width is >= 320px (Mobile)
       320: {
