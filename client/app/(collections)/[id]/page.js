@@ -52,6 +52,7 @@ const Page = () => {
                   height={50}
                   width={50}
                   src={item}
+                  alt={item}
                   key={index}
                   radius="none"
                   onClick={() => setImageSrc(item)}
@@ -83,7 +84,7 @@ const Page = () => {
               </div>
               <RadioGroup label="Select a Size" orientation="horizontal">
                 {product?.size?.map((item) => (
-                  <Radio value={item} className="uppercase">
+                  <Radio key={item} value={item} className="uppercase">
                     {item}
                   </Radio>
                 ))}
