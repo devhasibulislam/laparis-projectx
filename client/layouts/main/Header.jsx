@@ -35,8 +35,6 @@ import Favorites from "@/components/Favorites";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const router = useRouter();
-
   return (
     <header className="max-w-7xl mx-auto p-4">
       <nav className="flex flex-row items-center justify-between">
@@ -127,9 +125,10 @@ function MobileMenu() {
               <SearchProducts />
               <MyCart />
               <MyFavorites />
-              <button className="rounded-full flex flex-row items-center gap-x-1 text-sm">
+              {/* <button className="rounded-full flex flex-row items-center gap-x-1 text-sm">
                 <FiUser className="h-5 w-5" /> Login
-              </button>
+              </button> */}
+              <AuthMenu />
             </div>
           </div>
         </OutsideClick>
@@ -140,15 +139,17 @@ function MobileMenu() {
 
 function AuthMenu() {
   const [showMenu, setShowMenu] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="relative">
       <Tooltip content="Auth">
         <button
-          className="p-1 rounded-full border"
+          className="md:p-1 md:border rounded-full flex flex-row items-center gap-x-1 text-sm"
           onClick={() => setShowMenu(!showMenu)}
         >
           <FiUser className="h-5 w-5" />
+          <span className="md:hidden">Auth</span>
         </button>
       </Tooltip>
 
