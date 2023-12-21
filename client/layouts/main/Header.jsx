@@ -32,12 +32,15 @@ import Modal from "@/components/Modal";
 import Search from "@/components/Search";
 import Cart from "@/components/Cart";
 import Favorites from "@/components/Favorites";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Register from "@/components/Register";
 import Login from "@/components/Login";
 import Recover from "@/components/Recover";
 
 const Header = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+
   return (
     <header className="max-w-7xl mx-auto p-4">
       <nav className="flex flex-row items-center justify-between">
@@ -48,28 +51,34 @@ const Header = () => {
           alt="logo"
           height={80}
           width={160}
-          className=""
+          onClick={() => router.push("/")}
         />
 
         {/* menu items */}
         <div className="md:flex md:flex-row md:gap-x-2 hidden">
           <Link
             href="/men-items"
-            className="border-b border-solid border-transparent hover:border-black hover:text-black"
+            className={`border-b border-solid border-transparent hover:border-black hover:text-black ${
+              pathname === "/men-items" ? "border-black text-black" : ""
+            }`}
           >
             Men Items
           </Link>
           <Divider orientation="vertical" className="h-5 my-auto" />
           <Link
             href="/women-items"
-            className="border-b border-solid border-transparent hover:border-black hover:text-black"
+            className={`border-b border-solid border-transparent hover:border-black hover:text-black ${
+              pathname === "/women-items" ? "border-black text-black" : ""
+            }`}
           >
             Women Items
           </Link>
           <Divider orientation="vertical" className="h-5 my-auto" />
           <Link
             href="/printed-t-shirts"
-            className="border-b border-solid border-transparent hover:border-black hover:text-black"
+            className={`border-b border-solid border-transparent hover:border-black hover:text-black ${
+              pathname === "/printed-t-shirts" ? "border-black text-black" : ""
+            }`}
           >
             Printed T-Shirts
           </Link>
@@ -91,6 +100,7 @@ const Header = () => {
 
 function MobileMenu() {
   const [showMenu, setShowMenu] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="relative md:hidden">
@@ -109,15 +119,29 @@ function MobileMenu() {
         <OutsideClick onOutsideClick={() => setShowMenu(false)}>
           <div className="absolute top-3/4 mt-2 border rounded right-0 bg-white w-fit p-4 flex flex-col gap-y-2 z-50">
             <div className="flex flex-col gap-y-1">
-              <Link href="/men-items" className="text-sm" size="md">
+              <Link
+                href="/men-items"
+                className={`text-sm ${
+                  pathname === "/men-items" && "font-semibold"
+                }`}
+                size="md"
+              >
                 Men Items
               </Link>
-              <Link href="/women-items" className="text-sm" size="md">
+              <Link
+                href="/women-items"
+                className={`text-sm ${
+                  pathname === "/women-items" && "font-semibold"
+                }`}
+                size="md"
+              >
                 Women Items
               </Link>
               <Link
                 href="/printed-t-shirts"
-                className="text-sm whitespace-nowrap"
+                className={`text-sm whitespace-nowrap ${
+                  pathname === "/printed-t-shirts" && "font-semibold"
+                }`}
                 size="md"
               >
                 Printed T-Shirts
