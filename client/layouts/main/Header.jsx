@@ -15,7 +15,15 @@
 
 "use client";
 
-import { Divider, Link, Tooltip } from "@nextui-org/react";
+import {
+  Divider,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Link,
+  Tooltip,
+} from "@nextui-org/react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -82,11 +90,20 @@ const Header = () => {
               <MdFavoriteBorder className="h-5 w-5" />
             </button>
           </Tooltip>
-          <Tooltip content="Login">
-            <button className="p-1 rounded-full border">
-              <FiUser className="h-5 w-5" />
-            </button>
-          </Tooltip>
+          <Dropdown>
+            <DropdownTrigger>
+              <Tooltip content="Auth">
+                <button className="p-1 rounded-full border">
+                  <FiUser className="h-5 w-5" />
+                </button>
+              </Tooltip>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions" className="z-50">
+              <DropdownItem key="login">Login</DropdownItem>
+              <DropdownItem key="register">Register</DropdownItem>
+              <DropdownItem key="recover">Recover</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
 
         {/* mobile menu */}
