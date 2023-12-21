@@ -33,6 +33,9 @@ import Search from "@/components/Search";
 import Cart from "@/components/Cart";
 import Favorites from "@/components/Favorites";
 import { useRouter } from "next/navigation";
+import Register from "@/components/Register";
+import Login from "@/components/Login";
+import Recover from "@/components/Recover";
 
 const Header = () => {
   return (
@@ -125,9 +128,6 @@ function MobileMenu() {
               <SearchProducts />
               <MyCart />
               <MyFavorites />
-              {/* <button className="rounded-full flex flex-row items-center gap-x-1 text-sm">
-                <FiUser className="h-5 w-5" /> Login
-              </button> */}
               <AuthMenu />
             </div>
           </div>
@@ -156,24 +156,9 @@ function AuthMenu() {
       {showMenu && (
         <OutsideClick onOutsideClick={() => setShowMenu(false)}>
           <div className="absolute top-full mt-2 right-0 h-fit w-fit py-2 px-4 bg-white z-50 border flex flex-col gap-y-2 rounded">
-            <button className="flex flex-row items-center gap-x-2 text-sm">
-              <span className="p-0.5">
-                <CiLogin className="h-4 w-4" />
-              </span>{" "}
-              Login
-            </button>
-            <button className="flex flex-row items-center gap-x-2 text-sm">
-              <span className="p-0.5">
-                <GiArchiveRegister className="h-4 w-4" />
-              </span>{" "}
-              Register
-            </button>
-            <button className="flex flex-row items-center gap-x-2 text-sm">
-              <span className="p-0.5">
-                <RiDeviceRecoverLine className="h-4 w-4" />
-              </span>{" "}
-              Recover
-            </button>
+            <UserLogin />
+            <UserRegister />
+            <UserRecover />
             <button
               className="flex flex-row items-center gap-x-2 text-sm"
               onClick={() => router.push("/dashboard")}
@@ -263,6 +248,69 @@ function MyFavorites() {
       {showFavorites && (
         <Modal isOpen={showFavorites} onClose={() => setShowFavorites(false)}>
           <Favorites />
+        </Modal>
+      )}
+    </>
+  );
+}
+
+function UserRegister() {
+  const [showRegister, setShowRegister] = useState(false);
+
+  return (
+    <>
+      <button
+        className="md:p-1 rounded-full flex flex-row items-center gap-x-1 text-sm"
+        onClick={() => setShowRegister(!showRegister)}
+      >
+        <GiArchiveRegister className="h-5 w-5" /> Register
+      </button>
+
+      {showRegister && (
+        <Modal isOpen={showRegister} onClose={() => setShowRegister(false)}>
+          <Register />
+        </Modal>
+      )}
+    </>
+  );
+}
+
+function UserLogin() {
+  const [showLogin, setShowLogin] = useState(false);
+
+  return (
+    <>
+      <button
+        className="md:p-1 rounded-full flex flex-row items-center gap-x-1 text-sm"
+        onClick={() => setShowLogin(!showLogin)}
+      >
+        <CiLogin className="h-5 w-5" /> Login
+      </button>
+
+      {showLogin && (
+        <Modal isOpen={showLogin} onClose={() => setShowLogin(false)}>
+          <Login />
+        </Modal>
+      )}
+    </>
+  );
+}
+
+function UserRecover() {
+  const [showRecover, setShowRecover] = useState(false);
+
+  return (
+    <>
+      <button
+        className="md:p-1 rounded-full flex flex-row items-center gap-x-1 text-sm"
+        onClick={() => setShowRecover(!showRecover)}
+      >
+        <RiDeviceRecoverLine className="h-5 w-5" /> Recover
+      </button>
+
+      {showRecover && (
+        <Modal isOpen={showRecover} onClose={() => setShowRecover(false)}>
+          <Recover />
         </Modal>
       )}
     </>
