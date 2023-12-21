@@ -63,6 +63,7 @@ const Page = () => {
               height={385}
               width={300}
               img={imageSrc}
+              alt={imageSrc}
               zoomScale={1.2}
               transitionTime={0.5}
               className="w-full h-full"
