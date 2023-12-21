@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="radio"] {
+    @apply form-radio;
+  }
+  
+  input[type="checkbox"] {
+    @apply form-checkbox;
+  }
+  
+  select {
+    @apply form-select;
+  }
+  
+  textarea {
+    @apply form-textarea;
+  }
+  
+  [type="text"],
+  [type="email"],
+  [type="password"],
+  [type="tel"],
+  [type="number"],
+  [type="date"],
+  [type="search"] {
+    @apply form-input text-sm;
+  }
+  
+  input,
+  textarea,
+  select {
+    @apply focus:!ring-0 focus:!outline-0 focus:!outline-offset-0 focus:!border-primary;
+  }
+  
+  textarea {
+    @apply form-textarea rounded text-sm resize-none;
+  }
+  
+  select {
+    @apply form-select rounded text-sm resize-none;
+  }
