@@ -20,15 +20,12 @@ import products from "@/data/products";
 import React from "react";
 import Grub from "./Grub";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 const Trending = () => {
   const swiperParams = {
-    modules: [Autoplay],
     spaceBetween: 20,
     loop: true,
-    autoplay: { delay: 100000, disableOnInteraction: false },
     onSlideChange: () => console.log("slide change"),
     onSwiper: (swiper) => console.log(swiper),
     breakpoints: {
