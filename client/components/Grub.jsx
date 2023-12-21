@@ -17,8 +17,11 @@ import React from "react";
 import { Card, CardBody, CardHeader, Image, Tooltip } from "@nextui-org/react";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdAddShoppingCart } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const Grub = ({ product }) => {
+  const router = useRouter();
+
   return (
     <>
       <Card className="">
@@ -45,10 +48,8 @@ const Grub = ({ product }) => {
             </Tooltip>
           </div>
         </CardHeader>
-        <CardBody>
-          <p className="text-tiny font-bold line-clamp-1">
-            {product?.name}
-          </p>
+        <CardBody onClick={() => router.push("/123")} className="cursor-pointer">
+          <p className="text-tiny font-bold line-clamp-1">{product?.name}</p>
           <small className="text-default-500">
             $<b>{product?.price}</b>
           </small>
