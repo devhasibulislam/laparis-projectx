@@ -17,10 +17,21 @@
 
 import product from "@/data/product";
 import Main from "@/layouts/main/Main";
-import { Divider, Image, Radio, RadioGroup } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Image,
+  Radio,
+  RadioGroup,
+  Tooltip,
+} from "@nextui-org/react";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import Zoom from "react-img-zoom";
+import { MdFavoriteBorder } from "react-icons/md";
+import Related from "@/components/Related";
+import MostLiked from "@/components/MostLiked";
+import Brands from "@/components/Brands";
 
 const Page = () => {
   const { id } = useParams();
@@ -60,12 +71,14 @@ const Page = () => {
           </div>
           <div className="col-span-7 flex flex-col gap-y-4">
             <h1 className="text-3xl capitalize font-bold">{product?.name} </h1>
-            <article className="flex flex-col gap-y-2">
+            <article className="flex flex-col gap-y-4">
               <p className="text-base">{product?.description}</p>
               <Divider />
               <div className="flex flex-row gap-x-2 capitalize">
-                <span className="text-base flex flex-row gap-x-0.5">$<b>{product?.price}</b></span> <Divider orientation="vertical" />{" "}
-                {product?.category}
+                <span className="text-base flex flex-row gap-x-0.5">
+                  $<b>{product?.price}</b>
+                </span>{" "}
+                <Divider orientation="vertical" /> {product?.category}
               </div>
               <RadioGroup label="Select a Size" orientation="horizontal">
                 {product?.size?.map((item) => (
@@ -75,8 +88,33 @@ const Page = () => {
                 ))}
               </RadioGroup>
             </article>
+
+            <div className="flex flex-row gap-x-2 mt-8">
+              <Button
+                radius="none"
+                size="md"
+                color="primary"
+                className="w-full"
+              >
+                Add to Cart
+              </Button>
+              <Tooltip content="Add to Favorite">
+                <Button
+                  isIconOnly
+                  aria-label="Favorite"
+                  color="primary"
+                  size="md"
+                  radius="none"
+                >
+                  <MdFavoriteBorder className="h-5 w-5" />
+                </Button>
+              </Tooltip>
+            </div>
           </div>
         </div>
+        <Related />
+        <MostLiked />
+        <Brands />
       </section>
     </Main>
   );
