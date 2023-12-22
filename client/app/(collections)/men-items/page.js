@@ -24,7 +24,7 @@ const MenItems = () => {
     <Main>
       <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
         <div className="grid grid-cols-12 gap-4 relative">
-          <ProductFilter displayAll={false} />
+          <ProductFilter />
           <div className="lg:col-span-9 md:col-span-8 col-span-12">
             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-4">
               {products?.map((product) => (

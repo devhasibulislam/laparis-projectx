@@ -13,6 +13,8 @@
  * Date: 20, December 2023
  */
 
+"use client";
+
 import React from "react";
 import { Card, CardBody, CardHeader, Image, Tooltip } from "@nextui-org/react";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -48,7 +50,10 @@ const Grub = ({ product }) => {
             </Tooltip>
           </div>
         </CardHeader>
-        <CardBody onClick={() => router.push("/123")} className="cursor-pointer">
+        <CardBody
+          onClick={() => router.push("/123")}
+          className="cursor-pointer"
+        >
           <p className="text-tiny font-bold line-clamp-1">{product?.name}</p>
           <small className="text-default-500">
             $<b>{product?.price}</b>
