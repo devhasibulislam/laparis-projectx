@@ -47,7 +47,7 @@ const Dashboard = ({ children }) => {
         </header>
         <div className="grid grid-cols-12 gap-x-2 h-full overflow-hidden relative">
           <Sidebar />
-          <div className="w-full h-full border rounded md:col-span-9 col-span-12 p-4 overflow-y-auto">
+          <div className="w-full h-full border md:col-span-9 col-span-12 p-4 overflow-y-auto">
             {children}
           </div>
 

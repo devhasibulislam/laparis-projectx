@@ -24,16 +24,16 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-full h-full border rounded md:col-span-3 p-4 overflow-y-auto md:block hidden">
+    <aside className="w-full h-full border md:col-span-3 p-4 overflow-y-auto md:block hidden">
       <div className="flex flex-col h-full">
         <div className="flex flex-col gap-y-4">
           {routes?.map((route) => (
             <Link
               key={route.pathName}
               href={route.href}
-              className={`${
+              className={`border-b border-solid border-transparent hover:border-black hover:text-black w-fit ${
                 pathname === route.href ? "border-black text-black" : ""
-              } border-b border-solid border-transparent hover:border-black hover:text-black hover:w-fit`}
+              }`}
             >
               {route.pathName}
             </Link>
