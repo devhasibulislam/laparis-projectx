@@ -81,17 +81,12 @@ const ProductDetail = () => {
                 </span>{" "}
                 <Divider orientation="vertical" /> {product?.category}
               </div>
-              <RadioGroup
-                label="Select a Size"
-                orientation="horizontal"
-              >
-                {product?.size?.includes("s") && <Radio value="s">S</Radio>}
-                {product?.size?.includes("m") && <Radio value="m">M</Radio>}
-                {product?.size?.includes("l") && <Radio value="l">L</Radio>}
-                {product?.size?.includes("xl") && <Radio value="xl">XL</Radio>}
-                {product?.size?.includes("xxl") && (
-                  <Radio value="xxl">XXL</Radio>
-                )}
+              <RadioGroup label="Select a Size" orientation="horizontal">
+                {product?.size?.map((size) => (
+                  <Radio value={size} key={size}>
+                    {size}
+                  </Radio>
+                ))}
               </RadioGroup>
             </article>
 
