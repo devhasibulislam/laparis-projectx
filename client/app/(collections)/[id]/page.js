@@ -1,5 +1,5 @@
 /**
- * Title: Write a program using JavaScript on Page
+ * Title: Write a program using JavaScript on ProductDetail
  * Author: Hasibul Islam
  * Portfolio: https://devhasibulislam.vercel.app
  * Linkedin: https://linkedin.com/in/devhasibulislam
@@ -33,7 +33,7 @@ import Related from "@/components/Related";
 import MostLiked from "@/components/MostLiked";
 import Brands from "@/components/Brands";
 
-const Page = () => {
+const ProductDetail = () => {
   const { id } = useParams();
   const [imageSrc, setImageSrc] = useState(product?.thumbnail);
 
@@ -84,7 +84,6 @@ const Page = () => {
               <RadioGroup
                 label="Select a Size"
                 orientation="horizontal"
-                defaultValue={"s"}
               >
                 {product?.size?.includes("s") && <Radio value="s">S</Radio>}
                 {product?.size?.includes("m") && <Radio value="m">M</Radio>}
@@ -154,4 +153,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ProductDetail;
