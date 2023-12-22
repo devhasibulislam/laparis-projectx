@@ -35,9 +35,9 @@ input[type="radio"] {
   }
   
   textarea {
-    @apply form-textarea rounded text-sm resize-none;
+    @apply form-textarea text-sm resize-none;
   }
   
   select {
-    @apply form-select rounded text-sm resize-none;
+    @apply form-select text-sm resize-none rounded-none;
   }
