@@ -16,7 +16,7 @@
 import React from "react";
 
 const Sidebar = () => {
-  return <aside className="w-full h-full border col-span-3 p-2 overflow-y-auto">This is sidebar!</aside>;
+  return <aside className="w-full h-full border md:col-span-3 p-2 overflow-y-auto md:block hidden">This is sidebar!</aside>;
 };
 
 export default Sidebar;
