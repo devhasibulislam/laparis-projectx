@@ -1,23 +1,23 @@
 const routes = [
   {
     pathName: "Add Category",
-    href: "/dashboard/add-category/",
+    href: "/dashboard/add-category",
   },
   {
     pathName: "List Categories",
-    href: "/dashboard/list-categories/",
+    href: "/dashboard/list-categories",
   },
   {
     pathName: "Add Product",
-    href: "/dashboard/add-product/",
+    href: "/dashboard/add-product",
   },
   {
     pathName: "List Products",
-    href: "/dashboard/list-products/",
+    href: "/dashboard/list-products",
   },
   {
     pathName: "Update Product",
-    href: "/dashboard/update-product/",
+    href: "/dashboard/update-product",
   },
 ];
 
