@@ -13,10 +13,15 @@
  * Date: 21, December 2023
  */
 
+"use client";
+
 import { Radio, RadioGroup } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-const ProductFilter = ({ displayAll }) => {
+const ProductFilter = () => {
+  const pathanme = usePathname();
+
   return (
     <aside className="lg:col-span-3 md:col-span-4 col-span-12">
       <div className="flex md:flex-col md:gap-y-8 md:sticky md:top-4 flex-row justify-between">
@@ -28,7 +33,11 @@ const ProductFilter = ({ displayAll }) => {
           <Radio value="xl">XL</Radio>
           <Radio value="xxl">XXL</Radio>
         </RadioGroup>
-        {displayAll && (
+        {!(
+          pathanme === "/women-items" ||
+          pathanme === "/men-items" ||
+          pathanme === "/printed-t-shirts"
+        ) && (
           <RadioGroup label="Select a Category">
             <Radio value="women-item">Women Items</Radio>
             <Radio value="men-item">Men Items</Radio>
