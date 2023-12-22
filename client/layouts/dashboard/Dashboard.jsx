@@ -20,9 +20,12 @@ import Sidebar from "./Sidebar";
 import { Link, User } from "@nextui-org/react";
 import { IoMdMenu } from "react-icons/io";
 import OutsideClick from "@/components/OutsideClick";
+import routes from "./routes";
+import { usePathname } from "next/navigation";
 
 const Dashboard = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const pathname = usePathname();
 
   return (
     <main className="h-screen w-screen">
@@ -44,19 +47,38 @@ const Dashboard = ({ children }) => {
         </header>
         <div className="grid grid-cols-12 gap-x-2 h-full overflow-hidden relative">
           <Sidebar />
-          <div className="w-full h-full border rounded md:col-span-9 col-span-12 p-2 overflow-y-auto">
+          <div className="w-full h-full border rounded md:col-span-9 col-span-12 p-4 overflow-y-auto">
             {children}
           </div>
 
           {showSidebar && (
             <OutsideClick onOutsideClick={() => setShowSidebar(false)}>
               <aside className="absolute top-0 left-0 w-full h-full border rounded bg-white p-2 overflow-y-auto">
-                This is sidebar!
+                <div className="flex flex-col h-full">
+                  <div className="flex flex-col gap-y-4">
+                    {routes?.map((route) => (
+                      <Link
+                        key={route.pathName}
+                        href={route.href}
+                        className={`${
+                          pathname === route.href
+                            ? "border-black text-black"
+                            : ""
+                        } border-b border-solid border-transparent hover:border-black hover:text-black hover:w-fit`}
+                      >
+                        {route.pathName}
+                      </Link>
+                    ))}
+                  </div>
+                  <Link href="/" className="mt-auto">
+                    Got to Home
+                  </Link>
+                </div>
               </aside>
             </OutsideClick>
           )}
         </div>
-        <footer className="text-center p-2">
+        <footer className="text-center p-2 text-sm">
           &copy; {new Date().getFullYear()}. Laparis. All rights reserved.{" "}
           <Link href="https://bento.me/devhasibulislam" className="underline">
             @devhasibulislam

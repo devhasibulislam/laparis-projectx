@@ -13,10 +13,38 @@
  * Date: 22, December 2023
  */
 
+"use client";
+
+import { Link } from "@nextui-org/react";
 import React from "react";
+import routes from "./routes";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
-  return <aside className="w-full h-full border md:col-span-3 p-2 overflow-y-auto md:block hidden">This is sidebar!</aside>;
+  const pathname = usePathname();
+
+  return (
+    <aside className="w-full h-full border rounded md:col-span-3 p-4 overflow-y-auto md:block hidden">
+      <div className="flex flex-col h-full">
+        <div className="flex flex-col gap-y-4">
+          {routes?.map((route) => (
+            <Link
+              key={route.pathName}
+              href={route.href}
+              className={`${
+                pathname === route.href ? "border-black text-black" : ""
+              } border-b border-solid border-transparent hover:border-black hover:text-black hover:w-fit`}
+            >
+              {route.pathName}
+            </Link>
+          ))}
+        </div>
+        <Link href="/" className="mt-auto">
+          Got to Home
+        </Link>
+      </div>
+    </aside>
+  );
 };
 
 export default Sidebar;
