@@ -51,7 +51,7 @@ const Grub = ({ product }) => {
           </div>
         </CardHeader>
         <CardBody
-          onClick={() => router.push("/123")}
+          onClick={() => router.push(product?._id)}
           className="cursor-pointer"
         >
           <p className="text-tiny font-bold line-clamp-1">{product?.name}</p>
