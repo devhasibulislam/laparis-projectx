@@ -46,7 +46,6 @@ const Header = () => {
       <nav className="flex flex-row items-center justify-between">
         {/* logo section */}
         <Image
-          isBlurred
           src="/logo.png"
           alt="logo"
           height={80}

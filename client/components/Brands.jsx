@@ -52,7 +52,6 @@ const Brands = () => {
           <SwiperSlide key={index}>
             <div className="">
               <Image
-                isBlurred
                 width={150}
                 height={75}
                 alt={"Brand Image with delay" + index}
