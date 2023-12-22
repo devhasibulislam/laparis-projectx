@@ -1,5 +1,5 @@
 /**
- * Title: Write a program using JavaScript on ProductDetail
+ * Title: Write a program using JavaScript on Page
  * Author: Hasibul Islam
  * Portfolio: https://devhasibulislam.vercel.app
  * Linkedin: https://linkedin.com/in/devhasibulislam
@@ -33,7 +33,7 @@ import Related from "@/components/Related";
 import MostLiked from "@/components/MostLiked";
 import Brands from "@/components/Brands";
 
-const ProductDetail = () => {
+const Page = () => {
   const { id } = useParams();
   const [imageSrc, setImageSrc] = useState(product?.thumbnail);
 
@@ -148,4 +148,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default Page;

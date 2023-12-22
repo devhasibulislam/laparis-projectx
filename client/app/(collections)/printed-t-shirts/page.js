@@ -1,5 +1,5 @@
 /**
- * Title: Write a program using JavaScript on PrintedTShirts
+ * Title: Write a program using JavaScript on Page
  * Author: Hasibul Islam
  * Portfolio: https://devhasibulislam.vercel.app
  * Linkedin: https://linkedin.com/in/devhasibulislam
@@ -19,7 +19,7 @@ import products from "@/data/products";
 import Main from "@/layouts/main/Main";
 import React from "react";
 
-const PrintedTShirts = () => {
+const Page = () => {
   return (
     <Main>
       <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
@@ -38,4 +38,4 @@ const PrintedTShirts = () => {
   );
 };
 
-export default PrintedTShirts;
+export default Page;
