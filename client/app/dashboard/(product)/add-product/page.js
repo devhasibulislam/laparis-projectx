@@ -121,8 +121,8 @@ const Page = () => {
     for (let i = 0; i < data.gallery.length; i++) {
       formData.append("gallery", data.gallery[i]);
     }
-    for (let i = 0; i < data.size.length; i++) {
-      formData.append("size", data.size[i]);
+    for (let i = 0; i < data.sizes.length; i++) {
+      formData.append("sizes", data.sizes[i]);
     }
 
     addProduct(formData);
@@ -268,12 +268,17 @@ const Page = () => {
             )}
           </label>
           <label
-            htmlFor="size"
+            htmlFor="sizes"
             className="flex flex-col gap-y-1 w-full"
-            {...register("size", { required: true })}
+            {...register("sizes", { required: true })}
           >
             <span className="text-sm">Choose Product Sizes</span>
-            <select name="size" id="size" multiple className="w-full uppercase">
+            <select
+              name="sizes"
+              id="sizes"
+              multiple
+              className="w-full uppercase"
+            >
               {sizes?.map((size) => (
                 <option key={size} value={size}>
                   {size}
