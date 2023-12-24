@@ -96,13 +96,21 @@ function sendEmail(user, url, subject, res) {
     if (error) {
       console.log(error.message);
 
-      await User.findByIdAndDelete(user.id);
+      if (user.id) {
+        await User.findByIdAndDelete(user.id);
 
-      res.status(500).json({
-        acknowledgement: false,
-        message: "Internal Server Error",
-        description: error.name,
-      });
+        res.status(500).json({
+          acknowledgement: false,
+          message: "Internal Server Error",
+          description: error.name,
+        });
+      } else {
+        res.status(500).json({
+          acknowledgement: false,
+          message: "Internal Server Error",
+          description: error.name,
+        });
+      }
     } else {
       console.log("Email sent to: " + info.envelope.to[0]);
 
