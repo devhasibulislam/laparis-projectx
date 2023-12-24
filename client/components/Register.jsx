@@ -13,15 +13,34 @@
  * Date: 21, December 2023
  */
 
-import React from "react";
+"use client";
+
+import { useRegisterMutation } from "@/services/auth/authApi";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [signup, { isLoading, data, error }] = useRegisterMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Loading...", { id: "register" });
+    }
+    if (data) {
+      toast.success(data?.description, { id: "register" });
+      reset();
+    }
+    if (error?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "register",
+      });
+    }
+  }, [isLoading, data, error]);
 
   const handleRegister = (data) => {
-    console.log(data);
-    reset();
+    signup(data);
   };
 
   return (
@@ -30,7 +49,7 @@ const Register = () => {
       className="flex flex-col gap-y-4"
     >
       <label htmlFor="name" className="flex flex-col gap-y-1">
-        <span className="text-sm">Enter Your Name</span>
+        <span className="text-sm">Your Full Name*</span>
         <input
           type="text"
           name="name"
@@ -41,7 +60,7 @@ const Register = () => {
         />
       </label>
       <label htmlFor="email" className="flex flex-col gap-y-1">
-        <span className="text-sm">Enter Your Email</span>
+        <span className="text-sm">Your Valid Email*</span>
         <input
           type="email"
           name="email"
@@ -52,7 +71,7 @@ const Register = () => {
         />
       </label>
       <label htmlFor="password" className="flex flex-col gap-y-1">
-        <span className="text-sm">Enter Your Password</span>
+        <span className="text-sm">Your Strong Password*</span>
         <input
           type="password"
           name="password"
@@ -63,13 +82,13 @@ const Register = () => {
         />
       </label>
       <label htmlFor="phone" className="flex flex-col gap-y-1">
-        <span className="text-sm">Enter Your Phone Number</span>
+        <span className="text-sm">Your Phone Number*</span>
         <input
           type="tel"
           name="phone"
           id="phone"
           {...register("phone", { required: true })}
-          placeholder="i.e. +8801906315901"
+          placeholder="Phone Number with Country Code"
           className=""
         />
       </label>

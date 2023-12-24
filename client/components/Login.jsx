@@ -13,15 +13,35 @@
  * Date: 21, December 2023
  */
 
-import React from "react";
+"use client";
+
+import { useLoginMutation } from "@/services/auth/authApi";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [signin, { isLoading, data, error }] = useLoginMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Loading...", { id: "login" });
+    }
+    if (data) {
+      toast.success(data?.description, { id: "login" });
+      localStorage.setItem("accessToken", data?.accessToken);
+      reset();
+    }
+    if (error?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "login",
+      });
+    }
+  }, [isLoading, data, error]);
 
   const handleLogin = (data) => {
-    console.log(data);
-    reset();
+    signin(data);
   };
 
   return (
