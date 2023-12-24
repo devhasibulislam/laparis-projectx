@@ -20,6 +20,6 @@ export const laparisApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api`,
   }),
-  tagTypes: ["User", "Cart", "Product"],
+  tagTypes: ["User", "Product"],
   endpoints: () => ({}),
 });
