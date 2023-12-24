@@ -15,12 +15,38 @@
 
 "use client";
 
-import categories from "@/data/categories";
 import Dashboard from "@/layouts/dashboard/Dashboard";
+import {
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from "@/services/category/categoryApi";
 import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
+  const {
+    data: fetchData,
+    isLoading: fetching,
+    error: fetchError,
+  } = useGetCategoriesQuery();
+  const categories = useMemo(() => fetchData?.data || [], [fetchData]);
+
+  useEffect(() => {
+    if (fetching) {
+      toast.loading("Loading...", { id: "getCategories" });
+    }
+    if (fetchData) {
+      toast.success(fetchData?.description, { id: "getCategories" });
+    }
+    if (fetchError?.data) {
+      toast.error(fetchError?.data?.description || "Something went wrong", {
+        id: "getCategories",
+      });
+    }
+
+  }, [fetching, fetchData, fetchError]);
+
   return (
     <Dashboard>
       <div className="grid grid-cols-2 gap-4">
@@ -33,7 +59,25 @@ const Page = () => {
 };
 
 function CategoryCard({ category }) {
-  const [isDeleted, setIsDeleted] = React.useState(false);
+  const [
+    deleteCategory,
+    { isLoading: deleteLoading, data: deleteData, error: deleteError },
+  ] = useDeleteCategoryMutation();
+
+  useEffect(() => {
+    if (deleteLoading) {
+      toast.loading("Deleting...", { id: "deleteCategory" });
+    }
+    if (deleteData) {
+      toast.success(deleteData?.description, { id: "deleteCategory" });
+    }
+    if (deleteError?.data) {
+      toast.error(deleteError?.data?.description || "Something went wrong", {
+        id: "deleteCategory",
+      });
+    }
+  }, [deleteLoading, deleteData, deleteError]);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   return (
     <>
@@ -50,13 +94,16 @@ function CategoryCard({ category }) {
             radius="full"
             size="sm"
             variant={isDeleted ? "bordered" : "solid"}
-            onPress={() => setIsDeleted(!isDeleted)}
+            onPress={() => {
+              setIsDeleted(!isDeleted);
+              deleteCategory(category?._id);
+            }}
           >
-            {isDeleted ? "Deleted" : "Delete"}
+            {isDeleted ? "Removing" : "Remove"}
           </Button>
         </CardHeader>
         <CardBody className="px-3 py-0 text-small text-default-400">
-          <p>{category?.description}</p>
+          <p className="line-clamp-5">{category?.description}</p>
         </CardBody>
       </Card>
     </>
