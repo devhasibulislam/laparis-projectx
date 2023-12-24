@@ -16,7 +16,7 @@
 /* external imports */
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const validator = require("validator");
+const { randomBytes } = require("crypto");
 const { ObjectId } = mongoose.Schema.Types;
 
 /* create user schema */
@@ -60,6 +60,13 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
+    // for user account status
+    status: {
+      type: String,
+      enum: ["active", "inactive", "trashed"],
+      default: "inactive",
+    },
+
     // for favorites or wishlist
     favorites: [
       {
@@ -83,6 +90,14 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+
+    // registration confirmation
+    confirmationToken: String,
+    confirmationTokenExpire: Date,
+
+    // recovery confirmation
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
 
     // for user account time stamps
     createdAt: {
@@ -124,6 +139,32 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.comparePassword = function (password, hash) {
   const isPasswordValid = bcrypt.compareSync(password, hash);
   return isPasswordValid;
+};
+
+// generate confirmation token with 1 hour expiration
+userSchema.methods.generateConfirmationToken = function () {
+  const token = randomBytes(16).toString("hex");
+
+  const date = new Date();
+  date.setHours(date.getHours() + 1);
+
+  this.confirmationToken = token;
+  this.confirmationTokenExpire = date;
+
+  return token;
+};
+
+// generate reset password token with 1 hour expiration
+userSchema.methods.generateResetPasswordToken = function () {
+  const token = randomBytes(16).toString("hex");
+
+  const date = new Date();
+  date.setHours(date.getHours() + 1);
+
+  this.resetPasswordToken = token;
+  this.resetPasswordExpire = date;
+
+  return token;
 };
 
 /* create user model schema */

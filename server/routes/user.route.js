@@ -28,7 +28,10 @@ const router = express.Router();
 /* router methods integration */
 
 // sign up an user
-router.post("/register", userController.signUp);
+router
+  .route("/register")
+  .post(userController.signUp)
+  .get(userController.confirmRegistration);
 
 // sign in an user
 router.post("/login", userController.signIn);

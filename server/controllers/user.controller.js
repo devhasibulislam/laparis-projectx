@@ -27,6 +27,17 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
+/* confirm sign up */
+exports.confirmRegistration = async (req, res, next) => {
+  try {
+    await userService.confirmRegistration(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* sign in an user */
 exports.signIn = async (req, res, next) => {
   try {

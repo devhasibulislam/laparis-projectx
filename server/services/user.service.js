@@ -15,17 +15,83 @@
 
 /* internal imports */
 const User = require("../models/user.model");
+const sendEmail = require("../utils/email.util");
 const token = require("../utils/token.util");
+
+function isExpire(mongoDBTime) {
+  const mongoDBDate = new Date(mongoDBTime);
+  const currentTime = new Date();
+  const timeDifferenceInMs = currentTime - mongoDBDate;
+  const oneHourInMs = 60 * 60 * 1000;
+
+  return timeDifferenceInMs >= oneHourInMs;
+}
 
 /* sign up an user */
 exports.signUp = async (req, res) => {
-  await User.create(req.body);
+  const oldUser = await User.findOne({ email: req.body.email });
 
-  res.status(201).json({
-    acknowledgement: true,
-    message: "Created",
-    description: "User created successfully",
-  });
+  if (oldUser) {
+    res.status(400).json({
+      acknowledgement: false,
+      message: "Bad Request",
+      description: "User already exists",
+    });
+  } else {
+    const newUser = await User.create(req.body);
+
+    if (!newUser) {
+      res.status(500).json({
+        acknowledgement: false,
+        message: "Internal Server Error",
+        description: "Something went wrong",
+      });
+    } else {
+      const token = await newUser.generateConfirmationToken();
+      const url = `${req.protocol}://${req.get("host")}`;
+      await newUser.save({ validateBeforeSave: false });
+
+      sendEmail(
+        {
+          id: newUser._id,
+          email: newUser.email,
+          name: newUser.name,
+          expireIn: newUser.confirmationTokenExpire,
+        },
+        `${url}/api/user/register?token=${token}`,
+        "Confirm Your Email",
+        res
+      );
+    }
+  }
+};
+
+/* confirm sign up */
+exports.confirmRegistration = async (req, res) => {
+  const user = await User.findOne({ confirmationToken: req.query.token });
+
+  if (!user) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "User not found",
+    });
+  } else {
+    if (isExpire(user.confirmationTokenExpire)) {
+      res.status(401).json({
+        acknowledgement: false,
+        message: "Unauthorized",
+        description: "Token expired",
+      });
+    } else {
+      user.status = "active";
+      user.confirmationToken = undefined;
+      user.confirmationTokenExpire = undefined;
+      await user.save();
+
+      res.redirect(process.env.ORIGIN_URL);
+    }
+  }
 };
 
 /* sign in an user */
@@ -39,30 +105,38 @@ exports.signIn = async (req, res) => {
       description: "User not found",
     });
   } else {
-    const isPasswordValid = user.comparePassword(
-      req.body.password,
-      user.password
-    );
+    if (user.status === "active") {
+      const isPasswordValid = user.comparePassword(
+        req.body.password,
+        user.password
+      );
 
-    if (!isPasswordValid) {
+      if (!isPasswordValid) {
+        res.status(401).json({
+          acknowledgement: false,
+          message: "Unauthorized",
+          description: "Invalid password",
+        });
+      } else {
+        const accessToken = token({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        });
+
+        res.status(200).json({
+          acknowledgement: true,
+          message: "OK",
+          description: "Login successful",
+          accessToken,
+        });
+      }
+    } else {
       res.status(401).json({
         acknowledgement: false,
         message: "Unauthorized",
-        description: "Invalid password",
-      });
-    } else {
-      const accessToken = token({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      });
-
-      res.status(200).json({
-        acknowledgement: true,
-        message: "OK",
-        description: "Login successful",
-        accessToken,
+        description: "Please confirm your email",
       });
     }
   }
