@@ -197,7 +197,7 @@ exports.confirmRecovery = async (req, res) => {
       description: "User not found",
     });
   } else {
-    if (isExpire(user.confirmationTokenExpire)) {
+    if (isExpire(user.resetPasswordExpire)) {
       res.status(401).json({
         acknowledgement: false,
         message: "Unauthorized",
