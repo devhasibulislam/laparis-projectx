@@ -31,6 +31,7 @@ const Login = () => {
     if (data) {
       toast.success(data?.description, { id: "login" });
       localStorage.setItem("accessToken", data?.accessToken);
+      window.location.reload();
       reset();
     }
     if (error?.data) {
