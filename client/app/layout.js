@@ -16,6 +16,7 @@
 import "./globals.css";
 import { roboto } from "./fonts";
 import { Providers } from "./providers";
+import Auth from "./auth";
 
 export const metadata = {
   title: "Laparis - T-Shirt Store",
@@ -38,7 +39,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Auth>{children}</Auth>
+        </Providers>
       </body>
     </html>
   );

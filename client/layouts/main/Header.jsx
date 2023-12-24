@@ -17,7 +17,7 @@
 
 import { Avatar, Divider, Link, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -36,6 +36,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Register from "@/components/Register";
 import Login from "@/components/Login";
 import Recover from "@/components/Recover";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const pathname = usePathname();
@@ -162,6 +163,8 @@ function MobileMenu() {
 
 function AuthMenu() {
   const [showMenu, setShowMenu] = useState(false);
+  const user = useSelector((state) => state.user);
+  const auth = useMemo(() => user.auth || {}, [user]);
   const router = useRouter();
 
   return (
@@ -179,34 +182,41 @@ function AuthMenu() {
       {showMenu && (
         <OutsideClick onOutsideClick={() => setShowMenu(false)}>
           <div className="absolute top-full mt-2 right-0 h-fit w-fit py-2 px-4 bg-white z-50 border flex flex-col gap-y-2 rounded">
-            <UserLogin />
-            <UserRegister />
-            <UserRecover />
-            <button
-              className="flex flex-row items-center gap-x-2 text-sm"
-              onClick={() => router.push("/dashboard")}
-            >
-              <Avatar
-                src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                className="w-5 h-5 text-tiny"
-              />
-              <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                {"John Doe John Doe".slice(0, 6)}.
-              </span>
-            </button>
+            {Object.keys(auth).length > 0 ? (
+              <>
+                <button
+                  className="flex flex-row items-center gap-x-2 text-sm"
+                  onClick={() => router.push("/dashboard")}
+                >
+                  <Avatar
+                    src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                    className="w-5 h-5 text-tiny"
+                  />
+                  <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    {"John Doe John Doe".slice(0, 6)}.
+                  </span>
+                </button>
 
-            <button
-              className="flex flex-row items-center gap-x-2 text-sm"
-              onClick={() => {
-                localStorage.removeItem("accessToken");
-                window.location.reload();
-              }}
-            >
-              <span className="p-0.5">
-                <CiLogout className="h-4 w-4" />
-              </span>{" "}
-              Logout
-            </button>
+                <button
+                  className="flex flex-row items-center gap-x-2 text-sm"
+                  onClick={() => {
+                    localStorage.removeItem("accessToken");
+                    window.location.reload();
+                  }}
+                >
+                  <span className="p-0.5">
+                    <CiLogout className="h-4 w-4" />
+                  </span>{" "}
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <UserLogin />
+                <UserRegister />
+                <UserRecover />
+              </>
+            )}
           </div>
         </OutsideClick>
       )}

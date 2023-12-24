@@ -13,6 +13,7 @@
  * Date: 18, December 2023
  */
 
+import userSlice from "@/features/user/userSlice";
 import { laparisApi } from "@/services/laparis";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -20,6 +21,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 export const store = configureStore({
   reducer: {
     [laparisApi.reducerPath]: laparisApi.reducer,
+    user: userSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(laparisApi.middleware),

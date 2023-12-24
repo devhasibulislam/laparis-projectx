@@ -46,9 +46,28 @@ const authApi = laparisApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
+
+      invalidatesTags: ["User"],
+    }),
+
+    // persist login
+    persistLogin: builder.query({
+      query: () => ({
+        url: "/user/me",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      providesTags: ["User"],
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useRecoverMutation } =
-  authApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useRecoverMutation,
+  usePersistLoginQuery,
+} = authApi;
