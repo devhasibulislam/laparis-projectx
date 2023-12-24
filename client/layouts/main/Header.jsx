@@ -189,7 +189,7 @@ function AuthMenu() {
                   onClick={() => router.push("/dashboard")}
                 >
                   <Avatar
-                    src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                    src="https://i.pravatar.cc/150"
                     className="w-5 h-5 text-tiny"
                   />
                   <span className="whitespace-nowrap overflow-hidden text-ellipsis">

@@ -15,16 +15,19 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Link, User } from "@nextui-org/react";
 import { IoMdMenu } from "react-icons/io";
 import OutsideClick from "@/components/OutsideClick";
 import routes from "./routes";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const Dashboard = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const user = useSelector((state) => state.user);
+  const auth = useMemo(() => user.auth || {}, [user]);
   const pathname = usePathname();
 
   return (
@@ -32,10 +35,10 @@ const Dashboard = ({ children }) => {
       <section className="max-w-5xl mx-auto h-full flex flex-col gap-y-2 p-2">
         <header className="p-2 flex flex-row justify-between items-center">
           <User
-            name="Jane Doe"
-            description="Admin"
+            name={`${auth?.name} • ${auth?.role}`}
+            description={auth?.email}
             avatarProps={{
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+              src: "https://i.pravatar.cc/150",
             }}
           />
           <button
