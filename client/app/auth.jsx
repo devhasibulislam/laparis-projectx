@@ -23,7 +23,7 @@ import { useDispatch } from "react-redux";
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch();
-  const { data, isLoading, isError } = usePersistLoginQuery();
+  const { data, isError } = usePersistLoginQuery();
   const user = useMemo(() => data?.data || {}, [data]);
 
   useEffect(() => {
@@ -31,14 +31,10 @@ const Auth = ({ children }) => {
       dispatch(addAuth(user));
     }
 
-    if (isLoading) {
-      toast.loading("Loading...", { id: "auth" });
-    }
-
     if (isError) {
       toast.error("Something went wrong", { id: "auth" });
     }
-  }, [user, dispatch, isError, isLoading]);
+  }, [user, dispatch, isError]);
 
   return <>{children}</>;
 };
