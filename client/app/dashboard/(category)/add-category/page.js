@@ -16,15 +16,32 @@
 "use client";
 
 import Dashboard from "@/layouts/dashboard/Dashboard";
-import React from "react";
+import { useAddCategoryMutation } from "@/services/category/categoryApi";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [addCategory, { isLoading, data, error }] = useAddCategoryMutation();
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Loading...", { id: "addCategory" });
+    }
+    if (data) {
+      toast.success(data?.description, { id: "addCategory" });
+      reset();
+    }
+    if (error?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "addCategory",
+      });
+    }
+  }, [isLoading, data, error]);
 
   const handleAddCategory = (data) => {
-    console.log(data);
-    reset();
+    addCategory(data);
   };
 
   return (
@@ -50,13 +67,17 @@ const Page = () => {
           <textarea
             name="description"
             id="description"
+            rows={5}
             {...register("description", { required: true })}
             placeholder="i.e. https://devhasibulislam.vercel.app"
             className="md:w-3/4 w-full"
           />
         </label>
 
-        <button type="submit" className="py-2 bg-primary text-white md:w-3/4 w-full">
+        <button
+          type="submit"
+          className="py-2 bg-primary text-white md:w-3/4 w-full"
+        >
           Create Category
         </button>
       </form>
