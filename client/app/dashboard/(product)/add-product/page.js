@@ -16,15 +16,116 @@
 "use client";
 
 import Dashboard from "@/layouts/dashboard/Dashboard";
-import React from "react";
+import { useGetCategoriesQuery } from "@/services/category/categoryApi";
+import { useAddProductMutation } from "@/services/product/productApi";
+import { Skeleton } from "@nextui-org/react";
+import Image from "next/image";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [galleryPreview, setGalleryPreview] = useState([]);
+  const {
+    data: categoriesData,
+    isLoading: fetchingCategories,
+    error: categoriesError,
+  } = useGetCategoriesQuery();
+  const categories = useMemo(
+    () => categoriesData?.data || [],
+    [categoriesData]
+  );
+  const [
+    addProduct,
+    { isLoading: creatingProduct, data: productData, error: productError },
+  ] = useAddProductMutation();
+  const sizes = ["s", "m", "l", "xl", "xxl"];
+
+  useEffect(() => {
+    if (categoriesError?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "addCategory",
+      });
+    }
+
+    if (creatingProduct) {
+      toast.loading("Creating...", {
+        id: "addProduct",
+      });
+    }
+
+    if (productData) {
+      toast.success(productData?.description, {
+        id: "addProduct",
+      });
+      reset();
+      setThumbnailPreview(null);
+      setGalleryPreview([]);
+    }
+
+    if (productError?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "addProduct",
+      });
+    }
+  }, [categoriesError, productError, creatingProduct, productData, reset]);
+
+  const handleThumbnailPreview = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSetGalleryPreview = (event) => {
+    const files = event.target.files;
+    const previewImages = [];
+
+    if (files.length > 5) {
+      toast.error("You can only upload maximum 5 images");
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        previewImages.push(e.target.result);
+        if (previewImages.length === files.length) {
+          setGalleryPreview(previewImages);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleAddProduct = (data) => {
     console.log(data);
-    reset();
+
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", data.price);
+    formData.append("category", data.category);
+    formData.append("thumbnail", data.thumbnail[0]);
+    for (let i = 0; i < data.gallery.length; i++) {
+      formData.append("gallery", data.gallery[i]);
+    }
+    for (let i = 0; i < data.size.length; i++) {
+      formData.append("size", data.size[i]);
+    }
+
+    addProduct(formData);
   };
 
   return (
@@ -33,37 +134,76 @@ const Page = () => {
         onSubmit={handleSubmit(handleAddProduct)}
         className="flex flex-col gap-y-4"
       >
-        <div className="flex flex-row gap-x-2 items-center md:w-3/4 w-full">
-          <label
-            htmlFor="thumbnail"
-            className="w-full border border-black h-full relative flex items-center p-2"
-          >
-            <span className="h-full w-full text-sm">
-              Choose Product Thumbnail
-            </span>
-            <input
-              type="file"
-              name="thumbnail"
-              id="thumbnail"
-              {...register("thumbnail", { required: true })}
-              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-            />
-          </label>
-          <label
-            htmlFor="gallery"
-            className="w-full border border-black h-full relative flex items-center p-2"
-          >
-            <span className="h-full w-full text-sm">
-              Choose Product Gallery
-            </span>
-            <input
-              type="file"
-              name="gallery"
-              id="gallery"
-              {...register("gallery", { required: true })}
-              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-            />
-          </label>
+        <div className="flex lg:flex-row flex-col gap-x-2 gap-y-4 items-center md:w-3/4 w-full">
+          {/* thumbnail section */}
+          <div className="flex flex-col gap-y-1 w-full">
+            {thumbnailPreview && (
+              <Image
+                src={thumbnailPreview}
+                alt="thumbnail"
+                width={40}
+                height={40}
+                className="h-[40px] w-[40px] object-cover"
+              />
+            )}
+            <label
+              htmlFor="thumbnail"
+              className="w-full border border-black h-full relative flex items-center p-2"
+            >
+              <span className="h-full w-full text-sm">
+                Choose Product Thumbnail
+              </span>
+              <input
+                type="file"
+                name="thumbnail"
+                id="thumbnail"
+                accept="image/png, image/jpg, image/jpeg"
+                {...register("thumbnail", {
+                  required: true,
+                  onChange: (event) => handleThumbnailPreview(event),
+                })}
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+              />
+            </label>
+          </div>
+
+          {/* gallery section */}
+          <div className="flex flex-col gap-y-1 w-full">
+            {galleryPreview?.length > 0 && (
+              <div className="flex flex-row flex-wrap gap-1">
+                {galleryPreview.map((gallery, index) => (
+                  <Image
+                    key={index}
+                    src={gallery}
+                    alt={"gallery" + index}
+                    width={40}
+                    height={40}
+                    className="h-[40px] w-[40px] object-cover"
+                  />
+                ))}
+              </div>
+            )}
+            <label
+              htmlFor="gallery"
+              className="w-full border border-black h-full relative flex items-center p-2"
+            >
+              <span className="h-full w-full text-sm">
+                Choose Product Gallery
+              </span>
+              <input
+                type="file"
+                name="gallery"
+                id="gallery"
+                accept="image/png, image/jpg, image/jpeg"
+                multiple
+                {...register("gallery", {
+                  required: true,
+                  onChange: (event) => handleSetGalleryPreview(event),
+                })}
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+              />
+            </label>
+          </div>
         </div>
 
         <label htmlFor="name" className="flex flex-col gap-y-1">
@@ -106,29 +246,39 @@ const Page = () => {
         <div className="flex lg:flex-row flex-col gap-4 md:w-3/4 w-full">
           <label htmlFor="category" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Category</span>
-            <select
-              name="category"
-              id="category"
-              className="w-full"
-              {...register("category", { required: true })}
-            >
-              <option value="printed-t-shirt">Printed T-Shirt</option>
-              <option value="women-item">Women Item</option>
-              <option value="men-items">Men Item</option>
-            </select>
+            {fetchingCategories ? (
+              <>
+                <Skeleton className="h-full w-full" />
+              </>
+            ) : (
+              <>
+                <select
+                  name="category"
+                  id="category"
+                  className="w-full capitalize"
+                  {...register("category", { required: true })}
+                >
+                  {categories?.map((category) => (
+                    <option key={category?._id} value={category?._id}>
+                      {category?.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
           </label>
           <label
             htmlFor="size"
             className="flex flex-col gap-y-1 w-full"
             {...register("size", { required: true })}
           >
-            <span className="text-sm">Choose Product Size</span>
-            <select name="size" id="size" className="w-full">
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
-              <option value="xxl">XXL</option>
+            <span className="text-sm">Choose Product Sizes</span>
+            <select name="size" id="size" multiple className="w-full uppercase">
+              {sizes?.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
             </select>
           </label>
         </div>
