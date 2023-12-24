@@ -14,6 +14,7 @@
  */
 
 /* internal imports */
+const categoryModel = require("../models/category.model");
 const Product = require("../models/product.model");
 
 /* add new product */
@@ -48,11 +49,38 @@ exports.addProduct = async (req, res) => {
         description: "Something went wrong",
       });
     } else {
+      await categoryModel.updateOne(
+        { _id: product.category },
+        { $push: { products: newProduct._id } }
+      );
+
       res.status(201).json({
         acknowledgement: true,
         message: "Created",
         description: "New product added successfully",
       });
     }
+  }
+};
+
+/* get products */
+exports.getProducts = async (req, res) => {
+  const products = await Product.find({})
+    .populate("category")
+    .sort({ updatedAt: -1 });
+
+  if (products?.length === 0) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "No products found",
+    });
+  } else {
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: "Products fetched successfully",
+      data: products,
+    });
   }
 };

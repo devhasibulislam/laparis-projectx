@@ -39,5 +39,8 @@ router.post(
   productController.addProduct
 );
 
+// get products
+router.get("/all", productController.getProducts);
+
 /* export user router */
 module.exports = router;

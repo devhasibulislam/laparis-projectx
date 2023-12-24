@@ -26,3 +26,14 @@ exports.addProduct = async (req, res) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* get products */
+exports.getProducts = async (req, res) => {
+  try {
+    await productService.getProducts(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
