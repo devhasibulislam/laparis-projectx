@@ -25,8 +25,6 @@ const Page = () => {
   const { data, isLoading, error } = useGetProductsQuery();
   const products = useMemo(() => data?.data || [], [data]);
 
-  console.log(isLoading);
-
   useEffect(() => {
     if (isLoading) {
       toast.loading("Loading...", { id: "getProducts" });
