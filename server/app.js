@@ -35,6 +35,7 @@ app.use(express.json());
 /* router level connections */
 app.use("/api/user", require("./routes/user.route"));
 app.use("/api/category", require("./routes/category.route"));
+app.use("/api/product", require("./routes/product.route"));
 
 /* global error handler */
 app.use(require("./middleware/error.middleware"));
