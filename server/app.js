@@ -33,6 +33,7 @@ app.use(
 app.use(express.json());
 
 /* router level connections */
+app.use("/api/user", require("./routes/user.route"));
 
 /* global error handler */
 app.use(require("./middleware/error.middleware"));
