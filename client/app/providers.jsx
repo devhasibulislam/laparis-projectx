@@ -29,7 +29,7 @@ export function Providers({ children }) {
           className: "",
           style: {
             border: "1px solid black",
-            padding: "16px 8px",
+            padding: "8px",
             color: "black",
             backgroundColor: "white",
             borderRadius: "none",
