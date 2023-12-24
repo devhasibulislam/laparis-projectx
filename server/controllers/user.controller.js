@@ -13,7 +13,7 @@
  * Date: 24, December 2023
  */
 
-/* internal imports */
+/* internal import */
 const userService = require("../services/user.service");
 
 /* sign up an user */
