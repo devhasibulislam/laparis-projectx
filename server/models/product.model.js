@@ -48,8 +48,8 @@ const productSchema = new mongoose.Schema({
     required: [true, "Please, provide category"],
   },
 
-  // for size
-  size: [
+  // for sizes
+  sizes: [
     {
       type: String,
       required: [true, "Please, provide product size"],

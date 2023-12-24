@@ -30,7 +30,17 @@ export const productApi = laparisApi.injectEndpoints({
 
       invalidatesTags: ["Product"],
     }),
+
+    // get products
+    getProducts: build.query({
+      query: () => ({
+        url: "/product/all",
+        method: "GET",
+      }),
+
+      providesTags: ["Product"],
+    }),
   }),
 });
 
-export const { useAddProductMutation } = productApi;
+export const { useAddProductMutation, useGetProductsQuery } = productApi;
