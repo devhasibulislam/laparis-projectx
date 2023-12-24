@@ -195,7 +195,13 @@ function AuthMenu() {
               </span>
             </button>
 
-            <button className="flex flex-row items-center gap-x-2 text-sm">
+            <button
+              className="flex flex-row items-center gap-x-2 text-sm"
+              onClick={() => {
+                localStorage.removeItem("accessToken");
+                window.location.reload();
+              }}
+            >
               <span className="p-0.5">
                 <CiLogout className="h-4 w-4" />
               </span>{" "}
