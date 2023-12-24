@@ -160,7 +160,11 @@ exports.forgotPassword = async (req, res) => {
 
       user.password = hashedPassword;
       user.status = "inactive";
-      await user.save({ validateBeforeSave: false });
+
+      await User.findOneAndUpdate({ email: user.email }, user, {
+        runValidators: false,
+        returnOriginal: false,
+      });
 
       sendEmail(
         {
