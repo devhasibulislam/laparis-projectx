@@ -193,7 +193,7 @@ function AuthMenu() {
                     className="w-5 h-5 text-tiny"
                   />
                   <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    {"John Doe John Doe".slice(0, 6)}.
+                    {auth?.name.slice(0, 6)}.
                   </span>
                 </button>
 
