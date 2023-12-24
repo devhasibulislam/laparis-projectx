@@ -13,34 +13,56 @@
  * Date: 22, December 2023
  */
 
-import products from "@/data/products";
+"use client";
+
 import Dashboard from "@/layouts/dashboard/Dashboard";
+import { useGetProductsQuery } from "@/services/product/productApi";
 import { Avatar, Chip } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
+  const { data, isLoading, error } = useGetProductsQuery();
+  const products = useMemo(() => data?.data || [], [data]);
+
+  console.log(isLoading);
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Loading...", { id: "getProducts" });
+    }
+    if (data) {
+      toast.success(data?.description, { id: "getProducts" });
+    }
+    if (error?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "getProducts",
+      });
+    }
+  }, [isLoading, data, error]);
+
   return (
     <Dashboard>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Thumbnail
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Name
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Sizes
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Category
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Price
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
@@ -48,33 +70,35 @@ const Page = () => {
           <tbody>
             {products?.map((product) => (
               <tr
-                key={product?.key}
-                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                key={product?._id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">
                   <Avatar
-                    src={product?.thumbnail}
-                    alt={product?.name}
+                    src={product?.thumbnail?.url}
+                    alt={product?.thumbnail?.public_id}
                     size="sm"
                   />
                 </td>
-                <td class="px-6 py-4">
+                <td className="px-6 py-4">
                   <span className="whitespace-nowrap w-60 overflow-x-auto block">
                     {product?.name}
                   </span>
                 </td>
-                <td class="px-6 py-4">
-                  <span class="flex flex-row gap-1">
-                    {product?.size?.map((size) => (
+                <td className="px-6 py-4">
+                  <span className="flex flex-row gap-1">
+                    {product?.sizes?.map((size) => (
                       <Chip key={size} size="sm">
                         {size}
                       </Chip>
                     ))}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">{product?.category}</td>
-                <td class="px-6 py-4">{product?.price}</td>
-                <td class="px-6 py-4 whitespace-nowrap">Edit | Delete</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {product?.category?.name}
+                </td>
+                <td className="px-6 py-4">{product?.price}</td>
+                <td className="px-6 py-4 whitespace-nowrap">Edit | Delete</td>
               </tr>
             ))}
           </tbody>
