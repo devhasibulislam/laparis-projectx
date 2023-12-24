@@ -60,6 +60,17 @@ exports.forgotPassword = async (req, res, next) => {
   }
 };
 
+/* confirm recovery */
+exports.confirmRecovery = async (req, res, next) => {
+  try {
+    await userService.confirmRecovery(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* login persistance */
 exports.persistLogin = async (req, res, next) => {
   try {

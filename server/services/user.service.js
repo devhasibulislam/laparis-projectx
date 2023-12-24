@@ -136,7 +136,7 @@ exports.signIn = async (req, res) => {
       res.status(401).json({
         acknowledgement: false,
         message: "Unauthorized",
-        description: "Please confirm your email",
+        description: "Please confirm email first",
       });
     }
   }
@@ -153,19 +153,60 @@ exports.forgotPassword = async (req, res) => {
       description: "User not found",
     });
   } else {
-    const hashedPassword = user.encryptedPassword(req.body.password);
+    if (user.status === "active") {
+      const url = `${req.protocol}://${req.get("host")}`;
+      const token = await user.generateResetPasswordToken();
+      const hashedPassword = user.encryptedPassword(req.body.password);
 
-    await User.findOneAndUpdate(
-      { email: req.body.email },
-      { password: hashedPassword },
-      { runValidators: false, returnOriginal: false }
-    );
+      user.password = hashedPassword;
+      user.status = "inactive";
+      await user.save({ validateBeforeSave: false });
 
-    res.status(200).json({
-      acknowledgement: true,
-      message: "OK",
-      description: "Password reset successful",
+      sendEmail(
+        {
+          email: user.email,
+          name: user.name,
+          expireIn: user.resetPasswordExpire,
+        },
+        `${url}/api/user/recover?token=${token}`,
+        "Recover Your Password",
+        res
+      );
+    } else {
+      res.status(401).json({
+        acknowledgement: false,
+        message: "Unauthorized",
+        description: "Please confirm email first",
+      });
+    }
+  }
+};
+
+/* confirm recovery */
+exports.confirmRecovery = async (req, res) => {
+  const user = await User.findOne({ resetPasswordToken: req.query.token });
+
+  if (!user) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "User not found",
     });
+  } else {
+    if (isExpire(user.confirmationTokenExpire)) {
+      res.status(401).json({
+        acknowledgement: false,
+        message: "Unauthorized",
+        description: "Token expired",
+      });
+    } else {
+      user.status = "active";
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      await user.save();
+
+      res.redirect(process.env.ORIGIN_URL);
+    }
   }
 };
 

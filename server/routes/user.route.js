@@ -37,7 +37,10 @@ router
 router.post("/login", userController.signIn);
 
 // recover user password
-router.patch("/recover", userController.forgotPassword);
+router
+  .route("/recover")
+  .patch(userController.forgotPassword)
+  .get(userController.confirmRecovery);
 
 // login persistance
 router.get("/me", verify, userController.persistLogin);
