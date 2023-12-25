@@ -20,6 +20,8 @@ import { usePersistLoginQuery } from "@/services/auth/authApi";
 import React, { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { TbAlertSquareRoundedFilled } from "react-icons/tb";
+
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch();
@@ -32,7 +34,10 @@ const Auth = ({ children }) => {
     }
 
     if (isError) {
-      toast.error("Something went wrong", { id: "auth" });
+      toast("Please, login to continue", {
+        id: "auth",
+        icon: <TbAlertSquareRoundedFilled className="text-yellow-500 h-6 w-6" />,
+      });
     }
   }, [user, dispatch, isError]);
 
