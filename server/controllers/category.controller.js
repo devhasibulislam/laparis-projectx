@@ -39,7 +39,7 @@ exports.getCategories = async (req, res) => {
 };
 
 /* delete category */
-exports.deleteCategory = async (req, res) => {
+exports.deleteCategory = async (req, res, next) => {
   try {
     await categoryService.deleteCategory(req, res);
   } catch (error) {
