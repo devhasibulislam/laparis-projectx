@@ -20,9 +20,10 @@ import {
   useDeleteCategoryMutation,
   useGetCategoriesQuery,
 } from "@/services/category/categoryApi";
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import { MdProductionQuantityLimits } from "react-icons/md";
 
 const Page = () => {
   const {
@@ -44,7 +45,6 @@ const Page = () => {
         id: "getCategories",
       });
     }
-
   }, [fetching, fetchData, fetchError]);
 
   return (
@@ -102,8 +102,15 @@ function CategoryCard({ category }) {
             {isDeleted ? "Removing" : "Remove"}
           </Button>
         </CardHeader>
-        <CardBody className="px-3 py-0 text-small text-default-400">
+        <CardBody className="px-3 py-0 text-small text-default-400 flex flex-col gap-y-2">
           <p className="line-clamp-5">{category?.description}</p>
+          <Chip
+            startContent={<MdProductionQuantityLimits className="w-3 h-3" />}
+            variant="faded"
+            size="sm"
+          >
+            {category?.products?.length} Products
+          </Chip>
         </CardBody>
       </Card>
     </>
