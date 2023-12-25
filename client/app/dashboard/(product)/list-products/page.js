@@ -28,8 +28,12 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 const Page = () => {
-  const { data, isLoading, error } = useGetProductsQuery();
-  const products = useMemo(() => data?.data || [], [data]);
+  const {
+    data: productsData,
+    isLoading: fetchingProducts,
+    error: productsDataError,
+  } = useGetProductsQuery();
+  const products = useMemo(() => productsData?.data || [], [productsData]);
   const [
     deleteProduct,
     {
@@ -41,16 +45,19 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoading) {
+    if (fetchingProducts) {
       toast.loading("Loading...", { id: "getProducts" });
     }
-    if (data) {
-      toast.success(data?.description, { id: "getProducts" });
+    if (productsData) {
+      toast.success(productsData?.description, { id: "getProducts" });
     }
-    if (error?.data) {
-      toast.error(error?.data?.description || "Something went wrong", {
-        id: "getProducts",
-      });
+    if (productsDataError?.data) {
+      toast.error(
+        productsDataError?.data?.description || "Something went wrong",
+        {
+          id: "getProducts",
+        }
+      );
     }
 
     if (deletingProduct) {
@@ -68,9 +75,9 @@ const Page = () => {
       );
     }
   }, [
-    isLoading,
-    data,
-    error,
+    fetchingProducts,
+    productsData,
+    productsDataError,
     deletingProduct,
     deleteProductData,
     productDataError,
@@ -121,7 +128,7 @@ const Page = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="flex flex-row gap-1">
+                  <span className="flex flex-row items-center gap-1">
                     {product?.sizes?.map((size) => (
                       <Chip key={size} size="sm">
                         {size}
