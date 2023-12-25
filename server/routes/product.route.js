@@ -42,13 +42,19 @@ router.post(
 // get products
 router.get("/all", productController.getProducts);
 
-// get single product
-router.get(
-  "/:id",
-  verify,
-  authorize("admin"),
-  productController.getSingleProduct
-);
+// display & update single product
+router
+  .route("/:id")
+  .get(verify, authorize("admin"), productController.getSingleProduct)
+  .patch(
+    verify,
+    authorize("admin"),
+    upload.fields([
+      { name: "thumbnail", maxCount: 1 },
+      { name: "gallery", maxCount: 5 },
+    ]),
+    productController.updateSingleProduct
+  );
 
 /* export user router */
 module.exports = router;

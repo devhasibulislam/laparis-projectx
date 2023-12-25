@@ -14,8 +14,9 @@
  */
 
 /* internal imports */
-const categoryModel = require("../models/category.model");
+const Category = require("../models/category.model");
 const Product = require("../models/product.model");
+const remove = require("../utils/remove.util");
 
 /* add new product */
 exports.addProduct = async (req, res) => {
@@ -49,7 +50,7 @@ exports.addProduct = async (req, res) => {
         description: "Something went wrong",
       });
     } else {
-      await categoryModel.updateOne(
+      await Category.updateOne(
         { _id: product.category },
         { $push: { products: newProduct._id } }
       );
@@ -102,5 +103,68 @@ exports.getSingleProduct = async (req, res) => {
       description: "Product fetched successfully",
       data: product,
     });
+  }
+};
+
+/* update single product */
+exports.updateSingleProduct = async (req, res) => {
+  const existProduct = await Product.findById(req.params.id);
+
+  if (!existProduct) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "Product not found",
+    });
+  } else {
+    const product = req.body;
+
+    if (!req.body.thumbnail && req.files.thumbnail) {
+      remove(existProduct.thumbnail.public_id);
+
+      product.thumbnail = {
+        url: req.files.thumbnail[0].path,
+        public_id: req.files.thumbnail[0].filename,
+      };
+    }
+
+    if (!req.body.gallery && req.files.gallery) {
+      for (let i = 0; i < existProduct.gallery.length; i++) {
+        remove(existProduct.gallery[i].public_id);
+      }
+
+      product.gallery = req.files.gallery.map((file) => ({
+        url: file.path,
+        public_id: file.filename,
+      }));
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
+      $set: product,
+    });
+
+    if (!updatedProduct) {
+      res.status(500).json({
+        acknowledgement: false,
+        message: "Internal Server Error",
+        description: "Something went wrong",
+      });
+    } else {
+      await Category.updateOne(
+        { _id: existProduct.category },
+        { $pull: { products: existProduct._id } }
+      );
+
+      await Category.updateOne(
+        { _id: product.category },
+        { $push: { products: updatedProduct._id } }
+      );
+
+      res.status(200).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Product updated successfully",
+      });
+    }
   }
 };
