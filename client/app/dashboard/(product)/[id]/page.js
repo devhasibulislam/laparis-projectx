@@ -17,7 +17,10 @@
 
 import Dashboard from "@/layouts/dashboard/Dashboard";
 import { useGetCategoriesQuery } from "@/services/category/categoryApi";
-import { useGetSingleProductQuery } from "@/services/product/productApi";
+import {
+  useGetSingleProductQuery,
+  useUpdateSingleProductMutation,
+} from "@/services/product/productApi";
 import { Image, Skeleton } from "@nextui-org/react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
@@ -46,6 +49,15 @@ const Page = () => {
     () => categoriesData?.data || [],
     [categoriesData]
   );
+
+  const [
+    updateProduct,
+    {
+      isLoading: updatingProduct,
+      data: updateProductData,
+      error: updateProductError,
+    },
+  ] = useUpdateSingleProductMutation();
 
   const defaultValues = useMemo(() => {
     return {
@@ -76,7 +88,30 @@ const Page = () => {
         id: "getCategories",
       });
     }
-  }, [fetchingProduct, productData, productError, categoriesError]);
+
+    if (updatingProduct) {
+      toast.loading("Updating...", { id: "updateProduct" });
+    }
+    if (updateProductData) {
+      toast.success(updateProductData?.description, { id: "updateProduct" });
+    }
+    if (updateProductError?.data) {
+      toast.error(
+        updateProductError?.data?.description || "Something went wrong",
+        {
+          id: "updateProduct",
+        }
+      );
+    }
+  }, [
+    fetchingProduct,
+    productData,
+    productError,
+    categoriesError,
+    updatingProduct,
+    updateProductData,
+    updateProductError,
+  ]);
 
   const handleThumbnailPreview = (e) => {
     const file = e.target.files[0];
@@ -115,8 +150,32 @@ const Page = () => {
   };
 
   const handleUpdateProduct = (data) => {
-    console.log(data);
-    reset();
+    if (thumbnailPreview === null && galleryPreview.length === 0) {
+      updateProduct({ body: data, id: product?._id });
+    } else {
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("price", data.price);
+      formData.append("category", data.category);
+
+      if (thumbnailPreview !== null) {
+        formData.append("thumbnail", data.thumbnail[0]);
+      }
+
+      if (galleryPreview.length > 0) {
+        for (let i = 0; i < data.gallery.length; i++) {
+          formData.append("gallery", data.gallery[i]);
+        }
+      }
+
+      for (let i = 0; i < data.sizes.length; i++) {
+        formData.append("sizes", data.sizes[i]);
+      }
+
+      updateProduct({ body: formData, id: product?._id });
+    }
   };
 
   return (
@@ -148,7 +207,6 @@ const Page = () => {
                 id="thumbnail"
                 accept="image/png, image/jpg, image/jpeg"
                 {...register("thumbnail", {
-                  required: true,
                   onChange: (event) => handleThumbnailPreview(event),
                 })}
                 className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
@@ -201,7 +259,6 @@ const Page = () => {
                 accept="image/png, image/jpg, image/jpeg"
                 multiple
                 {...register("gallery", {
-                  required: true,
                   onChange: (event) => handleSetGalleryPreview(event),
                 })}
                 className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
@@ -216,7 +273,7 @@ const Page = () => {
             type="text"
             name="name"
             id="name"
-            {...register("name", { required: true })}
+            {...register("name")}
             placeholder="i.e. Hasibul Islam"
             className="md:w-3/4 w-full"
           />
@@ -228,7 +285,7 @@ const Page = () => {
             name="description"
             id="description"
             rows={5}
-            {...register("description", { required: true })}
+            {...register("description")}
             placeholder="i.e. https://devhasibulislam.vercel.app"
             className="md:w-3/4 w-full"
           />
@@ -241,7 +298,7 @@ const Page = () => {
             name="price"
             id="price"
             min={1}
-            {...register("price", { required: true })}
+            {...register("price")}
             placeholder="i.e. $250"
             className="md:w-3/4 w-full"
           />
@@ -260,7 +317,7 @@ const Page = () => {
                   name="category"
                   id="category"
                   className="w-full capitalize"
-                  {...register("category", { required: true })}
+                  {...register("category")}
                 >
                   {categories?.map((category) => (
                     <option key={category?._id} value={category?._id}>
@@ -278,7 +335,7 @@ const Page = () => {
               id="sizes"
               multiple
               className="w-full uppercase"
-              {...register("sizes", { required: true })}
+              {...register("sizes")}
             >
               {sizes?.map((size) => (
                 <option key={size} value={size}>
