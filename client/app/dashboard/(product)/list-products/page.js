@@ -16,7 +16,10 @@
 "use client";
 
 import Dashboard from "@/layouts/dashboard/Dashboard";
-import { useGetProductsQuery } from "@/services/product/productApi";
+import {
+  useDeleteSingleProductMutation,
+  useGetProductsQuery,
+} from "@/services/product/productApi";
 import { Avatar, Chip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
@@ -27,6 +30,14 @@ import { FaRegTrashAlt } from "react-icons/fa";
 const Page = () => {
   const { data, isLoading, error } = useGetProductsQuery();
   const products = useMemo(() => data?.data || [], [data]);
+  const [
+    deleteProduct,
+    {
+      data: deleteProductData,
+      isLoading: deletingProduct,
+      error: productDataError,
+    },
+  ] = useDeleteSingleProductMutation();
   const router = useRouter();
 
   useEffect(() => {
@@ -41,7 +52,29 @@ const Page = () => {
         id: "getProducts",
       });
     }
-  }, [isLoading, data, error]);
+
+    if (deletingProduct) {
+      toast.loading("Deleting...", { id: "deleteProduct" });
+    }
+    if (deleteProductData) {
+      toast.success(deleteProductData?.description, { id: "deleteProduct" });
+    }
+    if (productDataError?.data) {
+      toast.error(
+        productDataError?.data?.description || "Something went wrong",
+        {
+          id: "deleteProduct",
+        }
+      );
+    }
+  }, [
+    isLoading,
+    data,
+    error,
+    deletingProduct,
+    deleteProductData,
+    productDataError,
+  ]);
 
   return (
     <Dashboard>
@@ -97,20 +130,21 @@ const Page = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {product?.category?.name}
+                  {product?.category?.name || "N/A"}
                 </td>
                 <td className="px-6 py-4">{product?.price}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="flex flex-row gap-2">
                     <button
                       className="p-1.5 border rounded-full bg-green-500 text-white"
-                      onClick={() =>
-                        router.push(`/dashboard/${product?._id}`)
-                      }
+                      onClick={() => router.push(`/dashboard/${product?._id}`)}
                     >
                       <FaRegEdit className="h-4 w-4" />
                     </button>
-                    <button className="p-1.5 border rounded-full bg-red-500 text-white">
+                    <button
+                      className="p-1.5 border rounded-full bg-red-500 text-white"
+                      onClick={() => deleteProduct(product?._id)}
+                    >
                       <FaRegTrashAlt className="h-4 w-4" />
                     </button>
                   </span>
