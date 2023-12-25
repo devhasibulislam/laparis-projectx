@@ -67,6 +67,19 @@ export const productApi = laparisApi.injectEndpoints({
 
       invalidatesTags: ["Product"],
     }),
+
+    /* delete single product */
+    deleteSingleProduct: build.mutation({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -75,4 +88,5 @@ export const {
   useGetProductsQuery,
   useGetSingleProductQuery,
   useUpdateSingleProductMutation,
+  useDeleteSingleProductMutation,
 } = productApi;
