@@ -42,7 +42,7 @@ router.post(
 // get products
 router.get("/all", productController.getProducts);
 
-// display & update single product
+// display, update & delete single product
 router
   .route("/:id")
   .get(verify, authorize("admin"), productController.getSingleProduct)
@@ -54,7 +54,8 @@ router
       { name: "gallery", maxCount: 5 },
     ]),
     productController.updateSingleProduct
-  );
+  )
+  .delete(verify, authorize("admin"), productController.deleteSingleProduct);
 
 /* export user router */
 module.exports = router;

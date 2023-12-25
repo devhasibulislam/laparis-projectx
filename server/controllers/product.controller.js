@@ -59,3 +59,14 @@ exports.updateSingleProduct = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* delete single product */
+exports.deleteSingleProduct = async (req, res, next) => {
+  try {
+    await productService.deleteSingleProduct(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};

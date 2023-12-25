@@ -168,3 +168,35 @@ exports.updateSingleProduct = async (req, res) => {
     }
   }
 };
+
+/* delete single product */
+exports.deleteSingleProduct = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "Product not found",
+    });
+  } else {
+    remove(product.thumbnail.public_id);
+
+    for (let i = 0; i < product.gallery.length; i++) {
+      remove(product.gallery[i].public_id);
+    }
+
+    await Product.findByIdAndDelete(req.params.id);
+
+    await Category.updateOne(
+      { _id: product.category },
+      { $pull: { products: product._id } }
+    );
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: "Product deleted successfully",
+    });
+  }
+};
