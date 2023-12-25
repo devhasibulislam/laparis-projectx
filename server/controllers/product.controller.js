@@ -37,3 +37,14 @@ exports.getProducts = async (req, res) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* get single product */
+exports.getSingleProduct = async (req, res, next) => {
+  try {
+    await productService.getSingleProduct(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};

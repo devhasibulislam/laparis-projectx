@@ -84,3 +84,23 @@ exports.getProducts = async (req, res) => {
     });
   }
 };
+
+/* get single product */
+exports.getSingleProduct = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "Product not found",
+    });
+  } else {
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: "Product fetched successfully",
+      data: product,
+    });
+  }
+};

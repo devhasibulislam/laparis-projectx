@@ -42,5 +42,13 @@ router.post(
 // get products
 router.get("/all", productController.getProducts);
 
+// get single product
+router.get(
+  "/:id",
+  verify,
+  authorize("admin"),
+  productController.getSingleProduct
+);
+
 /* export user router */
 module.exports = router;
