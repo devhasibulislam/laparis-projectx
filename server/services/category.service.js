@@ -15,6 +15,7 @@
 
 /* internal imports */
 const Category = require("../models/category.model");
+const Product = require("../models/product.model");
 
 /* add new category */
 exports.addCategory = async (req, res) => {
@@ -76,6 +77,14 @@ exports.deleteCategory = async (req, res) => {
       });
     } else {
       await Category.findByIdAndDelete(req.params.id);
+      await Product.updateMany(
+        {},
+        {
+          $pull: {
+            category: category._id,
+          },
+        }
+      );
 
       res.status(200).json({
         acknowledgement: true,
