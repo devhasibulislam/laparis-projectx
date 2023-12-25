@@ -15,14 +15,104 @@
 
 "use client";
 
-import product from "@/data/product";
 import Dashboard from "@/layouts/dashboard/Dashboard";
-import { Image } from "@nextui-org/react";
-import React from "react";
+import { useGetCategoriesQuery } from "@/services/category/categoryApi";
+import { useGetSingleProductQuery } from "@/services/product/productApi";
+import { Image, Skeleton } from "@nextui-org/react";
+import { useParams } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 const Page = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { id } = useParams();
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [galleryPreview, setGalleryPreview] = useState([]);
+  const sizes = ["xxs", "xs", "s", "m", "l", "xl", "xxl"];
+
+  const {
+    data: productData,
+    isLoading: fetchingProduct,
+    error: productError,
+  } = useGetSingleProductQuery(id);
+  const product = useMemo(() => productData?.data || {}, [productData]);
+
+  const {
+    data: categoriesData,
+    isLoading: fetchingCategories,
+    error: categoriesError,
+  } = useGetCategoriesQuery();
+  const categories = useMemo(
+    () => categoriesData?.data || [],
+    [categoriesData]
+  );
+
+  const defaultValues = useMemo(() => {
+    return {
+      ...product,
+    };
+  }, []);
+
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues,
+  });
+
+  useEffect(() => {
+    if (fetchingProduct) {
+      toast.loading("Loading...", { id: "getProduct" });
+    }
+    if (productData) {
+      toast.success(productData?.description, { id: "getProduct" });
+      reset(product);
+    }
+    if (productError?.data) {
+      toast.error(productError?.data?.description || "Something went wrong", {
+        id: "getProduct",
+      });
+    }
+
+    if (categoriesError?.data) {
+      toast.error(error?.data?.description || "Something went wrong", {
+        id: "getCategories",
+      });
+    }
+  }, [fetchingProduct, productData, productError, categoriesError]);
+
+  const handleThumbnailPreview = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSetGalleryPreview = (event) => {
+    const files = event.target.files;
+    const previewImages = [];
+
+    if (files.length > 5) {
+      toast.error("You can only upload maximum 5 images");
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        previewImages.push(e.target.result);
+        if (previewImages.length === files.length) {
+          setGalleryPreview(previewImages);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleUpdateProduct = (data) => {
     console.log(data);
@@ -38,8 +128,8 @@ const Page = () => {
         <div className="flex flex-col gap-y-4 items-center md:w-3/4 w-full">
           <div className="w-full flex flex-col gap-y-2">
             <Image
-              src={product?.thumbnail}
-              alt={product?.name}
+              src={thumbnailPreview || product?.thumbnail?.url}
+              alt={product?.thumbnail?.public_id || "thumbnail"}
               width={50}
               height={50}
               radius="none"
@@ -56,24 +146,46 @@ const Page = () => {
                 type="file"
                 name="thumbnail"
                 id="thumbnail"
-                {...register("thumbnail", { required: true })}
+                accept="image/png, image/jpg, image/jpeg"
+                {...register("thumbnail", {
+                  required: true,
+                  onChange: (event) => handleThumbnailPreview(event),
+                })}
                 className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
               />
             </label>
           </div>
           <div className="w-full flex flex-col gap-y-2">
             <div className="flex flex-row gap-2 flex-wrap">
-              {product?.gallery?.map((item, index) => (
-                <Image
-                  key={index}
-                  src={item}
-                  alt={index}
-                  width={50}
-                  height={50}
-                  radius="none"
-                  className="h-full object-cover"
-                />
-              ))}
+              {galleryPreview.length === 0 ? (
+                <>
+                  {product?.gallery?.map((item, index) => (
+                    <Image
+                      key={index}
+                      src={item?.url}
+                      alt={item?.public_id}
+                      width={50}
+                      height={50}
+                      radius="none"
+                      className="h-full object-cover"
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {galleryPreview?.map((item, index) => (
+                    <Image
+                      key={index}
+                      src={item}
+                      alt={index}
+                      width={50}
+                      height={50}
+                      radius="none"
+                      className="h-full object-cover"
+                    />
+                  ))}
+                </>
+              )}
             </div>
             <label
               htmlFor="gallery"
@@ -86,7 +198,12 @@ const Page = () => {
                 type="file"
                 name="gallery"
                 id="gallery"
-                {...register("gallery", { required: true })}
+                accept="image/png, image/jpg, image/jpeg"
+                multiple
+                {...register("gallery", {
+                  required: true,
+                  onChange: (event) => handleSetGalleryPreview(event),
+                })}
                 className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
               />
             </label>
@@ -133,29 +250,41 @@ const Page = () => {
         <div className="flex lg:flex-row flex-col gap-4 md:w-3/4 w-full">
           <label htmlFor="category" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Category</span>
-            <select
-              name="category"
-              id="category"
-              className="w-full"
-              {...register("category", { required: true })}
-            >
-              <option value="printed-t-shirt">Printed T-Shirt</option>
-              <option value="women-item">Women Item</option>
-              <option value="men-items">Men Item</option>
-            </select>
+            {fetchingCategories ? (
+              <>
+                <Skeleton className="h-full w-full" />
+              </>
+            ) : (
+              <>
+                <select
+                  name="category"
+                  id="category"
+                  className="w-full capitalize"
+                  {...register("category", { required: true })}
+                >
+                  {categories?.map((category) => (
+                    <option key={category?._id} value={category?._id}>
+                      {category?.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
           </label>
-          <label
-            htmlFor="size"
-            className="flex flex-col gap-y-1 w-full"
-            {...register("size", { required: true })}
-          >
+          <label htmlFor="sizes" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Size</span>
-            <select name="size" id="size" className="w-full">
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
-              <option value="xxl">XXL</option>
+            <select
+              name="sizes"
+              id="sizes"
+              multiple
+              className="w-full uppercase"
+              {...register("sizes", { required: true })}
+            >
+              {sizes?.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
             </select>
           </label>
         </div>
