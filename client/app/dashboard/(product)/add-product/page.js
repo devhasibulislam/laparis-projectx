@@ -41,7 +41,7 @@ const Page = () => {
     addProduct,
     { isLoading: creatingProduct, data: productData, error: productError },
   ] = useAddProductMutation();
-  const sizes = ["s", "m", "l", "xl", "xxl"];
+  const sizes = ["xxs", "xs", "s", "m", "l", "xl", "xxl"];
 
   useEffect(() => {
     if (categoriesError?.data) {
@@ -134,7 +134,7 @@ const Page = () => {
         onSubmit={handleSubmit(handleAddProduct)}
         className="flex flex-col gap-y-4"
       >
-        <div className="flex lg:flex-row flex-col gap-x-2 gap-y-4 items-center md:w-3/4 w-full">
+        <div className="flex flex-col gap-y-4 items-center md:w-3/4 w-full">
           {/* thumbnail section */}
           <div className="flex flex-col gap-y-1 w-full">
             {thumbnailPreview && (
