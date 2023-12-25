@@ -109,8 +109,6 @@ const Page = () => {
   };
 
   const handleAddProduct = (data) => {
-    console.log(data);
-
     const formData = new FormData();
 
     formData.append("name", data.name);
