@@ -46,7 +46,7 @@ const Page = () => {
   useEffect(() => {
     if (categoriesError?.data) {
       toast.error(error?.data?.description || "Something went wrong", {
-        id: "addCategory",
+        id: "getCategories",
       });
     }
 
@@ -270,14 +270,14 @@ const Page = () => {
           <label
             htmlFor="sizes"
             className="flex flex-col gap-y-1 w-full"
-            {...register("sizes", { required: true })}
-          >
+            >
             <span className="text-sm">Choose Product Sizes</span>
             <select
               name="sizes"
               id="sizes"
               multiple
               className="w-full uppercase"
+              {...register("sizes", { required: true })}
             >
               {sizes?.map((size) => (
                 <option key={size} value={size}>
