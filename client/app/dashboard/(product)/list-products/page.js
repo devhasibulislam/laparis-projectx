@@ -18,12 +18,16 @@
 import Dashboard from "@/layouts/dashboard/Dashboard";
 import { useGetProductsQuery } from "@/services/product/productApi";
 import { Avatar, Chip } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
+import { FaRegEdit } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Page = () => {
   const { data, isLoading, error } = useGetProductsQuery();
   const products = useMemo(() => data?.data || [], [data]);
+  const router = useRouter();
 
   useEffect(() => {
     if (isLoading) {
@@ -96,7 +100,21 @@ const Page = () => {
                   {product?.category?.name}
                 </td>
                 <td className="px-6 py-4">{product?.price}</td>
-                <td className="px-6 py-4 whitespace-nowrap">Edit | Delete</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="flex flex-row gap-2">
+                    <button
+                      className="p-1.5 border rounded-full bg-green-500 text-white"
+                      onClick={() =>
+                        router.push(`/dashboard/${product?._id}`)
+                      }
+                    >
+                      <FaRegEdit className="h-4 w-4" />
+                    </button>
+                    <button className="p-1.5 border rounded-full bg-red-500 text-white">
+                      <FaRegTrashAlt className="h-4 w-4" />
+                    </button>
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
