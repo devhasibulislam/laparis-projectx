@@ -40,7 +40,24 @@ export const productApi = laparisApi.injectEndpoints({
 
       providesTags: ["Product"],
     }),
+
+    /* get single product */
+    getSingleProduct: build.query({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      providesTags: ["Product"],
+    }),
   }),
 });
 
-export const { useAddProductMutation, useGetProductsQuery } = productApi;
+export const {
+  useAddProductMutation,
+  useGetProductsQuery,
+  useGetSingleProductQuery,
+} = productApi;
