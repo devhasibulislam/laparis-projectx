@@ -14,7 +14,7 @@
  */
 
 function error(err, _, res, _) {
-  res.send({
+  res.status(500).json({
     acknowledgement: false,
     message: err.name,
     description: err.message,
