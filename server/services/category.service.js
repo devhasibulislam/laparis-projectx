@@ -58,6 +58,26 @@ exports.getCategories = async (res) => {
   }
 };
 
+/* get single category */
+exports.getSingleCategory = async (req, res) => {
+  const category = await Category.findById(req.params.id);
+
+  if (!category) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "Category not found",
+    });
+  } else {
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: "Category fetched successfully",
+      data: category,
+    });
+  }
+};
+
 /* delete category */
 exports.deleteCategory = async (req, res) => {
   if (req.params.id.length === 0) {

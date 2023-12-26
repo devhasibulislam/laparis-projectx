@@ -22,6 +22,7 @@ import {
   Image,
   Radio,
   RadioGroup,
+  Skeleton,
   Spinner,
   Tooltip,
 } from "@nextui-org/react";
@@ -36,6 +37,7 @@ import Brands from "@/components/Brands";
 import { useGetSingleProductQuery } from "@/services/product/productApi";
 import { toast } from "react-hot-toast";
 import { useUpdateUserMutation } from "@/services/user/userApi";
+import { useGetSingleCategoryQuery } from "@/services/category/categoryApi";
 
 const Page = () => {
   const { id } = useParams();
@@ -45,6 +47,9 @@ const Page = () => {
     update,
     { isLoading: updating, data: updateData, error: updateError },
   ] = useUpdateUserMutation();
+  const { data: categoryData, isLoading: fetchingCategory } =
+    useGetSingleCategoryQuery(product?.category);
+  const category = useMemo(() => categoryData?.data || {}, [categoryData]);
   const [imageSrc, setImageSrc] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [stickerPreview, setStickerPreview] = useState(null);
@@ -156,7 +161,12 @@ const Page = () => {
                 <span className="text-base flex flex-row gap-x-0.5">
                   $<b>{product?.price * quantity}</b>
                 </span>{" "}
-                <Divider orientation="vertical" /> {product?.category}
+                <Divider orientation="vertical" />{" "}
+                {fetchingCategory ? (
+                  <Skeleton className="h-3 w-3/5 rounded-lg" />
+                ) : (
+                  category?.name
+                )}
               </div>
               <RadioGroup
                 label="Select a Size"

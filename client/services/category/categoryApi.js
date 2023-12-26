@@ -44,6 +44,16 @@ const categoryApi = laparisApi.injectEndpoints({
       providesTags: ["Category"],
     }),
 
+    /* get single category */
+    getSingleCategory: build.query({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "GET",
+      }),
+
+      providesTags: ["Category"],
+    }),
+
     // delete category
     deleteCategory: build.mutation({
       query: (id) => ({
@@ -62,5 +72,6 @@ const categoryApi = laparisApi.injectEndpoints({
 export const {
   useAddCategoryMutation,
   useGetCategoriesQuery,
+  useGetSingleCategoryQuery,
   useDeleteCategoryMutation,
 } = categoryApi;

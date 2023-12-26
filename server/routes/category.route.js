@@ -37,6 +37,9 @@ router.post(
 // get categories
 router.get("/all", categoryController.getCategories);
 
+/* get single category */
+router.get("/:id", categoryController.getSingleCategory);
+
 // delete category
 router.delete(
   "/delete/:id",

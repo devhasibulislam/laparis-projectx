@@ -38,6 +38,17 @@ exports.getCategories = async (req, res) => {
   }
 };
 
+/* get single category */
+exports.getSingleCategory = async (req, res, next) => {
+  try {
+    await categoryService.getSingleCategory(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* delete category */
 exports.deleteCategory = async (req, res, next) => {
   try {
