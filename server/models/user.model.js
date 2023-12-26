@@ -69,10 +69,8 @@ const userSchema = new mongoose.Schema(
     // for favorites or wishlist
     favorites: [
       {
-        product: {
-          type: ObjectId,
-          ref: "Product",
-        },
+        type: ObjectId,
+        ref: "Product",
       },
     ],
 
@@ -91,6 +89,11 @@ const userSchema = new mongoose.Schema(
           type: Number,
           min: [1, "Quantity won't be less than 1"],
         },
+        size: {
+          type: String,
+          required: [true, "Please, provide product size"],
+        },
+        price: Number,
       },
     ],
 
