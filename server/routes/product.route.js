@@ -45,7 +45,7 @@ router.get("/all", productController.getProducts);
 // display, update & delete single product
 router
   .route("/:id")
-  .get(verify, authorize("admin"), productController.getSingleProduct)
+  .get(productController.getSingleProduct)
   .patch(
     verify,
     authorize("admin"),
