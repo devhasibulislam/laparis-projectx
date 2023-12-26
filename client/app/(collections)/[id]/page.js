@@ -102,7 +102,7 @@ const Page = () => {
         product: product._id,
         quantity,
         size,
-        price,
+        price: product?.price * quantity,
       });
     } else {
       const formData = new FormData();
@@ -111,7 +111,7 @@ const Page = () => {
       formData.append("quantity", quantity);
       formData.append("sticker", sticker);
       formData.append("size", size);
-      formData.append("price", product?.price);
+      formData.append("price", product?.price * quantity);
 
       update(formData);
     }
