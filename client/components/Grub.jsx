@@ -19,6 +19,7 @@ import React, { useEffect } from "react";
 import { Button, Chip, Image, Link, Tooltip } from "@nextui-org/react";
 import { MdFavoriteBorder } from "react-icons/md";
 import { useUpdateUserMutation } from "@/services/user/userApi";
+import { toast } from "react-hot-toast";
 
 const Grub = ({ product }) => {
   const [
@@ -33,10 +34,6 @@ const Grub = ({ product }) => {
 
     if (updateData) {
       toast.success(updateData?.description, { id: "update" });
-      setStickerPreview(null);
-      setSticker(null);
-      setQuantity(1);
-      setSize("");
     }
 
     if (updateError?.data) {
