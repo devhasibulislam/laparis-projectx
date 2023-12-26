@@ -81,3 +81,14 @@ exports.persistLogin = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* update user */
+exports.updateUser = async (req, res, next) => {
+  try {
+    await userService.updateUser(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
