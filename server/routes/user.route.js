@@ -21,6 +21,8 @@ const verify = require("../middleware/verify.middleware");
 
 /* internal import */
 const userController = require("../controllers/user.controller");
+const authorize = require("../middleware/authorize.middleware");
+const upload = require("../middleware/upload.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -44,6 +46,15 @@ router
 
 // login persistance
 router.get("/me", verify, userController.persistLogin);
+
+// update user
+router.patch(
+  "/update",
+  verify,
+  authorize("user"),
+  upload.single("sticker"),
+  userController.updateUser
+);
 
 /* export user router */
 module.exports = router;

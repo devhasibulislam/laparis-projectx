@@ -225,3 +225,79 @@ exports.persistLogin = async (req, res) => {
     data: user,
   });
 };
+
+/* update user */
+exports.updateUser = async (req, res) => {
+  if (req.body.favorite) {
+    const { favorite } = req.body;
+
+    // Check if the favorite already exists in the user's favorites
+    const user = await User.findOne({
+      _id: req.user._id,
+      favorites: favorite,
+    });
+
+    if (user) {
+      // If the favorite already exists, send a response indicating it
+      res.status(403).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Favorite already exists",
+      });
+    } else {
+      // If the favorite doesn't exist, add it to the favorites array
+      const result = await User.updateOne(
+        { _id: req.user._id },
+        { $push: { favorites: favorite } }
+      );
+
+      if (result) {
+        // Send a successful response
+        res.status(200).json({
+          acknowledgement: true,
+          message: "OK",
+          description: "Successfully added to favorites",
+        });
+      } else {
+        // Send an error response if something went wrong during the update
+        res.status(500).json({
+          acknowledgement: false,
+          message: "Internal Server Error",
+          description: "Something went wrong",
+        });
+      }
+    }
+  } else {
+    const cart = req.body;
+
+    if (req.file) {
+      cart.sticker = {
+        url: req.file.path,
+        public_id: req.file.filename,
+      };
+    }
+
+    const result = await User.updateOne(
+      { _id: req.user._id },
+      { $push: { cart } },
+      {
+        runValidators: true,
+        returnOriginal: false,
+      }
+    );
+
+    if (result) {
+      res.status(200).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Successfully added to cart",
+      });
+    } else {
+      res.status(500).json({
+        acknowledgement: false,
+        message: "Internal Server Error",
+        description: "Something went wrong",
+      });
+    }
+  }
+};
