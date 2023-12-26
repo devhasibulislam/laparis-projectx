@@ -216,7 +216,10 @@ exports.confirmRecovery = async (req, res) => {
 
 /* login persistance */
 exports.persistLogin = async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).populate([
+    "favorites",
+    "cart.product"
+  ]);
 
   res.status(200).json({
     acknowledgement: true,
