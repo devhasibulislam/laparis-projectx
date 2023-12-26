@@ -16,6 +16,7 @@
 import React, { useState, useMemo } from "react";
 import Grub from "./Grub";
 import { useGetProductsQuery } from "@/services/product/productApi";
+import GrubSkeleton from "./GrubSkeleton";
 
 const Search = () => {
   const { data, isLoading } = useGetProductsQuery();
