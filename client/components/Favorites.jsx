@@ -15,14 +15,24 @@
 
 import React from "react";
 import Grub from "./Grub";
-import products from "@/data/products";
+import { useSelector } from "react-redux";
 
 const Favorites = () => {
-  return <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-  {products?.map((product) => (
-    <Grub key={product?._id} product={product} />
-  ))}
-</section>
+  const user = useSelector((state) => state.user.auth);
+
+  return user?.favorites?.length === 0 ? (
+    <>
+      <p className="text-center">No Products Added!</p>
+    </>
+  ) : (
+    <>
+      <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+        {user?.favorites?.map((product) => (
+          <Grub key={product?._id} product={product} />
+        ))}
+      </section>
+    </>
+  );
 };
 
 export default Favorites;
