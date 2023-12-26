@@ -16,13 +16,18 @@
 "use client";
 
 import { kaushanScript } from "@/app/fonts";
-import products from "@/data/products";
-import React from "react";
+import React, { useMemo } from "react";
 import Grub from "./Grub";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { useGetProductsQuery } from "@/services/product/productApi";
+import GrubSkeleton from "./GrubSkeleton";
 
 const Trending = () => {
+  const { data: productsData, isLoading: fetchingProducts } =
+    useGetProductsQuery();
+  const products = useMemo(() => productsData?.data || [], [productsData]);
+
   const swiperParams = {
     spaceBetween: 20,
     loop: true,
@@ -39,7 +44,7 @@ const Trending = () => {
       },
       // when window width is >= 320px (Mobile)
       320: {
-        slidesPerView: 2,
+        slidesPerView: 1,
       },
     },
     style: {
@@ -65,11 +70,23 @@ const Trending = () => {
 
         <div className="md:col-span-7 col-span-10 w-full">
           <Swiper {...swiperParams}>
-            {products?.map((product) => (
-              <SwiperSlide key={product?._id}>
-                <Grub product={product} />
-              </SwiperSlide>
-            ))}
+            {fetchingProducts ? (
+              <>
+                {[1, 2, 3, 4].map((index) => (
+                  <SwiperSlide key={index}>
+                    <GrubSkeleton key={index} />
+                  </SwiperSlide>
+                ))}
+              </>
+            ) : (
+              <>
+                {products?.map((product) => (
+                  <SwiperSlide key={product?._id}>
+                    <Grub product={product} />
+                  </SwiperSlide>
+                ))}
+              </>
+            )}
           </Swiper>
         </div>
       </div>

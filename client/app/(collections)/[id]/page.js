@@ -15,7 +15,6 @@
 
 "use client";
 
-import product from "@/data/product";
 import Main from "@/layouts/main/Main";
 import {
   Button,
@@ -23,22 +22,100 @@ import {
   Image,
   Radio,
   RadioGroup,
+  Spinner,
   Tooltip,
 } from "@nextui-org/react";
+import NextImage from "next/image";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Zoom from "react-img-zoom";
 import { MdFavoriteBorder } from "react-icons/md";
 import Related from "@/components/Related";
 import MostLiked from "@/components/MostLiked";
 import Brands from "@/components/Brands";
+import { useGetSingleProductQuery } from "@/services/product/productApi";
+import { toast } from "react-hot-toast";
+import { useUpdateUserMutation } from "@/services/user/userApi";
 
 const Page = () => {
   const { id } = useParams();
-  const [imageSrc, setImageSrc] = useState(product?.thumbnail);
+  const { data, isLoading } = useGetSingleProductQuery(id);
+  const product = useMemo(() => data?.data || {}, [data]);
+  const [
+    update,
+    { isLoading: updating, data: updateData, error: updateError },
+  ] = useUpdateUserMutation();
+  const [imageSrc, setImageSrc] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [stickerPreview, setStickerPreview] = useState(null);
+  const [sticker, setSticker] = useState(null);
+  const [size, setSize] = useState("");
 
-  console.log(id);
-  console.log(imageSrc);
+  useEffect(() => {
+    if (product.thumbnail) {
+      setImageSrc(product.thumbnail.url);
+    }
+
+    if (updating) {
+      toast.loading("Loading...", { id: "update" });
+    }
+
+    if (updateData) {
+      toast.success(updateData?.description, { id: "update" });
+      setStickerPreview(null);
+      setSticker(null);
+      setQuantity(1);
+      setSize("");
+    }
+
+    if (updateError?.data) {
+      toast.error(updateError?.data?.description || "Something went wrong", {
+        id: "update",
+      });
+    }
+  }, [product, updating, updateData, updateError]);
+
+  if (isLoading) {
+    return (
+      <section className="h-screen w-screen overflow-hidden bg-white fixed flex justify-center items-center">
+        <Spinner label="Loading..." />
+      </section>
+    );
+  }
+
+  const handleStickerPreview = (e) => {
+    const file = e.target.files[0];
+    setSticker(e.target.files[0]);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setStickerPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  function handleAddToCart() {
+    if (stickerPreview === null) {
+      update({
+        product: product._id,
+        quantity,
+        size,
+        price,
+      });
+    } else {
+      const formData = new FormData();
+
+      formData.append("product", product._id);
+      formData.append("quantity", quantity);
+      formData.append("sticker", sticker);
+      formData.append("size", size);
+      formData.append("price", product?.price);
+
+      update(formData);
+    }
+  }
 
   return (
     <Main>
@@ -51,11 +128,11 @@ const Page = () => {
                   isBlurred
                   height={50}
                   width={50}
-                  src={item}
-                  alt={item}
+                  src={item.url}
+                  alt={item.public_id}
                   key={index}
                   radius="none"
-                  onClick={() => setImageSrc(item)}
+                  onClick={() => setImageSrc(item.url)}
                   className="cursor-pointer"
                 />
               ))}
@@ -77,13 +154,17 @@ const Page = () => {
               <Divider />
               <div className="flex flex-row gap-x-2 capitalize">
                 <span className="text-base flex flex-row gap-x-0.5">
-                  $<b>{product?.price}</b>
+                  $<b>{product?.price * quantity}</b>
                 </span>{" "}
                 <Divider orientation="vertical" /> {product?.category}
               </div>
-              <RadioGroup label="Select a Size" orientation="horizontal">
-                {product?.size?.map((size) => (
-                  <Radio value={size} key={size}>
+              <RadioGroup
+                label="Select a Size"
+                orientation="horizontal"
+                onChange={(e) => setSize(e.target.value)}
+              >
+                {product?.sizes?.map((size) => (
+                  <Radio value={size} key={size} className="uppercase">
                     {size}
                   </Radio>
                 ))}
@@ -97,23 +178,37 @@ const Page = () => {
                   name="quantity"
                   id="quantity"
                   min="1"
-                  placeholder="Enter Quantity"
                   className="w-full"
+                  value={quantity}
+                  onChange={(event) => setQuantity(event.target.value)}
                 />
-                <label
-                  htmlFor="sticker"
-                  className="w-full border border-black h-full relative flex items-center p-2"
-                >
-                  <span className="h-full w-full text-sm">
-                    Choose Custom Sticker
-                  </span>
-                  <input
-                    type="file"
-                    name="sticker"
-                    id="sticker"
-                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                </label>
+                <div className="w-full flex flex-row gap-x-1">
+                  <label
+                    htmlFor="sticker"
+                    className="w-full border border-black h-full relative flex items-center p-2"
+                  >
+                    <span className="h-full w-full text-sm">
+                      Choose Custom Sticker
+                    </span>
+                    <input
+                      type="file"
+                      name="sticker"
+                      id="sticker"
+                      accept="image/png, image/jpeg, image/jpg"
+                      className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                      onChange={handleStickerPreview}
+                    />
+                  </label>
+                  {stickerPreview && (
+                    <NextImage
+                      src={stickerPreview}
+                      alt="avatar"
+                      height={36}
+                      width={30}
+                      className="h-[36px] w-[30px] object-cover"
+                    />
+                  )}
+                </div>
               </div>
 
               <div className="flex flex-row gap-x-2">
@@ -122,6 +217,7 @@ const Page = () => {
                   size="md"
                   color="primary"
                   className="w-full"
+                  onPress={handleAddToCart}
                 >
                   Add to Cart
                 </Button>
@@ -132,6 +228,7 @@ const Page = () => {
                     color="primary"
                     size="md"
                     radius="none"
+                    onPress={() => update({ favorite: product?._id })}
                   >
                     <MdFavoriteBorder className="h-5 w-5" />
                   </Button>

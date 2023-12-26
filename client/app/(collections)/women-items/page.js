@@ -13,13 +13,38 @@
  * Date: 21, December 2023
  */
 
+"use client";
+
 import Grub from "@/components/Grub";
+import GrubSkeleton from "@/components/GrubSkeleton";
 import ProductFilter from "@/components/ProductFilter";
-import products from "@/data/products";
 import Main from "@/layouts/main/Main";
-import React from "react";
+import { useGetProductsQuery } from "@/services/product/productApi";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 const Page = () => {
+  const filter = useSelector((state) => state.filter);
+  const { data: productsData, isLoading: fetchingProducts } =
+    useGetProductsQuery();
+  const allProducts = useMemo(() => productsData?.data || [], [productsData]);
+
+  // Filter products based on size and category
+  const products = useMemo(() => {
+    if (!filter.size && !filter.category) {
+      return allProducts.filter(
+        (product) => product?.category?.name === "Women Items"
+      );
+    }
+
+    return allProducts.filter((product) => {
+      const sizeCondition =
+        !filter.size || product?.sizes.includes(filter.size);
+
+      return sizeCondition;
+    });
+  }, [allProducts, filter]);
+
   return (
     <Main>
       <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
@@ -27,9 +52,19 @@ const Page = () => {
           <ProductFilter />
           <div className="lg:col-span-9 md:col-span-8 col-span-12">
             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-4">
-              {products?.map((product) => (
-                <Grub key={product?._id} product={product} />
-              ))}
+              {fetchingProducts ? (
+                <>
+                  {[1, 2, 3, 4, 5, 6].map((index) => (
+                    <GrubSkeleton key={index} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {products?.map((product) => (
+                    <Grub key={product?._id} product={product} />
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </div>

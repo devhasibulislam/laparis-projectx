@@ -13,13 +13,19 @@
  * Date: 21, December 2023
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import products from "@/data/products";
 import Grub from "./Grub";
+import GrubSkeleton from "./GrubSkeleton";
+import { useGetProductsQuery } from "@/services/product/productApi";
 
 const Related = () => {
+  const { data: productsData, isLoading: fetchingProducts } =
+    useGetProductsQuery();
+  const products = useMemo(() => productsData?.data || [], [productsData]);
+
   const swiperParams = {
     spaceBetween: 20,
     loop: true,
@@ -45,7 +51,7 @@ const Related = () => {
   };
 
   return (
-    <section className="flex flex-col gap-y-4">
+    <section className="flex flex-col gap-y-6">
       <div className="flex flex-row gap-x-4 items-center">
         <hr className="h-1 w-full border-dashed border-black" />
         <h1 className="whitespace-nowrap uppercase font-semibold">
@@ -55,11 +61,23 @@ const Related = () => {
       </div>
       <div className="w-full">
         <Swiper {...swiperParams}>
-          {products?.map((product) => (
-            <SwiperSlide key={product?._id}>
-              <Grub product={product} />
-            </SwiperSlide>
-          ))}
+          {fetchingProducts ? (
+            <>
+              {[1, 2, 3, 4].map((index) => (
+                <SwiperSlide key={index}>
+                  <GrubSkeleton key={index} />
+                </SwiperSlide>
+              ))}
+            </>
+          ) : (
+            <>
+              {products.slice(-8)?.map((product) => (
+                <SwiperSlide key={product?._id}>
+                  <Grub product={product} />
+                </SwiperSlide>
+              ))}
+            </>
+          )}
         </Swiper>
       </div>
     </section>

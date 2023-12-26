@@ -84,23 +84,31 @@ function CategoryCard({ category }) {
       <Card key={category?._id} className="p-1" radius="none">
         <CardHeader className="justify-between">
           {category?.name}
-          <Button
-            className={
-              isDeleted
-                ? "bg-transparent text-foreground border-default-200"
-                : ""
-            }
-            color="primary"
-            radius="full"
-            size="sm"
-            variant={isDeleted ? "bordered" : "solid"}
-            onPress={() => {
-              setIsDeleted(!isDeleted);
-              deleteCategory(category?._id);
-            }}
-          >
-            {isDeleted ? "Removing" : "Remove"}
-          </Button>
+          {category?.name === "Men Items" ||
+          category?.name === "Women Items" ||
+          category?.name === "Printed T-Shirt" ? (
+            <></>
+          ) : (
+            <>
+              <Button
+                className={
+                  isDeleted
+                    ? "bg-transparent text-foreground border-default-200"
+                    : ""
+                }
+                color="primary"
+                radius="full"
+                size="sm"
+                variant={isDeleted ? "bordered" : "solid"}
+                onPress={() => {
+                  setIsDeleted(!isDeleted);
+                  deleteCategory(category?._id);
+                }}
+              >
+                {isDeleted ? "Removing" : "Remove"}
+              </Button>
+            </>
+          )}
         </CardHeader>
         <CardBody className="px-3 py-0 text-small text-default-400 flex flex-col gap-y-2">
           <p className="line-clamp-5">{category?.description}</p>
@@ -111,6 +119,7 @@ function CategoryCard({ category }) {
           >
             {category?.products?.length} Products
           </Chip>
+          <div />
         </CardBody>
       </Card>
     </>

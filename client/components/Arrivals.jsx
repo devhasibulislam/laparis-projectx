@@ -15,38 +15,38 @@
 
 "use client";
 
-import products from "@/data/products";
-import {
-  Button,
-  Link,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
-import React from "react";
+import { Button, Link, Skeleton, Tab, Tabs } from "@nextui-org/react";
+import React, { useMemo } from "react";
 import Grub from "./Grub";
+import { useGetProductsQuery } from "@/services/product/productApi";
+import GrubSkeleton from "./GrubSkeleton";
+import { useGetCategoriesQuery } from "@/services/category/categoryApi";
 
 const Arrivals = () => {
+  const { data: productsData, isLoading: fetchingProducts } =
+    useGetProductsQuery();
+  const products = useMemo(() => productsData?.data || [], [productsData]);
+
+  const { data: categoriesData, isLoading: fetchingCategories } =
+    useGetCategoriesQuery();
+  const categories = useMemo(
+    () => categoriesData?.data || [],
+    [categoriesData]
+  );
+
   function shuffleArray(array) {
     array.sort(() => Math.random() - 0.5);
   }
 
-  let tabs = [
-    {
-      _id: "men-items",
-      label: "Men Items",
-      products: [...products],
-    },
-    {
-      _id: "women-items",
-      label: "Women Items",
-      products: [...products],
-    },
-    {
-      _id: "printed-t-shirts",
-      label: "Printed T-Shirts",
-      products: [...products],
-    },
-  ];
+  let tabs = categories.map((category) => {
+    return {
+      _id: category._id,
+      label: category.name,
+      products: products.filter(
+        (product) => product.category.name === category.name
+      ),
+    };
+  });
 
   // call for random sorting
   tabs.forEach((tab) => shuffleArray(tab.products));
@@ -61,38 +61,63 @@ const Arrivals = () => {
         <hr className="h-1 w-full border-dashed border-black" />
       </div>
 
-      <div className="flex w-full flex-col gap-y-6">
-        <Tabs
-          radius="none"
-          aria-label="Dynamic tabs"
-          items={tabs}
-          classNames={{
-            tabList: "mx-auto bg-transparent",
-            cursor: "w-full shadow-none border border-black",
-          }}
-        >
-          {(item) => (
-            <Tab key={item._id} title={item.label}>
-              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
-                {item?.products?.slice(0, 8)?.map((product) => (
-                  <Grub key={product?._id} product={product} />
-                ))}
-              </div>
-            </Tab>
-          )}
-        </Tabs>
-        <Button
-          href="/collections"
-          as={Link}
-          color="primary"
-          showAnchorIcon
-          variant="solid"
-          className="w-fit mx-auto"
-          radius="none"
-        >
-          Show More
-        </Button>
-      </div>
+      {fetchingCategories || fetchingProducts ? (
+        <>
+          <div className="flex flex-col gap-y-8">
+            <div className="flex flex-row gap-x-3 w-full justify-center">
+              <Skeleton className="w-3/5 rounded-lg">
+                <div className="h-6 w-3/5 rounded-lg bg-default-200"></div>
+              </Skeleton>
+              <Skeleton className="w-3/5 rounded-lg">
+                <div className="h-6 w-3/5 rounded-lg bg-default-200"></div>
+              </Skeleton>
+              <Skeleton className="w-3/5 rounded-lg">
+                <div className="h-6 w-3/5 rounded-lg bg-default-200"></div>
+              </Skeleton>
+            </div>
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4">
+              {[1, 2, 3, 4].map((index) => (
+                <GrubSkeleton key={index} />
+              ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="flex w-full flex-col gap-y-6">
+            <Tabs
+              radius="none"
+              aria-label="Dynamic tabs"
+              items={tabs}
+              classNames={{
+                tabList: "mx-auto bg-transparent",
+                cursor: "w-full shadow-none border border-black",
+              }}
+            >
+              {(item) => (
+                <Tab key={item._id} title={item.label}>
+                  <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-4">
+                    {item?.products?.slice(0, 8)?.map((product) => (
+                      <Grub key={product?._id} product={product} />
+                    ))}
+                  </div>
+                </Tab>
+              )}
+            </Tabs>
+            <Button
+              href="/collections"
+              as={Link}
+              color="primary"
+              showAnchorIcon
+              variant="solid"
+              className="w-fit mx-auto"
+              radius="none"
+            >
+              Show More
+            </Button>
+          </div>
+        </>
+      )}
     </section>
   );
 };

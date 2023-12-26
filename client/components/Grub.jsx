@@ -16,7 +16,14 @@
 "use client";
 
 import React from "react";
-import { Card, CardBody, CardHeader, Image, Tooltip } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Image,
+  Tooltip,
+} from "@nextui-org/react";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdAddShoppingCart } from "react-icons/md";
 import { useRouter } from "next/navigation";
@@ -25,42 +32,34 @@ const Grub = ({ product }) => {
   const router = useRouter();
 
   return (
-    <>
-      <Card className="">
-        <CardHeader className="relative group">
-          <Image
-            isZoomed
-            isBlurred
-            alt="Card background"
-            className="object-cover rounded-xl"
-            src={product?.thumbnail}
-            width={270}
-          />
-
-          <div className="absolute top-6 left-6 w-full h-fit z-50 flex flex-row gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Tooltip showArrow={true} content="Add to Favorite">
-              <button className="p-1 bg-white shadow border border-black rounded-full">
-                <MdFavoriteBorder className="h-4 w-4" />
-              </button>
-            </Tooltip>
-            <Tooltip showArrow={true} content="Add to Cart">
-              <button className="p-1 bg-white shadow border border-black rounded-full">
-                <MdAddShoppingCart className="h-4 w-4" />
-              </button>
-            </Tooltip>
-          </div>
-        </CardHeader>
-        <CardBody
-          onClick={() => router.push("/" + product?._id)}
-          className="cursor-pointer"
+    <section className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2">
+        <Image
+          isZoomed
+          src={product?.thumbnail?.url}
+          alt={product?.thumbnail?.public_id}
+          height={250}
+          className="h-[250px] w-full object-cover"
+          radius="md"
+        />
+        <h2
+          className="font-semibold cursor-pointer hover:underline line-clamp-2"
+          onClick={() => router.push(`/${product?._id}`)}
         >
-          <p className="text-tiny font-bold line-clamp-1">{product?.name}</p>
-          <small className="text-default-500">
-            $<b>{product?.price}</b>
-          </small>
-        </CardBody>
-      </Card>
-    </>
+          {product?.name}
+        </h2>
+      </div>
+      <article className="flex flex-row justify-between items-center h-full mt-auto">
+        <Chip
+          size="sm"
+          variant="bordered"
+          className="lowercase text-tiny flex flex-row items-stretch"
+        >
+          $<span className="text-sm font-medium">{product?.price}</span>
+        </Chip>
+        <span className="text-tiny">{product?.category?.name}</span>
+      </article>
+    </section>
   );
 };
 
