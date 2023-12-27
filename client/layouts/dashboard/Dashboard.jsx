@@ -15,13 +15,13 @@
 
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import Sidebar from "./Sidebar";
 import { Link, User } from "@nextui-org/react";
 import { IoMdMenu } from "react-icons/io";
 import OutsideClick from "@/components/OutsideClick";
 import routes from "./routes";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const Dashboard = ({ children }) => {
@@ -29,6 +29,12 @@ const Dashboard = ({ children }) => {
   const user = useSelector((state) => state.user);
   const auth = useMemo(() => user.auth || {}, [user]);
   const pathname = usePathname();
+
+  useLayoutEffect(() => {
+    if (auth.role === "user") {
+      redirect("/");
+    }
+  }, [auth]);
 
   return (
     <main className="h-screen w-screen">
@@ -93,3 +99,8 @@ const Dashboard = ({ children }) => {
 };
 
 export default Dashboard;
+
+/**
+ * How to Secure Routes in Next.js 13 – Client-Side, Server-Side, and Middleware-Based Protection
+ * https://www.freecodecamp.org/news/secure-routes-in-next-js/
+ */
