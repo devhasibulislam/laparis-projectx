@@ -17,7 +17,17 @@ import Dashboard from "@/layouts/dashboard/Dashboard";
 import React from "react";
 
 const Page = () => {
-  return <Dashboard>This is dashboard content!</Dashboard>;
+  return (
+    <Dashboard>
+      <iframe
+        title="@devhasibulislam"
+        src="https://bento.me/devhasibulislam"
+        style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+        frameBorder="0"
+        scrolling="auto"
+      ></iframe>
+    </Dashboard>
+  );
 };
 
 export default Page;
