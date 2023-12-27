@@ -16,6 +16,7 @@
 /* internal imports */
 const User = require("../models/user.model");
 const sendEmail = require("../utils/email.util");
+const remove = require("../utils/remove.util");
 const token = require("../utils/token.util");
 
 function isExpire(mongoDBTime) {
@@ -218,7 +219,7 @@ exports.confirmRecovery = async (req, res) => {
 exports.persistLogin = async (req, res) => {
   const user = await User.findById(req.user._id).populate([
     "favorites",
-    "cart.product"
+    "cart.product",
   ]);
 
   res.status(200).json({
@@ -269,6 +270,33 @@ exports.updateUser = async (req, res) => {
           description: "Something went wrong",
         });
       }
+    }
+  } else if (req.query.cart) {
+    const result = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $pull: { cart: { _id: req.query.cart } } }
+    );
+
+    const availableSticker = result.cart.find(
+      (crt) => crt._id == req.query.cart
+    );
+
+    if (availableSticker) {
+      remove(availableSticker.sticker.public_id);
+    }
+
+    if (result) {
+      res.status(200).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Successfully removed from cart",
+      });
+    } else {
+      res.status(500).json({
+        acknowledgement: false,
+        message: "Internal Server Error",
+        description: "Something went wrong",
+      });
     }
   } else {
     const cart = req.body;

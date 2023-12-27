@@ -17,6 +17,7 @@ const { laparisApi } = require("../laparis");
 
 export const userApi = laparisApi.injectEndpoints({
   endpoints: (builder) => ({
+    // add to cart or favorite
     updateUser: builder.mutation({
       query: (body) => ({
         url: "/user/update",
@@ -29,7 +30,20 @@ export const userApi = laparisApi.injectEndpoints({
 
       invalidatesTags: ["User"],
     }),
+
+    // remove from cart
+    removeFromCart: builder.mutation({
+      query: (id) => ({
+        url: `/user/update?cart=${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useUpdateUserMutation } = userApi;
+export const { useUpdateUserMutation, useRemoveFromCartMutation } = userApi;
