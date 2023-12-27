@@ -28,7 +28,7 @@ export const productApi = laparisApi.injectEndpoints({
         body,
       }),
 
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["Product", "Category"],
     }),
 
     // get products

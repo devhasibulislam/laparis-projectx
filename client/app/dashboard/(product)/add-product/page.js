@@ -258,17 +258,14 @@ const Page = () => {
                 >
                   {categories?.map((category) => (
                     <option key={category?._id} value={category?._id}>
-                      {category?.name}
+                      {category?.name} ({category?.products?.length})
                     </option>
                   ))}
                 </select>
               </>
             )}
           </label>
-          <label
-            htmlFor="sizes"
-            className="flex flex-col gap-y-1 w-full"
-            >
+          <label htmlFor="sizes" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Sizes</span>
             <select
               name="sizes"
