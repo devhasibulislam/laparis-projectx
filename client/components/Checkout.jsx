@@ -13,20 +13,139 @@
  * Date: 27, December 2023
  */
 
-import React from "react";
+"use client";
+
+import {
+  useCreateOrderMutation,
+  useVerifyOrderMutation,
+} from "@/services/payment/paymentApi";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
 const Checkout = () => {
   const user = useSelector((state) => state.user.auth);
   const { register, handleSubmit } = useForm({ defaultValues: user });
+  const [
+    createOrder,
+    { isLoading: orderCreating, data: orderData, error: orderError },
+  ] = useCreateOrderMutation();
+  const [
+    verifyOrder,
+    { isLoading: orderVerifying, data: verifiedData, error: verificationError },
+  ] = useVerifyOrderMutation();
+
   const totalPrice = user?.cart?.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
+  async function verifyPayment(data) {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+      alert("Razropay failed to load!!");
+      return;
+    }
+
+    console.log(data, "data from verifyPayment method");
+
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: data.amount,
+      currency: data.currency,
+      name: "Laparis ProjectX",
+      description: "Test Transaction",
+      image:
+        "https://raw.githubusercontent.com/devhasibulislam/laparis-projectx/master/client/public/laparis-projectx.png",
+      order_id: data.id,
+      handler: function (response) {
+        try {
+          verifyOrder(response);
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    console.log(options, "options from verifyPayment method");
+
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  }
+
+  useEffect(() => {
+    if (orderCreating) {
+      toast.loading("Creating your order...", { id: "createOrder" });
+    }
+
+    if (orderData) {
+      toast.success(orderData?.description, { id: "createOrder" });
+
+      if (orderData.data) {
+        verifyPayment(orderData.data);
+      }
+    }
+
+    if (orderError?.data) {
+      toast.error(orderError?.data?.description || "Something went wrong", {
+        id: "createOrder",
+      });
+    }
+
+    if (orderVerifying) {
+      toast.loading("Verifying your order...", { id: "verifyOrder" });
+    }
+
+    if (verifiedData) {
+      toast.success(verifiedData?.description, { id: "verifyOrder" });
+      console.log(verifiedData.data);
+    }
+
+    if (verificationError?.data) {
+      toast.error(
+        verificationError?.data?.description || "Something went wrong",
+        {
+          id: "verifyOrder",
+        }
+      );
+    }
+  }, [
+    orderData,
+    orderError,
+    orderCreating,
+    orderVerifying,
+    verifiedData,
+    verificationError,
+  ]);
+
+  // if (orderData?.data) {
+  //   verifyOrder(orderData?.data);
+  // }
+
   const handleCheckout = (data) => {
     console.log(data);
+    createOrder({ amount: totalPrice });
   };
 
   return (

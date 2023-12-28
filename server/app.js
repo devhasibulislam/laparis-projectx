@@ -36,6 +36,7 @@ app.use(express.json());
 app.use("/api/user", require("./routes/user.route"));
 app.use("/api/category", require("./routes/category.route"));
 app.use("/api/product", require("./routes/product.route"));
+app.use("/api/payment", require("./routes/payment.route"));
 
 /* global error handler */
 app.use(require("./middleware/error.middleware"));
