@@ -15,7 +15,7 @@
 
 "use client";
 
-import { Avatar, Divider, Link, Tooltip } from "@nextui-org/react";
+import { Avatar, Button, Divider, Link, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useMemo, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -37,6 +37,7 @@ import Register from "@/components/Register";
 import Login from "@/components/Login";
 import Recover from "@/components/Recover";
 import { useSelector } from "react-redux";
+import Checkout from "@/components/Checkout";
 
 const Header = () => {
   const pathname = usePathname();
@@ -249,6 +250,7 @@ function SearchProducts() {
 
 function MyCart() {
   const [showCart, setShowCart] = useState(false);
+  const [modalItem, setModalItem] = useState("cart");
 
   return (
     <>
@@ -263,7 +265,24 @@ function MyCart() {
       </Tooltip>
       {showCart && (
         <Modal isOpen={showCart} onClose={() => setShowCart(false)}>
-          <Cart />
+          <div className="w-full h-full flex flex-col gap-y-4">
+            <div className="flex flex-row gap-x-2">
+              <Button variant="bordered" radius="none" size="sm" className={modalItem === "cart" && "bg-black text-white"} onPress={() => setModalItem("cart")}>
+                Cart
+              </Button>
+              <Button variant="bordered" radius="none" size="sm" className={modalItem === "checkout" && "bg-black text-white"} onPress={() => setModalItem("checkout")}>
+                Checkout
+              </Button>
+            </div>
+
+            {modalItem === "cart" ? (
+              <Cart />
+            ) : (
+              <>
+                <Checkout setModalItem={setModalItem} />
+              </>
+            )}
+          </div>
         </Modal>
       )}
     </>
