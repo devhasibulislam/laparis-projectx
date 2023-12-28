@@ -61,11 +61,10 @@ const Checkout = () => {
     );
 
     if (!res) {
+      console.log(res);
       alert("Razropay failed to load!!");
       return;
     }
-
-    console.log(data, "data from verifyPayment method");
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -87,8 +86,6 @@ const Checkout = () => {
         color: "#3399cc",
       },
     };
-
-    console.log(options, "options from verifyPayment method");
 
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
@@ -138,10 +135,6 @@ const Checkout = () => {
     verifiedData,
     verificationError,
   ]);
-
-  // if (orderData?.data) {
-  //   verifyOrder(orderData?.data);
-  // }
 
   const handleCheckout = (data) => {
     console.log(data);
