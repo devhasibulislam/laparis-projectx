@@ -26,7 +26,7 @@ const Favorites = () => {
     </>
   ) : (
     <>
-      <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+      <section className="grid md:grid-cols-2 grid-cols-1 gap-4">
         {user?.favorites?.map((product) => (
           <Grub key={product?._id} product={product} />
         ))}
