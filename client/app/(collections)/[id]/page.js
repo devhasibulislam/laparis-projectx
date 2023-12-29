@@ -38,6 +38,8 @@ import { useGetSingleProductQuery } from "@/services/product/productApi";
 import { toast } from "react-hot-toast";
 import { useUpdateUserMutation } from "@/services/user/userApi";
 import { useGetSingleCategoryQuery } from "@/services/category/categoryApi";
+import { MdFrontHand } from "react-icons/md";
+import { MdBackHand } from "react-icons/md";
 
 const Page = () => {
   const { id } = useParams();
@@ -179,7 +181,7 @@ const Page = () => {
                 )}
               </div>
               <RadioGroup
-                label="Select a Size"
+                label="Select a Size*"
                 orientation="horizontal"
                 onChange={(e) => setSize(e.target.value)}
               >
@@ -193,23 +195,21 @@ const Page = () => {
 
             <div className="flex flex-col gap-y-4 mt-8">
               <div className="flex flex-row gap-x-2 items-center">
-                <input
-                  type="number"
-                  name="quantity"
-                  id="quantity"
-                  min="1"
-                  className="w-full"
-                  value={quantity}
-                  onChange={(event) => setQuantity(event.target.value)}
-                />
-                <div className="w-full flex flex-row gap-x-1">
-                  <label
-                    htmlFor="sticker"
-                    className="w-full border border-black h-full relative flex items-center p-2"
-                  >
-                    <span className="h-full w-full text-sm">
-                      Choose Custom Sticker
-                    </span>
+                <Tooltip content="Enter Required Quantity">
+                  <input
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    min="1"
+                    className="w-full"
+                    value={quantity}
+                    onChange={(event) => setQuantity(event.target.value)}
+                  />
+                </Tooltip>
+                <Tooltip content="Choose Front-Side Sticker">
+                  <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
+                    <MdFrontHand className="h-6 w-6 cursor-pointer" />
+
                     <input
                       type="file"
                       name="sticker"
@@ -218,17 +218,40 @@ const Page = () => {
                       className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
                       onChange={handleStickerPreview}
                     />
-                  </label>
-                  {stickerPreview && (
-                    <NextImage
-                      src={stickerPreview}
-                      alt="avatar"
-                      height={36}
-                      width={30}
-                      className="h-[36px] w-[30px] object-cover"
+                  </span>
+                </Tooltip>
+                {stickerPreview && (
+                  <NextImage
+                    src={stickerPreview}
+                    alt="sticker"
+                    height={36}
+                    width={30}
+                    className="h-full object-cover"
+                  />
+                )}
+                <Tooltip content="Choose Back-Side Sticker">
+                  <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
+                    <MdBackHand className="h-6 w-6 cursor-pointer" />
+
+                    <input
+                      type="file"
+                      name="sticker"
+                      id="sticker"
+                      accept="image/png, image/jpeg, image/jpg"
+                      className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                      onChange={handleStickerPreview}
                     />
-                  )}
-                </div>
+                  </span>
+                </Tooltip>
+                {stickerPreview && (
+                  <NextImage
+                    src={stickerPreview}
+                    alt="sticker"
+                    height={36}
+                    width={30}
+                    className="h-full object-cover"
+                  />
+                )}
               </div>
 
               <div className="flex flex-row gap-x-2">
