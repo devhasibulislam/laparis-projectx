@@ -54,7 +54,10 @@ const Grub = ({ product }) => {
           className="h-[250px] w-full object-cover"
           radius="none"
         />
-        <h2 className="font-semibold cursor-pointer hover:underline line-clamp-2">
+        <h2
+          className="font-semibold cursor-pointer hover:underline line-clamp-2"
+          onClick={() => (window.location.href = `/${product?._id}`)}
+        >
           {product?.name}
         </h2>
       </div>
