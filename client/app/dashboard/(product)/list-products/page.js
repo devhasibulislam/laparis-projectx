@@ -22,12 +22,14 @@ import {
 } from "@/services/product/productApi";
 import { Avatar, Chip } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 const Page = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortingOption, setSortingOption] = useState("");
   const {
     data: productsData,
     isLoading: fetchingProducts,
@@ -83,8 +85,67 @@ const Page = () => {
     productDataError,
   ]);
 
+  const filteredProducts = useMemo(() => {
+    let filtered = products;
+
+    // Filter by search term
+    if (searchTerm) {
+      const lowerCaseSearch = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (product) =>
+          product.name.toLowerCase().includes(lowerCaseSearch) ||
+          product.category?.name.toLowerCase().includes(lowerCaseSearch)
+      );
+    }
+
+    // Sort by sorting option
+    if (sortingOption) {
+      filtered = [...filtered];
+
+      filtered = filtered.sort((a, b) => {
+        if (sortingOption === "size") {
+          return a.sizes.length - b.sizes.length;
+        } else if (sortingOption === "price") {
+          return a.price - b.price;
+        } else if (sortingOption === "category") {
+          return a.category?.name.localeCompare(b.category?.name);
+        } else {
+          return 0;
+        }
+      });
+    }
+
+    return filtered;
+  }, [products, searchTerm, sortingOption]);
+
   return (
     <Dashboard>
+      <div className="flex md:flex-row md:justify-between flex-col gap-4 mb-4">
+        <input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Search by name or category"
+          className="w-full"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <select
+          name="shorting"
+          id="sorting"
+          className="md:w-1/4 w-full"
+          value={sortingOption}
+          onChange={(e) => setSortingOption(e.target.value)}
+        >
+          <option value="" disabled>
+            Short by
+          </option>
+          <option value="size">Size</option>
+          <option value="price">Price</option>
+          <option value="category">Category</option>
+        </select>
+      </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -110,7 +171,7 @@ const Page = () => {
             </tr>
           </thead>
           <tbody>
-            {products?.map((product) => (
+            {filteredProducts?.map((product) => (
               <tr
                 key={product?._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
