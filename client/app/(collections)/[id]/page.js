@@ -125,7 +125,7 @@ const Page = () => {
   return (
     <Main>
       <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-8">
           <div className="md:col-span-5 col-span-12 flex flex-row gap-x-2">
             <div className="flex flex-col gap-y-2">
               <Image

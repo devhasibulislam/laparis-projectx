@@ -59,7 +59,7 @@ const Related = () => {
         </h1>
         <hr className="h-1 w-full border-dashed border-black" />
       </div>
-      <div className="w-full">
+      <div className="w-full cursor-grab">
         <Swiper {...swiperParams}>
           {fetchingProducts ? (
             <>
