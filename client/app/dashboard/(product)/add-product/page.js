@@ -23,9 +23,10 @@ import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import Select from "react-select";
 
 const Page = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue, getValues } = useForm();
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [galleryPreview, setGalleryPreview] = useState([]);
   const {
@@ -109,21 +110,23 @@ const Page = () => {
   };
 
   const handleAddProduct = (data) => {
-    const formData = new FormData();
+    console.log(data);
 
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("price", data.price);
-    formData.append("category", data.category);
-    formData.append("thumbnail", data.thumbnail[0]);
-    for (let i = 0; i < data.gallery.length; i++) {
-      formData.append("gallery", data.gallery[i]);
-    }
-    for (let i = 0; i < data.sizes.length; i++) {
-      formData.append("sizes", data.sizes[i]);
-    }
+    // const formData = new FormData();
 
-    addProduct(formData);
+    // formData.append("name", data.name);
+    // formData.append("description", data.description);
+    // formData.append("price", data.price);
+    // formData.append("category", data.category);
+    // formData.append("thumbnail", data.thumbnail[0]);
+    // for (let i = 0; i < data.gallery.length; i++) {
+    //   formData.append("gallery", data.gallery[i]);
+    // }
+    // for (let i = 0; i < data.sizes.length; i++) {
+    //   formData.append("sizes", data.sizes[i]);
+    // }
+
+    // addProduct(formData);
   };
 
   return (
@@ -267,19 +270,22 @@ const Page = () => {
           </label>
           <label htmlFor="sizes" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Sizes</span>
-            <select
+            <Select
               name="sizes"
               id="sizes"
-              multiple
-              className="w-full uppercase"
-              {...register("sizes", { required: true })}
-            >
-              {sizes?.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
+              isMulti
+              options={sizes.map((size) => ({ value: size, label: size }))}
+              className="w-full capitalize"
+              onChange={(selected) => {
+                const selectedSizes = selected
+                  ? selected.map((item) => item.value)
+                  : [];
+                setValue("sizes", selectedSizes, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+              }}
+            />
           </label>
         </div>
 
