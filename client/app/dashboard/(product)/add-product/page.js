@@ -27,9 +27,10 @@ import Select from "react-select";
 import { RxCross2 } from "react-icons/rx";
 
 const Page = () => {
-  const { register, handleSubmit, reset, setValue, getValues } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [galleryPreview, setGalleryPreview] = useState([]);
+  const [selectedGalleryFiles, setSelectedGalleryFiles] = useState([]);
   const {
     data: categoriesData,
     isLoading: fetchingCategories,
@@ -91,7 +92,7 @@ const Page = () => {
     const previewImages = [];
 
     if (files.length > 5) {
-      toast.error("You can only upload maximum 5 images");
+      toast.error("You can only upload a maximum of 5 images");
       return;
     }
 
@@ -103,6 +104,8 @@ const Page = () => {
         previewImages.push(e.target.result);
         if (previewImages.length === files.length) {
           setGalleryPreview(previewImages);
+          // Update the selectedGalleryFiles state with the new set of files
+          setSelectedGalleryFiles([...selectedGalleryFiles, ...files]);
         }
       };
 
@@ -112,8 +115,13 @@ const Page = () => {
 
   const handleRemoveGalleryItem = (index) => {
     const updatedGallery = [...galleryPreview];
+    const updatedSelectedFiles = [...selectedGalleryFiles];
+
     updatedGallery.splice(index, 1);
+    updatedSelectedFiles.splice(index, 1);
+
     setGalleryPreview(updatedGallery);
+    setSelectedGalleryFiles(updatedSelectedFiles);
   };
 
   const handleAddProduct = (data) => {
@@ -122,20 +130,27 @@ const Page = () => {
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("price", data.price);
+    formData.append("regularPrice", data.regularPrice);
+    formData.append("discountedPrice", data.discountedPrice);
+    formData.append("frontStickerPrice", data.frontStickerPrice);
+    formData.append("backStickerPrice", data.backStickerPrice);
     formData.append("category", data.category);
     formData.append("thumbnail", data.thumbnail[0]);
 
-    for (let i = 0; i < data.gallery.length; i++) {
-      formData.append("gallery", data.gallery[i]);
+    for (let i = 0; i < selectedGalleryFiles.length; i++) {
+      formData.append("gallery", selectedGalleryFiles[i]);
     }
 
     for (let i = 0; i < data.sizes.length; i++) {
       formData.append("sizes", data.sizes[i]);
     }
 
-    // addProduct(formData);
+    formData.forEach((value, key) => {
+      console.log(key, ":", value);
+    });
 
-    console.log(data);
+    // Uncomment the line below when you're ready to submit the form
+    // addProduct(formData);
   };
 
   return (
@@ -192,6 +207,7 @@ const Page = () => {
                       className="h-[100px] w-[100px] object-cover"
                     />
                     <button
+                      type="button"
                       className="absolute top-2 right-2 border bg-red-500 p-0.5 text-white"
                       onClick={() => handleRemoveGalleryItem(index)}
                     >
