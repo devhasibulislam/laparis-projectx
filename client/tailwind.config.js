@@ -21,5 +21,6 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [nextui(), require("@tailwindcss/forms")],
+  plugins: [nextui(), require("@tailwindcss/forms"),     require('tailwind-scrollbar-hide')
+],
 };
