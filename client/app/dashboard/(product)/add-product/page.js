@@ -24,6 +24,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Select from "react-select";
+import { RxCross2 } from "react-icons/rx";
 
 const Page = () => {
   const { register, handleSubmit, reset, setValue, getValues } = useForm();
@@ -109,24 +110,32 @@ const Page = () => {
     }
   };
 
+  const handleRemoveGalleryItem = (index) => {
+    const updatedGallery = [...galleryPreview];
+    updatedGallery.splice(index, 1);
+    setGalleryPreview(updatedGallery);
+  };
+
   const handleAddProduct = (data) => {
-    console.log(data);
+    const formData = new FormData();
 
-    // const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", data.price);
+    formData.append("category", data.category);
+    formData.append("thumbnail", data.thumbnail[0]);
 
-    // formData.append("name", data.name);
-    // formData.append("description", data.description);
-    // formData.append("price", data.price);
-    // formData.append("category", data.category);
-    // formData.append("thumbnail", data.thumbnail[0]);
-    // for (let i = 0; i < data.gallery.length; i++) {
-    //   formData.append("gallery", data.gallery[i]);
-    // }
-    // for (let i = 0; i < data.sizes.length; i++) {
-    //   formData.append("sizes", data.sizes[i]);
-    // }
+    for (let i = 0; i < data.gallery.length; i++) {
+      formData.append("gallery", data.gallery[i]);
+    }
+
+    for (let i = 0; i < data.sizes.length; i++) {
+      formData.append("sizes", data.sizes[i]);
+    }
 
     // addProduct(formData);
+
+    console.log(data);
   };
 
   return (
@@ -142,9 +151,9 @@ const Page = () => {
               <Image
                 src={thumbnailPreview}
                 alt="thumbnail"
-                width={40}
-                height={40}
-                className="h-[40px] w-[40px] object-cover"
+                width={100}
+                height={100}
+                className="h-[100px] w-[100px] object-cover"
               />
             )}
             <label
@@ -173,14 +182,22 @@ const Page = () => {
             {galleryPreview?.length > 0 && (
               <div className="flex flex-row flex-wrap gap-1">
                 {galleryPreview.map((gallery, index) => (
-                  <Image
-                    key={index}
-                    src={gallery}
-                    alt={"gallery" + index}
-                    width={40}
-                    height={40}
-                    className="h-[40px] w-[40px] object-cover"
-                  />
+                  <div key={index} className="relative">
+                    <Image
+                      key={index}
+                      src={gallery}
+                      alt={"gallery" + index}
+                      width={100}
+                      height={100}
+                      className="h-[100px] w-[100px] object-cover"
+                    />
+                    <button
+                      className="absolute top-2 right-2 border bg-red-500 p-0.5 text-white"
+                      onClick={() => handleRemoveGalleryItem(index)}
+                    >
+                      <RxCross2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 ))}
               </div>
             )}
@@ -231,18 +248,71 @@ const Page = () => {
           />
         </label>
 
-        <label htmlFor="price" className="flex flex-col gap-y-1">
-          <span className="text-sm">Enter Product Price</span>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            min={1}
-            {...register("price", { required: true })}
-            placeholder="i.e. $250"
-            className="md:w-3/4 w-full"
-          />
-        </label>
+        <div className="flex md:flex-row flex-col gap-4 md:w-3/4 w-full">
+          <label
+            htmlFor="regularPrice"
+            className="flex flex-col gap-y-1 w-full"
+          >
+            <span className="text-sm">Enter Regular Price</span>
+            <input
+              type="number"
+              name="regularPrice"
+              id="regularPrice"
+              min={1}
+              {...register("regularPrice", { required: true })}
+              placeholder="i.e. $250"
+              className="w-full"
+            />
+          </label>
+          <label
+            htmlFor="discountedPrice"
+            className="flex flex-col gap-y-1 w-full"
+          >
+            <span className="text-sm">Enter Discounted Price</span>
+            <input
+              type="number"
+              name="discountedPrice"
+              id="discountedPrice"
+              min={1}
+              {...register("discountedPrice", { required: true })}
+              placeholder="i.e. $145"
+              className="w-full"
+            />
+          </label>
+        </div>
+
+        <div className="flex md:flex-row flex-col gap-4 md:w-3/4 w-full">
+          <label
+            htmlFor="frontStickerPrice"
+            className="flex flex-col gap-y-1 w-full"
+          >
+            <span className="text-sm">Enter Front Sticker Price</span>
+            <input
+              type="number"
+              name="frontStickerPrice"
+              id="frontStickerPrice"
+              min={1}
+              {...register("frontStickerPrice", { required: true })}
+              placeholder="i.e. $25"
+              className="w-full"
+            />
+          </label>
+          <label
+            htmlFor="backStickerPrice"
+            className="flex flex-col gap-y-1 w-full"
+          >
+            <span className="text-sm">Enter Back Sticker Price</span>
+            <input
+              type="number"
+              name="backStickerPrice"
+              id="backStickerPrice"
+              min={1}
+              {...register("backStickerPrice", { required: true })}
+              placeholder="i.e. $15"
+              className="w-full"
+            />
+          </label>
+        </div>
 
         <div className="flex lg:flex-row flex-col gap-4 md:w-3/4 w-full">
           <label htmlFor="category" className="flex flex-col gap-y-1 w-full">
