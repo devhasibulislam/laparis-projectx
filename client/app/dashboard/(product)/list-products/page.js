@@ -141,7 +141,7 @@ const Page = () => {
                 </td>
                 <td className="px-6 py-4">{product?.price}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="flex flex-row gap-2 items-center">
+                  <span className="flex flex-row gap-1 items-center">
                     <button
                       className="p-1.5 border rounded-full bg-green-500 text-white"
                       onClick={() => router.push(`/dashboard/${product?._id}`)}

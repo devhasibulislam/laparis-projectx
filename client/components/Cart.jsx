@@ -19,6 +19,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { Avatar } from "@nextui-org/react";
 import { useRemoveFromCartMutation } from "@/services/user/userApi";
 import { toast } from "react-hot-toast";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Cart = () => {
   const user = useSelector((state) => state.user.auth);
@@ -91,7 +92,7 @@ const Cart = () => {
                     />
                   </td>
                   <td className="px-6 py-4">
-                    <span className="whitespace-nowrap w-60 overflow-x-auto block">
+                    <span className="whitespace-nowrap w-60 overflow-x-auto block scrollbar-hide">
                       {product?.name}
                     </span>
                   </td>
@@ -106,12 +107,22 @@ const Cart = () => {
                   <td className="px-6 py-4">{quantity}</td>
                   <td className="px-6 py-4">{price}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      className="p-1.5 border rounded-full bg-red-500 text-white"
-                      onClick={() => removeCart(_id)}
-                    >
-                      <FaRegTrashAlt className="h-4 w-4" />
-                    </button>
+                    <span className="flex flex-row gap-1 items-center">
+                      <button
+                        className="p-1.5 border rounded-full bg-green-500 text-white"
+                        onClick={() =>
+                          (window.location.href = `/${product?._id}`)
+                        }
+                      >
+                        <MdOutlineRemoveRedEye className="h-4 w-4" />
+                      </button>
+                      <button
+                        className="p-1.5 border rounded-full bg-red-500 text-white"
+                        onClick={() => removeCart(_id)}
+                      >
+                        <FaRegTrashAlt className="h-4 w-4" />
+                      </button>
+                    </span>
                   </td>
                 </tr>
               )
