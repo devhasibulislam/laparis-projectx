@@ -125,30 +125,40 @@ const Page = () => {
   return (
     <Main>
       <section className="max-w-5xl mx-auto px-4 py-20 flex flex-col gap-y-20">
-        <div className="grid grid-cols-12 lg:gap-x-0 gap-4">
+        <div className="grid grid-cols-12 gap-4">
           <div className="md:col-span-5 col-span-12 flex flex-row gap-x-2">
             <div className="flex flex-col gap-y-2">
+              <Image
+                isBlurred
+                height={70}
+                width={50}
+                src={product.thumbnail.url}
+                alt={product.thumbnail.public_id}
+                radius="none"
+                onClick={() => setImageSrc(product.thumbnail.url)}
+                className="cursor-pointer h-[70px] w-[50px] object-cover"
+              />
               {product?.gallery?.map((item, index) => (
                 <Image
                   isBlurred
-                  height={50}
+                  height={70}
                   width={50}
                   src={item.url}
                   alt={item.public_id}
                   key={index}
                   radius="none"
                   onClick={() => setImageSrc(item.url)}
-                  className="cursor-pointer"
+                  className="cursor-pointer h-[70px] w-[50px] object-cover"
                 />
               ))}
             </div>
             <Zoom
-              height={385}
-              width={300}
+              height={500}
+              width={400}
               img={imageSrc}
               zoomScale={1.2}
               transitionTime={0.5}
-              className="w-full h-full"
+              className="w-full h-full object-cover"
               key={imageSrc}
             />
           </div>
