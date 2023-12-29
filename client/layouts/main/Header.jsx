@@ -187,7 +187,7 @@ function AuthMenu() {
               <>
                 <button
                   className="flex flex-row items-center gap-x-2 text-sm"
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => (window.location.href = "/dashboard")}
                 >
                   <Avatar
                     src="https://i.pravatar.cc/150"
@@ -267,10 +267,22 @@ function MyCart() {
         <Modal isOpen={showCart} onClose={() => setShowCart(false)}>
           <div className="w-full h-full flex flex-col gap-y-4">
             <div className="flex flex-row gap-x-2">
-              <Button variant="bordered" radius="none" size="sm" className={modalItem === "cart" && "bg-black text-white"} onPress={() => setModalItem("cart")}>
+              <Button
+                variant="bordered"
+                radius="none"
+                size="sm"
+                className={modalItem === "cart" && "bg-black text-white"}
+                onPress={() => setModalItem("cart")}
+              >
                 Cart
               </Button>
-              <Button variant="bordered" radius="none" size="sm" className={modalItem === "checkout" && "bg-black text-white"} onPress={() => setModalItem("checkout")}>
+              <Button
+                variant="bordered"
+                radius="none"
+                size="sm"
+                className={modalItem === "checkout" && "bg-black text-white"}
+                onPress={() => setModalItem("checkout")}
+              >
                 Checkout
               </Button>
             </div>
