@@ -36,7 +36,7 @@ const Trending = () => {
     breakpoints: {
       // when window width is >= 1024px (PC)
       1024: {
-        slidesPerView: 4,
+        slidesPerView: 3,
       },
       // when window width is >= 768px (Tablet)
       768: {
@@ -68,7 +68,7 @@ const Trending = () => {
           </p>
         </article>
 
-        <div className="md:col-span-7 col-span-10 w-full">
+        <div className="md:col-span-7 col-span-10 w-full cursor-grab">
           <Swiper {...swiperParams}>
             {fetchingProducts ? (
               <>

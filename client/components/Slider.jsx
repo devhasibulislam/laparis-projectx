@@ -35,7 +35,7 @@ const Slider = () => {
         onSwiper={(swiper) => console.log(swiper)}
       >
         <SwiperSlide>
-          <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40">
+          <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40 cursor-grab">
             <Image
               isBlurred
               width={1620}
@@ -67,7 +67,7 @@ const Slider = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40">
+          <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40 cursor-grab">
             <Image
               isBlurred
               width={1620}
@@ -99,7 +99,7 @@ const Slider = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40">
+          <div className="w-full relative before:content[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black/30 before:z-40 cursor-grab">
             <Image
               isBlurred
               width={1620}
