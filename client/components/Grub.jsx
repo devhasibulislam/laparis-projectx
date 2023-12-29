@@ -63,14 +63,14 @@ const Grub = ({ product }) => {
       </div>
       <article className="flex flex-col gap-y-2 h-full mt-auto">
         <div className="flex flex-row justify-between items-center">
-          <Chip
-            size="sm"
-            variant="bordered"
-            className="lowercase text-tiny flex flex-row items-stretch"
-            radius="none"
-          >
-            $<span className="text-sm font-medium">{product?.price}</span>
-          </Chip>
+          <p className="flex flex-row items-center gap-x-2">
+            <span className="text-tiny">
+              $<span className="text-sm font-medium">{product?.price}</span>
+            </span>
+            <span className="text-tiny line-through text-gray-500">
+              $<span className="text-xs font-medium">{product?.price}</span>
+            </span>
+          </p>
           <span className="text-tiny">{product?.category?.name}</span>
         </div>
 
