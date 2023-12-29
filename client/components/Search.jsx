@@ -50,7 +50,7 @@ const Search = () => {
         onChange={(e) => setSearchInput(e.target.value)}
       />
 
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
         {isLoading ? (
           <>
             {[1, 2, 3, 4, 5, 6].map((index) => (
