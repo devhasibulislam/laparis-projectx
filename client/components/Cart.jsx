@@ -45,7 +45,7 @@ const Cart = () => {
 
   return user?.cart?.length === 0 ? (
     <>
-      <p className="text-center">No Products Added!</p>
+      <p className="text-lg">No Products Added in Cart!</p>
     </>
   ) : (
     <>

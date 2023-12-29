@@ -141,7 +141,11 @@ const Checkout = () => {
     createOrder({ amount: totalPrice });
   };
 
-  return (
+  return user?.cart?.length === 0 ? (
+    <>
+      <p className="text-lg">No Products Added to Cart!</p>
+    </>
+  ) : (
     <section className="flex flex-col gap-y-4">
       <div className="flex flex-row items-end gap-x-2 font-mono">
         <h1 className="text-sm">Total Price:</h1>
