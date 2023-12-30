@@ -26,12 +26,43 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { RxCross2 } from "react-icons/rx";
+import Select from "react-select";
 
 const Page = () => {
   const { id } = useParams();
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [galleryPreview, setGalleryPreview] = useState([]);
-  const sizes = ["xxs", "xs", "s", "m", "l", "xl", "xxl"];
+  const sizes = [
+    {
+      value: "xxs",
+      label: "xxs",
+    },
+    {
+      value: "xs",
+      label: "xs",
+    },
+    {
+      value: "s",
+      label: "s",
+    },
+    {
+      value: "m",
+      label: "m",
+    },
+    {
+      value: "l",
+      label: "l",
+    },
+    {
+      value: "xl",
+      label: "xl",
+    },
+    {
+      value: "xxl",
+      label: "xxl",
+    },
+  ];
 
   const {
     data: productData,
@@ -39,6 +70,7 @@ const Page = () => {
     error: productError,
   } = useGetSingleProductQuery(id);
   const product = useMemo(() => productData?.data || {}, [productData]);
+  const [formattedSizes, setFormattedSizes] = useState([]);
 
   const {
     data: categoriesData,
@@ -65,7 +97,7 @@ const Page = () => {
     };
   }, []);
 
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues,
   });
 
@@ -74,6 +106,12 @@ const Page = () => {
       toast.loading("Loading...", { id: "getProduct" });
     }
     if (productData) {
+      setFormattedSizes(
+        productData?.data?.sizes?.map((size) => ({
+          value: size,
+          label: size,
+        }))
+      );
       toast.success(productData?.description, { id: "getProduct" });
       reset(product);
     }
@@ -111,6 +149,8 @@ const Page = () => {
     updatingProduct,
     updateProductData,
     updateProductError,
+    reset,
+    product,
   ]);
 
   const handleThumbnailPreview = (e) => {
@@ -149,6 +189,12 @@ const Page = () => {
     }
   };
 
+  const handleRemoveGalleryItem = (index) => {
+    const updatedGallery = [...galleryPreview];
+    updatedGallery.splice(index, 1);
+    setGalleryPreview(updatedGallery);
+  };
+
   const handleUpdateProduct = (data) => {
     if (thumbnailPreview === null && galleryPreview.length === 0) {
       updateProduct({ body: data, id: product?._id });
@@ -157,7 +203,10 @@ const Page = () => {
 
       formData.append("name", data.name);
       formData.append("description", data.description);
-      formData.append("price", data.price);
+      formData.append("regularPrice", data.regularPrice);
+      formData.append("discountedPrice", data.discountedPrice);
+      formData.append("frontStickerPrice", data.frontStickerPrice);
+      formData.append("backStickerPrice", data.backStickerPrice);
       formData.append("category", data.category);
 
       if (thumbnailPreview !== null) {
@@ -189,18 +238,16 @@ const Page = () => {
             <Image
               src={thumbnailPreview || product?.thumbnail?.url}
               alt={product?.thumbnail?.public_id || "thumbnail"}
-              width={50}
-              height={50}
               radius="none"
-              className="h-full object-cover"
+              width={100}
+              height={100}
+              className="h-[100px] w-[100px] object-cover"
             />
             <label
               htmlFor="thumbnail"
               className="w-full border border-black h-full relative flex items-center p-2"
             >
-              <span className="h-full w-full text-sm">
-                Choose Product Thumbnail
-              </span>
+              <span className="h-full w-full text-sm">Product Thumbnail</span>
               <input
                 type="file"
                 name="thumbnail"
@@ -222,25 +269,34 @@ const Page = () => {
                       key={index}
                       src={item?.url}
                       alt={item?.public_id}
-                      width={50}
-                      height={50}
                       radius="none"
-                      className="h-full object-cover"
+                      width={100}
+                      height={100}
+                      className="h-[100px] w-[100px] object-cover"
                     />
                   ))}
                 </>
               ) : (
                 <>
-                  {galleryPreview?.map((item, index) => (
-                    <Image
-                      key={index}
-                      src={item}
-                      alt={index}
-                      width={50}
-                      height={50}
-                      radius="none"
-                      className="h-full object-cover"
-                    />
+                  {galleryPreview.map((gallery, index) => (
+                    <div key={index} className="relative">
+                      <Image
+                        key={index}
+                        src={gallery}
+                        alt={"gallery" + index}
+                        width={100}
+                        height={100}
+                        radius="none"
+                        className="h-[100px] w-[100px] object-cover"
+                      />
+                      <button
+                        type="button"
+                        className="absolute top-2 right-2 z-50 border bg-red-500 p-0.5 text-white"
+                        onClick={() => handleRemoveGalleryItem(index)}
+                      >
+                        <RxCross2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   ))}
                 </>
               )}
@@ -249,9 +305,7 @@ const Page = () => {
               htmlFor="gallery"
               className="w-full border border-black h-full relative flex items-center p-2"
             >
-              <span className="h-full w-full text-sm">
-                Choose Product Gallery
-              </span>
+              <span className="h-full w-full text-sm">Product Gallery</span>
               <input
                 type="file"
                 name="gallery"
@@ -268,7 +322,7 @@ const Page = () => {
         </div>
 
         <label htmlFor="name" className="flex flex-col gap-y-1">
-          <span className="text-sm">Enter Product Name</span>
+          <span className="text-sm">Product Name</span>
           <input
             type="text"
             name="name"
@@ -280,7 +334,7 @@ const Page = () => {
         </label>
 
         <label htmlFor="description" className="flex flex-col gap-y-1">
-          <span className="text-sm">Enter Product Description</span>
+          <span className="text-sm">Product Description</span>
           <textarea
             name="description"
             id="description"
@@ -291,14 +345,50 @@ const Page = () => {
           />
         </label>
 
-        <label htmlFor="price" className="flex flex-col gap-y-1">
-          <span className="text-sm">Enter Product Price</span>
+        <label htmlFor="regularPrice" className="flex flex-col gap-y-1">
+          <span className="text-sm">Product Regular Price</span>
           <input
             type="number"
-            name="price"
-            id="price"
+            name="regularPrice"
+            id="regularPrice"
             min={1}
-            {...register("price")}
+            {...register("regularPrice")}
+            placeholder="i.e. $250"
+            className="md:w-3/4 w-full"
+          />
+        </label>
+
+        <label htmlFor="discountedPrice" className="flex flex-col gap-y-1">
+          <span className="text-sm">Product Discounted Price</span>
+          <input
+            type="number"
+            name="discountedPrice"
+            id="discountedPrice"
+            {...register("discountedPrice")}
+            placeholder="i.e. $250"
+            className="md:w-3/4 w-full"
+          />
+        </label>
+
+        <label htmlFor="frontStickerPrice" className="flex flex-col gap-y-1">
+          <span className="text-sm">Front Sticker Price</span>
+          <input
+            type="number"
+            name="frontStickerPrice"
+            id="frontStickerPrice"
+            {...register("frontStickerPrice")}
+            placeholder="i.e. $250"
+            className="md:w-3/4 w-full"
+          />
+        </label>
+
+        <label htmlFor="backStickerPrice" className="flex flex-col gap-y-1">
+          <span className="text-sm">Back Sticker Price</span>
+          <input
+            type="number"
+            name="backStickerPrice"
+            id="backStickerPrice"
+            {...register("backStickerPrice")}
             placeholder="i.e. $250"
             className="md:w-3/4 w-full"
           />
@@ -330,19 +420,30 @@ const Page = () => {
           </label>
           <label htmlFor="sizes" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Size</span>
-            <select
-              name="sizes"
-              id="sizes"
-              multiple
-              className="w-full uppercase"
-              {...register("sizes")}
-            >
-              {sizes?.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
+            {formattedSizes.length === 0 ? (
+              <>
+                <Skeleton className="h-full w-full" />
+              </>
+            ) : (
+              <Select
+                defaultValue={formattedSizes}
+                name="sizes"
+                isMulti
+                options={sizes}
+                className="w-full capitalize basic-multi-select"
+                classNamePrefix="select"
+                onChange={(selected) => {
+                  const selectedSizes = selected
+                    ? selected.map((item) => item.value)
+                    : [];
+
+                  setValue("sizes", selectedSizes, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
+              />
+            )}
           </label>
         </div>
 
