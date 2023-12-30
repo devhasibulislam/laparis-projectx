@@ -67,10 +67,7 @@ const Grub = ({ product }) => {
           {product?.name}
         </h2>
 
-        {calculatePercentageDifference(
-          product?.regularPrice,
-          product?.discountedPrice
-        ).toFixed(2) > 0 && (
+        {product?.discountedPrice !== 0 && (
           <Chip
             size="sm"
             className="absolute top-3 right-3 z-50 shadow bg-white text-black"
@@ -90,11 +87,21 @@ const Grub = ({ product }) => {
         <div className="flex flex-row justify-between items-center">
           <p className="flex flex-row items-center gap-x-2">
             <span className="text-tiny">
-              $<span className="text-sm font-medium">{product?.price}</span>
+              $
+              <span className="text-sm font-medium">
+                {product?.discountedPrice === 0
+                  ? product?.regularPrice
+                  : product?.discountedPrice}
+              </span>
             </span>
-            <span className="text-tiny line-through text-gray-500">
-              $<span className="text-xs font-medium">{product?.price}</span>
-            </span>
+            {product?.discountedPrice !== 0 && (
+              <span className="text-tiny line-through text-gray-500">
+                $
+                <span className="text-xs font-medium">
+                  {product?.regularPrice}
+                </span>
+              </span>
+            )}
           </p>
           <span className="text-tiny">{product?.category?.name}</span>
         </div>
