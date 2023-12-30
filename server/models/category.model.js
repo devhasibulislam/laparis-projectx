@@ -41,7 +41,17 @@ const categorySchema = new mongoose.Schema({
       ref: "Product",
     },
   ],
-});
+
+  // for user account time stamps
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+}, { timestamps: true });
 
 /* create category schema */
 const Category = mongoose.model("Category", categorySchema);
