@@ -52,43 +52,43 @@ const Checkout = () => {
 
   const totalPrice = user?.cart?.reduce((sum, item) => sum + item.price, 0);
 
-  async function verifyPayment(data) {
-    const res = await loadScript(
-      "https://checkout.razorpay.com/v1/checkout.js"
-    );
+  useEffect(() => {
+    async function verifyPayment(data) {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
 
-    if (!res) {
-      console.log(res);
-      alert("Razropay failed to load!!");
-      return;
+      if (!res) {
+        console.log(res);
+        alert("Razropay failed to load!!");
+        return;
+      }
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Laparis ProjectX",
+        description: "Test Transaction",
+        image:
+          "https://raw.githubusercontent.com/devhasibulislam/laparis-projectx/master/client/public/laparis-projectx.png",
+        order_id: data.id,
+        handler: function (response) {
+          try {
+            verifyOrder(response);
+          } catch (error) {
+            console.error(error);
+          }
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
     }
 
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: data.amount,
-      currency: data.currency,
-      name: "Laparis ProjectX",
-      description: "Test Transaction",
-      image:
-        "https://raw.githubusercontent.com/devhasibulislam/laparis-projectx/master/client/public/laparis-projectx.png",
-      order_id: data.id,
-      handler: function (response) {
-        try {
-          verifyOrder(response);
-        } catch (error) {
-          console.error(error);
-        }
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
-  }
-
-  useEffect(() => {
     if (orderCreating) {
       toast.loading("Creating your order...", { id: "createOrder" });
     }
@@ -131,11 +131,10 @@ const Checkout = () => {
     orderVerifying,
     verifiedData,
     verificationError,
-    verifyPayment
+    verifyOrder,
   ]);
 
   const handleCheckout = (data) => {
-    console.log(data);
     createOrder({ amount: totalPrice });
   };
 
