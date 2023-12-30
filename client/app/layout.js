@@ -19,6 +19,7 @@ import { Providers } from "./providers";
 import Auth from "./auth";
 
 export const metadata = {
+  metadataBase: new URL("https://laparis-projectx-csr.vercel.app"),
   title: "Laparis - T-Shirt Store",
   description:
     "T-Shirt collection for men, women, children and custom printed signature",
@@ -33,6 +34,15 @@ export const metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    site: "@devhasibulislam",
+    title: "Laparis - T-Shirt Store",
+    description:
+      "T-Shirt collection for men, women, children and custom printed signature",
+    image:
+      "https://raw.githubusercontent.com/devhasibulislam/laparis-projectx/master/client/public/laparis-projectx.png",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -46,3 +56,8 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+/**
+ * metadata.metadataBase is not set for resolving social open graph or twitter images
+ * https://github.com/vercel/next.js/discussions/57251
+ */
