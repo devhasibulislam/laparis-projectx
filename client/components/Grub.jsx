@@ -67,14 +67,20 @@ const Grub = ({ product }) => {
           {product?.name}
         </h2>
 
-        {calculatePercentageDifference(product?.price, 500).toFixed(2) > 0 && (
+        {calculatePercentageDifference(
+          product?.regularPrice,
+          product?.discountedPrice
+        ).toFixed(2) > 0 && (
           <Chip
             size="sm"
             className="absolute top-3 right-3 z-50 shadow bg-white text-black"
             radius="none"
           >
             {Math.round(
-              calculatePercentageDifference(product?.price, 500).toFixed(2)
+              calculatePercentageDifference(
+                product?.regularPrice,
+                product?.discountedPrice
+              ).toFixed(2)
             )}
             % Off
           </Chip>
