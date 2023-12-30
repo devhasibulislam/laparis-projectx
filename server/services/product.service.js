@@ -88,7 +88,7 @@ exports.getProducts = async (req, res) => {
 
 /* get single product */
 exports.getSingleProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate("reviews.user");
 
   if (!product) {
     res.status(404).json({
@@ -198,5 +198,38 @@ exports.deleteSingleProduct = async (req, res) => {
       message: "OK",
       description: "Product deleted successfully",
     });
+  }
+};
+
+/* add reviews */
+exports.addReviews = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "Product not found",
+    });
+  } else {
+    const review = req.body;
+
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
+      $push: { reviews: { user: req.user._id, ...review } },
+    });
+
+    if (!updatedProduct) {
+      res.status(500).json({
+        acknowledgement: false,
+        message: "Internal Server Error",
+        description: "Something went wrong",
+      });
+    } else {
+      res.status(200).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Review added successfully",
+      });
+    }
   }
 };

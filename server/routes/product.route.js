@@ -57,5 +57,13 @@ router
   )
   .delete(verify, authorize("admin"), productController.deleteSingleProduct);
 
+// add reviews
+router.patch(
+  "/reviews/:id",
+  verify,
+  authorize("user"),
+  productController.addReviews
+);
+
 /* export user router */
 module.exports = router;

@@ -42,6 +42,7 @@ import { MdFrontHand } from "react-icons/md";
 import { MdBackHand } from "react-icons/md";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import Rating from "@/components/Rating";
 
 const Page = () => {
   const { id } = useParams();
@@ -328,6 +329,7 @@ const Page = () => {
                 </Tooltip>
               </div>
             </div>
+            <Rating id={id} />
           </div>
         </div>
         <Related />

@@ -122,7 +122,7 @@ const Page = () => {
     }
 
     if (categoriesError?.data) {
-      toast.error(error?.data?.description || "Something went wrong", {
+      toast.error(categoriesError?.data?.description || "Something went wrong", {
         id: "getCategories",
       });
     }

@@ -108,8 +108,8 @@ const productSchema = new mongoose.Schema(
       },
     ],
 
-    // for rating
-    rating: [
+    // for review
+    reviews: [
       {
         user: {
           type: ObjectId,
@@ -120,7 +120,7 @@ const productSchema = new mongoose.Schema(
           min: [1, "Rating can't be less than 1"],
           max: [5, "Rating can't be more than 5"],
         },
-        review: {
+        feedback: {
           type: String,
           trim: true,
         },

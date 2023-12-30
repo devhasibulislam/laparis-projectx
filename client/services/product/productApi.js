@@ -80,6 +80,20 @@ export const productApi = laparisApi.injectEndpoints({
 
       invalidatesTags: ["Product"],
     }),
+
+    /* add reviews */
+    addReviews: build.mutation({
+      query: ({ id, body }) => ({
+        url: `/product/reviews/${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body,
+      }),
+
+      invalidatesTags: ["Product", "User"],
+    }),
   }),
 });
 
@@ -89,4 +103,5 @@ export const {
   useGetSingleProductQuery,
   useUpdateSingleProductMutation,
   useDeleteSingleProductMutation,
+  useAddReviewsMutation,
 } = productApi;

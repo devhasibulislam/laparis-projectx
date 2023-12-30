@@ -70,3 +70,14 @@ exports.deleteSingleProduct = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* add reviews */
+exports.addReviews = async (req, res, next) => {
+  try {
+    await productService.addReviews(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
