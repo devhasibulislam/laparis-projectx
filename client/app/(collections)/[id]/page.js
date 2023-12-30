@@ -62,6 +62,10 @@ const Page = () => {
   const [backSticker, setBackSticker] = useState(null);
   const [size, setSize] = useState("");
   const [openLightBox, setOpenLightBox] = useState(false);
+  const lightBoxImages = [
+    frontStickerPreview && frontStickerPreview,
+    backStickerPreview && backStickerPreview,
+  ];
 
   useEffect(() => {
     if (product.thumbnail) {
@@ -288,17 +292,16 @@ const Page = () => {
                         onClick={() => setOpenLightBox(true)}
                       />
                     )}
+                    <Lightbox
+                      open={openLightBox}
+                      close={() => setOpenLightBox(false)}
+                      disableSlider={true}
+                      slides={lightBoxImages.map((image) => ({
+                        src: image,
+                      }))}
+                    />
                   </>
                 )}
-                <Lightbox
-                  open={openLightBox}
-                  close={() => setOpenLightBox(false)}
-                  disableSlider={true}
-                  slides={[
-                    { src: backStickerPreview },
-                    { src: frontStickerPreview },
-                  ]}
-                />
               </div>
 
               <div className="flex flex-row gap-x-2">
