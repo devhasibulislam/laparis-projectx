@@ -15,7 +15,7 @@
 
 "use client";
 
-import { Avatar, Button, Divider, Link, Tooltip } from "@nextui-org/react";
+import { Avatar, AvatarIcon, Button, Divider, Link, Tooltip } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useMemo, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -186,20 +186,17 @@ function AuthMenu() {
             {Object.keys(auth).length > 0 ? (
               <>
                 <button
-                  className="flex flex-row items-center gap-x-2 text-sm"
+                  className="flex flex-row items-center gap-x-2"
                   onClick={() => (window.location.href = "/dashboard")}
                 >
-                  <Avatar
-                    src="https://i.pravatar.cc/150"
-                    className="w-5 h-5 text-tiny"
-                  />
+                  <Avatar icon={<AvatarIcon />} className="w-5 h-5 text-tiny" />
                   <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    {auth?.name.slice(0, 6)}.
+                    {auth?.name.replace(/(\w+)\s(\w)\w*/, "$1 $2")}.
                   </span>
                 </button>
 
                 <button
-                  className="flex flex-row items-center gap-x-2 text-sm"
+                  className="flex flex-row items-center gap-x-2"
                   onClick={() => {
                     localStorage.removeItem("accessToken");
                     window.location.reload();

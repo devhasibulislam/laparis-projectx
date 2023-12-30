@@ -17,7 +17,7 @@
 
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import Sidebar from "./Sidebar";
-import { Link, User } from "@nextui-org/react";
+import { AvatarIcon, Link, User } from "@nextui-org/react";
 import { IoMdMenu } from "react-icons/io";
 import OutsideClick from "@/components/OutsideClick";
 import routes from "./routes";
@@ -43,9 +43,6 @@ const Dashboard = ({ children }) => {
           <User
             name={`${auth?.name} • ${auth?.role}`}
             description={auth?.email}
-            avatarProps={{
-              src: "https://i.pravatar.cc/150",
-            }}
           />
           <button
             className="p-1 border border-black rounded-full md:hidden"
