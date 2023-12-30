@@ -106,7 +106,7 @@ const Page = () => {
         if (sortingOption === "size") {
           return a.sizes.length - b.sizes.length;
         } else if (sortingOption === "price") {
-          return a.price - b.price;
+          return a.regularPrice - b.regularPrice;
         } else if (sortingOption === "category") {
           return a.category?.name.localeCompare(b.category?.name);
         } else {
@@ -200,7 +200,7 @@ const Page = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {product?.category?.name || "N/A"}
                 </td>
-                <td className="px-6 py-4">{product?.price}</td>
+                <td className="px-6 py-4">{product?.regularPrice}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="flex flex-row gap-1 items-center">
                     <button
