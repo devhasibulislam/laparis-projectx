@@ -73,7 +73,10 @@ const Grub = ({ product }) => {
             className="absolute top-3 right-3 z-50 shadow bg-white text-black"
             radius="none"
           >
-            {calculatePercentageDifference(product?.price, 500).toFixed(2)}% Off
+            {Math.round(
+              calculatePercentageDifference(product?.price, 500).toFixed(2)
+            )}
+            % Off
           </Chip>
         )}
       </div>
