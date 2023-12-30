@@ -17,7 +17,7 @@ const routes = [
   },
   {
     pathName: "Orders",
-    href: "/dashboard/ordrs",
+    href: "/dashboard/orders",
   },
 ];
 

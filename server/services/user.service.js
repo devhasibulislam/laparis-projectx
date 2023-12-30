@@ -277,15 +277,16 @@ exports.updateUser = async (req, res) => {
       { $pull: { cart: { _id: req.query.cart } } }
     );
 
-    const availableStickers = result.cart.find(
-      (crt) => crt._id == req.query.cart
-    );
+    /* uncomment when necessary */
+    // const availableStickers = result.cart.find(
+    //   (crt) => crt._id == req.query.cart
+    // );
 
-    if (availableStickers.stickers.length > 0) {
-      for (let i = 0; i < availableStickers.stickers.length; i++) {
-        remove(availableStickers.stickers[i].public_id);
-      }
-    }
+    // if (availableStickers.stickers.length > 0) {
+    //   for (let i = 0; i < availableStickers.stickers.length; i++) {
+    //     remove(availableStickers.stickers[i].public_id);
+    //   }
+    // }
 
     if (result) {
       res.status(200).json({
@@ -332,5 +333,31 @@ exports.updateUser = async (req, res) => {
         description: "Something went wrong",
       });
     }
+  }
+};
+
+/* get all user */
+exports.getAllUser = async (res) => {
+  try {
+    const users = await User.find()
+      .populate(["favorites", "cart.product", "purchases.product"])
+      .sort({ updatedAt: -1 });
+
+    if (!users) {
+      res.status(404).json({
+        acknowledgement: false,
+        message: "Not Found",
+        description: "Users not found",
+      });
+    } else {
+      res.status(200).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Successfully retrieved all users",
+        data: users,
+      });
+    }
+  } catch (error) {
+    next(error);
   }
 };

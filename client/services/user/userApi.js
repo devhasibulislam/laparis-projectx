@@ -43,7 +43,22 @@ export const userApi = laparisApi.injectEndpoints({
 
       invalidatesTags: ["User"],
     }),
+
+    // get all user
+    getAllUser: builder.query({
+      query: () => ({
+        url: "/user/all",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useUpdateUserMutation, useRemoveFromCartMutation } = userApi;
+export const {
+  useUpdateUserMutation,
+  useRemoveFromCartMutation,
+  useGetAllUserQuery,
+} = userApi;

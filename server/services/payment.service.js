@@ -89,11 +89,31 @@ exports.verifyOrder = async (req, res) => {
         description: "Invalid signature",
       });
     } else {
-      res.status(200).json({
-        acknowledgement: true,
-        message: "OK",
-        description: "Order verified successfully",
-      });
+      const result = await User.findByIdAndUpdate(
+        user._id,
+        {
+          $push: {
+            purchases: { $each: user.cart },
+          },
+        },
+        {
+          runValidators: true,
+        }
+      );
+
+      if (!result) {
+        res.status(500).json({
+          acknowledgement: false,
+          message: "Internal Server Error",
+          description: "Something went wrong",
+        });
+      } else {
+        res.status(200).json({
+          acknowledgement: true,
+          message: "OK",
+          description: "Order verified successfully",
+        });
+      }
     }
   }
 };

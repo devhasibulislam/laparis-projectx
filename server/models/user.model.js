@@ -99,6 +99,31 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
+    // purchases
+    purchases: [
+      {
+        product: {
+          type: ObjectId,
+          ref: "Product",
+        },
+        stickers: [
+          {
+            url: String,
+            public_id: String,
+          },
+        ],
+        quantity: {
+          type: Number,
+          min: [1, "Quantity won't be less than 1"],
+        },
+        size: {
+          type: String,
+          required: [true, "Please, provide product size"],
+        },
+        price: Number,
+      },
+    ],
+
     // registration confirmation
     confirmationToken: String,
     confirmationTokenExpire: Date,
