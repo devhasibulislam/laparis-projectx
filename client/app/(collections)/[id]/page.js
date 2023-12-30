@@ -40,6 +40,8 @@ import { useUpdateUserMutation } from "@/services/user/userApi";
 import { useGetSingleCategoryQuery } from "@/services/category/categoryApi";
 import { MdFrontHand } from "react-icons/md";
 import { MdBackHand } from "react-icons/md";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const Page = () => {
   const { id } = useParams();
@@ -54,9 +56,12 @@ const Page = () => {
   const category = useMemo(() => categoryData?.data || {}, [categoryData]);
   const [imageSrc, setImageSrc] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [stickerPreview, setStickerPreview] = useState(null);
-  const [sticker, setSticker] = useState(null);
+  const [frontStickerPreview, setFrontStickerPreview] = useState(null);
+  const [backStickerPreview, setBackStickerPreview] = useState(null);
+  const [frontSticker, setFrontSticker] = useState(null);
+  const [backSticker, setBackSticker] = useState(null);
   const [size, setSize] = useState("");
+  const [openLightBox, setOpenLightBox] = useState(false);
 
   useEffect(() => {
     if (product.thumbnail) {
@@ -69,10 +74,6 @@ const Page = () => {
 
     if (updateData) {
       toast.success(updateData?.description, { id: "update" });
-      setStickerPreview(null);
-      setSticker(null);
-      setQuantity(1);
-      setSize("");
     }
 
     if (updateError?.data) {
@@ -90,35 +91,57 @@ const Page = () => {
     );
   }
 
-  const handleStickerPreview = (e) => {
+  const handleFrontStickerPreview = (e) => {
     const file = e.target.files[0];
-    setSticker(e.target.files[0]);
+    setFrontSticker(e.target.files[0]);
 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setStickerPreview(reader.result);
+        setFrontStickerPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleBackStickerPreview = (e) => {
+    const file = e.target.files[0];
+    setBackSticker(e.target.files[0]);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBackStickerPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
   function handleAddToCart() {
-    if (stickerPreview === null) {
+    if (frontStickerPreview === null && backStickerPreview === null) {
       update({
         product: product._id,
         quantity,
         size,
-        price: product?.price * quantity,
+        price:
+          (product?.discountedPrice !== 0
+            ? product?.discountedPrice
+            : product?.regularPrice) * quantity,
       });
     } else {
       const formData = new FormData();
 
       formData.append("product", product._id);
       formData.append("quantity", quantity);
-      formData.append("sticker", sticker);
+      if (frontSticker) formData.append("stickers", frontSticker);
+      if (backSticker) formData.append("stickers", backSticker);
       formData.append("size", size);
-      formData.append("price", product?.price * quantity);
+      formData.append(
+        "price",
+        (product?.discountedPrice !== 0
+          ? product?.discountedPrice
+          : product?.regularPrice) * quantity
+      );
 
       update(formData);
     }
@@ -171,7 +194,12 @@ const Page = () => {
               <Divider />
               <div className="flex flex-row gap-x-2 capitalize">
                 <span className="text-base flex flex-row gap-x-0.5">
-                  $<b>{product?.price * quantity}</b>
+                  $
+                  <b>
+                    {(product?.discountedPrice !== 0
+                      ? product?.discountedPrice
+                      : product?.regularPrice) * quantity}
+                  </b>
                 </span>{" "}
                 <Divider orientation="vertical" />{" "}
                 {fetchingCategory ? (
@@ -206,52 +234,71 @@ const Page = () => {
                     onChange={(event) => setQuantity(event.target.value)}
                   />
                 </Tooltip>
-                <Tooltip content="Choose Front-Side Sticker">
-                  <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
-                    <MdFrontHand className="h-6 w-6 cursor-pointer" />
+                {product?.frontStickerPrice !== 0 && (
+                  <>
+                    <Tooltip content="Choose Front-Side Sticker">
+                      <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
+                        <MdFrontHand className="h-6 w-6 cursor-pointer" />
 
-                    <input
-                      type="file"
-                      name="sticker"
-                      id="sticker"
-                      accept="image/png, image/jpeg, image/jpg"
-                      className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                      onChange={handleStickerPreview}
-                    />
-                  </span>
-                </Tooltip>
-                {stickerPreview && (
-                  <NextImage
-                    src={stickerPreview}
-                    alt="sticker"
-                    height={36}
-                    width={30}
-                    className="h-full object-cover"
-                  />
+                        <input
+                          type="file"
+                          name="stickers"
+                          id="stickers"
+                          accept="image/png, image/jpeg, image/jpg"
+                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                          onChange={handleFrontStickerPreview}
+                        />
+                      </span>
+                    </Tooltip>
+                    {frontStickerPreview && (
+                      <NextImage
+                        src={frontStickerPreview}
+                        alt="sticker"
+                        height={36}
+                        width={30}
+                        className="h-full object-cover"
+                        onClick={() => setOpenLightBox(true)}
+                      />
+                    )}
+                  </>
                 )}
-                <Tooltip content="Choose Back-Side Sticker">
-                  <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
-                    <MdBackHand className="h-6 w-6 cursor-pointer" />
+                {product?.backStickerPrice !== 0 && (
+                  <>
+                    <Tooltip content="Choose Back-Side Sticker">
+                      <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
+                        <MdBackHand className="h-6 w-6 cursor-pointer" />
 
-                    <input
-                      type="file"
-                      name="sticker"
-                      id="sticker"
-                      accept="image/png, image/jpeg, image/jpg"
-                      className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                      onChange={handleStickerPreview}
-                    />
-                  </span>
-                </Tooltip>
-                {stickerPreview && (
-                  <NextImage
-                    src={stickerPreview}
-                    alt="sticker"
-                    height={36}
-                    width={30}
-                    className="h-full object-cover"
-                  />
+                        <input
+                          type="file"
+                          name="stickers"
+                          id="stickers"
+                          accept="image/png, image/jpeg, image/jpg"
+                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                          onChange={handleBackStickerPreview}
+                        />
+                      </span>
+                    </Tooltip>
+                    {backStickerPreview && (
+                      <NextImage
+                        src={backStickerPreview}
+                        alt="sticker"
+                        height={36}
+                        width={30}
+                        className="h-full object-cover"
+                        onClick={() => setOpenLightBox(true)}
+                      />
+                    )}
+                  </>
                 )}
+                <Lightbox
+                  open={openLightBox}
+                  close={() => setOpenLightBox(false)}
+                  disableSlider={true}
+                  slides={[
+                    { src: backStickerPreview },
+                    { src: frontStickerPreview },
+                  ]}
+                />
               </div>
 
               <div className="flex flex-row gap-x-2">
