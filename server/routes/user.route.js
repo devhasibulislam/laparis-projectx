@@ -52,7 +52,7 @@ router.patch(
   "/update",
   verify,
   authorize("user"),
-  upload.single("sticker"),
+  upload.array("stickers", 2),
   userController.updateUser
 );
 

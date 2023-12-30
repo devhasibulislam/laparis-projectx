@@ -277,12 +277,14 @@ exports.updateUser = async (req, res) => {
       { $pull: { cart: { _id: req.query.cart } } }
     );
 
-    const availableSticker = result.cart.find(
+    const availableStickers = result.cart.find(
       (crt) => crt._id == req.query.cart
     );
 
-    if (availableSticker) {
-      remove(availableSticker.sticker.public_id);
+    if (availableStickers.stickers.length > 0) {
+      for (let i = 0; i < availableStickers.stickers.length; i++) {
+        remove(availableStickers.stickers[i].public_id);
+      }
     }
 
     if (result) {
@@ -301,11 +303,11 @@ exports.updateUser = async (req, res) => {
   } else {
     const cart = req.body;
 
-    if (req.file) {
-      cart.sticker = {
-        url: req.file.path,
-        public_id: req.file.filename,
-      };
+    if (req.files) {
+      cart.stickers = req.files.map((file) => ({
+        url: file.path,
+        public_id: file.filename,
+      }));
     }
 
     const result = await User.updateOne(
