@@ -63,8 +63,8 @@ const Page = () => {
   const [size, setSize] = useState("");
   const [openLightBox, setOpenLightBox] = useState(false);
   const lightBoxImages = [
-    frontStickerPreview && frontStickerPreview,
-    backStickerPreview && backStickerPreview,
+    frontStickerPreview === null ? backStickerPreview : frontStickerPreview,
+    backStickerPreview === null ? frontStickerPreview : backStickerPreview,
   ];
 
   useEffect(() => {
