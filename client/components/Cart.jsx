@@ -79,7 +79,7 @@ const Cart = () => {
           </thead>
           <tbody>
             {user?.cart?.map(
-              ({ product, sticker, quantity, size, price, _id }) => (
+              ({ product, stickers, quantity, size, price, _id }) => (
                 <tr
                   key={product?._id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -97,11 +97,16 @@ const Cart = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <Avatar
-                      src={sticker?.url}
-                      alt={sticker?.public_id}
-                      size="sm"
-                    />
+                    <span className="flex flex-row gap-x-2 items-center">
+                      {stickers?.map((sticker) => (
+                        <Avatar
+                          key={sticker?._id}
+                          src={sticker?.url}
+                          alt={sticker?.public_id}
+                          size="sm"
+                        />
+                      ))}
+                    </span>
                   </td>
                   <td className="px-6 py-4">{size}</td>
                   <td className="px-6 py-4">{quantity}</td>

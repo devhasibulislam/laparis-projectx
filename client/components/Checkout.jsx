@@ -50,10 +50,7 @@ const Checkout = () => {
     { isLoading: orderVerifying, data: verifiedData, error: verificationError },
   ] = useVerifyOrderMutation();
 
-  const totalPrice = user?.cart?.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const totalPrice = user?.cart?.reduce((sum, item) => sum + item.price, 0);
 
   async function verifyPayment(data) {
     const res = await loadScript(
