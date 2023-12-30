@@ -27,7 +27,14 @@ import Select from "react-select";
 import { RxCross2 } from "react-icons/rx";
 
 const Page = () => {
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm({
+    defaultValues: {
+      regularPrice: 1,
+      discountedPrice: 0,
+      frontStickerPrice: 0,
+      backStickerPrice: 0,
+    },
+  });
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [galleryPreview, setGalleryPreview] = useState([]);
   const [selectedGalleryFiles, setSelectedGalleryFiles] = useState([]);
@@ -69,7 +76,7 @@ const Page = () => {
     }
 
     if (productError?.data) {
-      toast.error(error?.data?.description || "Something went wrong", {
+      toast.error(productError?.data?.description || "Something went wrong", {
         id: "addProduct",
       });
     }
@@ -145,12 +152,12 @@ const Page = () => {
       formData.append("sizes", data.sizes[i]);
     }
 
-    formData.forEach((value, key) => {
-      console.log(key, ":", value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key, ":", value);
+    // });
 
     // Uncomment the line below when you're ready to submit the form
-    // addProduct(formData);
+    addProduct(formData);
   };
 
   return (
@@ -290,6 +297,7 @@ const Page = () => {
               name="discountedPrice"
               id="discountedPrice"
               min={1}
+              {...register("discountedPrice", { required: false })}
               placeholder="i.e. $145"
               className="w-full"
             />
@@ -307,6 +315,7 @@ const Page = () => {
               name="frontStickerPrice"
               id="frontStickerPrice"
               min={1}
+              {...register("frontStickerPrice", { required: false })}
               placeholder="i.e. $25"
               className="w-full"
             />
@@ -321,6 +330,7 @@ const Page = () => {
               name="backStickerPrice"
               id="backStickerPrice"
               min={1}
+              {...register("backStickerPrice", { required: false })}
               placeholder="i.e. $15"
               className="w-full"
             />
