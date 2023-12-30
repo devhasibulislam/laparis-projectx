@@ -17,7 +17,7 @@
 const productService = require("../services/product.service");
 
 /* add new product */
-exports.addProduct = async (req, res) => {
+exports.addProduct = async (req, res, next) => {
   try {
     await productService.addProduct(req, res);
   } catch (error) {
@@ -28,7 +28,7 @@ exports.addProduct = async (req, res) => {
 };
 
 /* get products */
-exports.getProducts = async (req, res) => {
+exports.getProducts = async (req, res, next) => {
   try {
     await productService.getProducts(req, res);
   } catch (error) {
