@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 const Favorites = () => {
   const user = useSelector((state) => state.user.auth);
 
-  return user?.favorites?.length === 0 ? (
+  return user?.favorites?.length === 0 || Object.keys(user).length === 0 ? (
     <>
       <p className="text-center">No Products Added!</p>
     </>

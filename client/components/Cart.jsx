@@ -44,7 +44,7 @@ const Cart = () => {
     }
   }, [cartRemoving, cartData, cartErrorData]);
 
-  return user?.cart?.length === 0 ? (
+  return user?.cart?.length === 0 || Object.keys(user).length === 0 ? (
     <>
       <p className="text-lg">No Products Added in Cart!</p>
     </>

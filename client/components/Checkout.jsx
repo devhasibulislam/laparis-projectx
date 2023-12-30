@@ -135,10 +135,11 @@ const Checkout = () => {
   ]);
 
   const handleCheckout = (data) => {
+    console.log(data);
     createOrder({ amount: totalPrice });
   };
 
-  return user?.cart?.length === 0 ? (
+  return user?.cart?.length === 0 || Object.keys(user).length === 0 ? (
     <>
       <p className="text-lg">No Products Added to Cart!</p>
     </>
