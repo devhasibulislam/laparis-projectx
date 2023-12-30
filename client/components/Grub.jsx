@@ -43,9 +43,15 @@ const Grub = ({ product }) => {
     }
   }, [product, updating, updateData, updateError]);
 
+  function calculatePercentageDifference(oldValue, newValue) {
+    var percentageDifference =
+      Math.abs((newValue - oldValue) / ((oldValue + newValue) / 2)) * 100;
+    return percentageDifference;
+  }
+
   return (
     <section className="flex flex-col gap-y-4">
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2 relative">
         <Image
           isZoomed
           src={product?.thumbnail?.url}
@@ -60,6 +66,16 @@ const Grub = ({ product }) => {
         >
           {product?.name}
         </h2>
+
+        {calculatePercentageDifference(product?.price, 500).toFixed(2) > 0 && (
+          <Chip
+            size="sm"
+            className="absolute top-3 right-3 z-50 shadow bg-white text-black"
+            radius="none"
+          >
+            {calculatePercentageDifference(product?.price, 500).toFixed(2)}% Off
+          </Chip>
+        )}
       </div>
       <article className="flex flex-col gap-y-2 h-full mt-auto">
         <div className="flex flex-row justify-between items-center">
