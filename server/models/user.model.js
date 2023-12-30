@@ -81,10 +81,12 @@ const userSchema = new mongoose.Schema(
           type: ObjectId,
           ref: "Product",
         },
-        sticker: {
-          url: String,
-          public_id: String,
-        },
+        stickers: [
+          {
+            url: String,
+            public_id: String,
+          },
+        ],
         quantity: {
           type: Number,
           min: [1, "Quantity won't be less than 1"],
