@@ -18,70 +18,127 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
 /* create product schema */
-const productSchema = new mongoose.Schema({
-  // for product name
-  name: {
-    type: String,
-    required: [true, "Please, provide product name"],
-    trim: true,
-    unique: true,
-  },
-
-  // for category description
-  description: {
-    type: String,
-    required: [true, "Please, provide category description"],
-    trim: true,
-  },
-
-  // for product price
-  price: {
-    type: Number,
-    required: [true, "Please, provide product price"],
-    min: [1, "Price won't be less than 1"],
-  },
-
-  // for category
-  category: {
-    type: ObjectId,
-    ref: "Category",
-    required: [true, "Please, provide category"],
-  },
-
-  // for sizes
-  sizes: [
-    {
+const productSchema = new mongoose.Schema(
+  {
+    // for product name
+    name: {
       type: String,
-      required: [true, "Please, provide product size"],
+      required: [true, "Please, provide product name"],
+      trim: true,
+      unique: true,
     },
-  ],
 
-  // for thumbnail
-  thumbnail: {
-    url: {
+    // for category description
+    description: {
       type: String,
-      required: [true, "Please, provide product thumbnail"],
+      required: [true, "Please, provide category description"],
+      trim: true,
     },
-    public_id: {
-      type: String,
-      required: [true, "Please, provide product thumbnail public id"],
-    },
-  },
 
-  // for gallery
-  gallery: [
-    {
+    // for product regularPrice
+    regularPrice: {
+      type: Number,
+      required: [true, "Please, provide product regularPrice"],
+      min: [1, "Price won't be less than 1"],
+    },
+
+    // for product discountedPrice
+    discountedPrice: {
+      type: Number,
+      min: [0, "Price won't be less than 0"],
+      max: [
+        this.regularPrice,
+        "Discounted price can't be more than regular price",
+      ],
+      default: 0,
+    },
+
+    // for product frontStickerPrice
+    frontStickerPrice: {
+      type: Number,
+      min: [0, "Price won't be less than 0"],
+      default: 0,
+    },
+
+    // for product backStickerPrice
+    backStickerPrice: {
+      type: Number,
+      min: [0, "Price won't be less than 0"],
+      default: 0,
+    },
+
+    // for category
+    category: {
+      type: ObjectId,
+      ref: "Category",
+      required: [true, "Please, provide category"],
+    },
+
+    // for sizes
+    sizes: [
+      {
+        type: String,
+        required: [true, "Please, provide product size"],
+      },
+    ],
+
+    // for thumbnail
+    thumbnail: {
       url: {
         type: String,
-        required: [true, "Please, provide product gallery"],
+        required: [true, "Please, provide product thumbnail"],
       },
       public_id: {
         type: String,
-        required: [true, "Please, provide product gallery public id"],
+        required: [true, "Please, provide product thumbnail public id"],
       },
     },
-  ],
-});
+
+    // for gallery
+    gallery: [
+      {
+        url: {
+          type: String,
+          required: [true, "Please, provide product gallery"],
+        },
+        public_id: {
+          type: String,
+          required: [true, "Please, provide product gallery public id"],
+        },
+      },
+    ],
+
+    // for rating
+    rating: [
+      {
+        user: {
+          type: ObjectId,
+          ref: "User",
+        },
+        star: {
+          type: Number,
+          min: [1, "Rating can't be less than 1"],
+          max: [5, "Rating can't be more than 5"],
+        },
+        review: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
+
+    // for user account time stamps
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
 
 /* create product schema */
 const Product = mongoose.model("Product", productSchema);
