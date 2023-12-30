@@ -15,6 +15,10 @@ const routes = [
     pathName: "List Products",
     href: "/dashboard/list-products",
   },
+  {
+    pathName: "Orders",
+    href: "/dashboard/ordrs",
+  },
 ];
 
 export default routes;
