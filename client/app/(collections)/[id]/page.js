@@ -121,16 +121,26 @@ const Page = () => {
     }
   };
 
+  const basePrice =
+    product?.discountedPrice !== 0
+      ? product?.discountedPrice
+      : product?.regularPrice;
+
+  const totalStickerPrice =
+    (frontStickerPreview !== null ? product.frontStickerPrice : 0) +
+    (backStickerPreview !== null ? product.backStickerPrice : 0);
+
+  const totalPrice = basePrice * quantity + totalStickerPrice;
+
+  const finalPrice = totalPrice > 0 ? totalPrice : 0;
+
   function handleAddToCart() {
     if (frontStickerPreview === null && backStickerPreview === null) {
       update({
         product: product._id,
         quantity,
         size,
-        price:
-          (product?.discountedPrice !== 0
-            ? product?.discountedPrice
-            : product?.regularPrice) * quantity,
+        price: finalPrice,
       });
     } else {
       const formData = new FormData();
@@ -140,12 +150,7 @@ const Page = () => {
       if (frontSticker) formData.append("stickers", frontSticker);
       if (backSticker) formData.append("stickers", backSticker);
       formData.append("size", size);
-      formData.append(
-        "price",
-        (product?.discountedPrice !== 0
-          ? product?.discountedPrice
-          : product?.regularPrice) * quantity
-      );
+      formData.append("price", finalPrice);
 
       update(formData);
     }
@@ -198,12 +203,7 @@ const Page = () => {
               <Divider />
               <div className="flex flex-row gap-x-2 capitalize">
                 <span className="text-base flex flex-row gap-x-0.5">
-                  $
-                  <b>
-                    {(product?.discountedPrice !== 0
-                      ? product?.discountedPrice
-                      : product?.regularPrice) * quantity}
-                  </b>
+                  $<b>{finalPrice}</b>
                 </span>{" "}
                 <Divider orientation="vertical" />{" "}
                 {fetchingCategory ? (
