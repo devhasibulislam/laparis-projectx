@@ -39,7 +39,7 @@ const Login = () => {
         id: "login",
       });
     }
-  }, [isLoading, data, error]);
+  }, [isLoading, data, error, reset]);
 
   const handleLogin = (data) => {
     signin(data);

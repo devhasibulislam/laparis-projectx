@@ -37,7 +37,7 @@ const Register = () => {
         id: "register",
       });
     }
-  }, [isLoading, data, error]);
+  }, [isLoading, data, error, reset]);
 
   const handleRegister = (data) => {
     signup(data);

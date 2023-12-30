@@ -38,7 +38,7 @@ const Page = () => {
         id: "addCategory",
       });
     }
-  }, [isLoading, data, error]);
+  }, [isLoading, data, error, reset]);
 
   const handleAddCategory = (data) => {
     addCategory(data);

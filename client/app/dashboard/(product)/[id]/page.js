@@ -95,7 +95,7 @@ const Page = () => {
     return {
       ...product,
     };
-  }, []);
+  }, [product]);
 
   const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues,
@@ -122,9 +122,12 @@ const Page = () => {
     }
 
     if (categoriesError?.data) {
-      toast.error(categoriesError?.data?.description || "Something went wrong", {
-        id: "getCategories",
-      });
+      toast.error(
+        categoriesError?.data?.description || "Something went wrong",
+        {
+          id: "getCategories",
+        }
+      );
     }
 
     if (updatingProduct) {

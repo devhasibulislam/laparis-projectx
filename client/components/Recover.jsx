@@ -37,7 +37,7 @@ const Recover = () => {
         id: "recover",
       });
     }
-  }, [isLoading, data, error]);
+  }, [isLoading, data, error, reset]);
 
   const handleRecover = (data) => {
     recover(data);

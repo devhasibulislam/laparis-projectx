@@ -73,6 +73,7 @@ const Rating = ({ id }) => {
     fetchingProduct,
     productData,
     fetchingError,
+    reset,
   ]);
 
   const handleReview = (data) => {
@@ -129,7 +130,9 @@ const Rating = ({ id }) => {
                   key={review?._id}
                   className="flex flex-col gap-y-1 border-b pb-2"
                 >
-                  <h2 className="font-mono font-medium text-lg">{review.user.name}</h2>
+                  <h2 className="font-mono font-medium text-lg">
+                    {review.user.name}
+                  </h2>
                   <p className="text-sm text-slate-500">{review?.feedback}</p>
                   <p className="text-sm">Rating: {review?.star} ⭐</p>
                 </div>

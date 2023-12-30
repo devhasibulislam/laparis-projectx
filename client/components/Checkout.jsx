@@ -131,6 +131,7 @@ const Checkout = () => {
     orderVerifying,
     verifiedData,
     verificationError,
+    verifyPayment
   ]);
 
   const handleCheckout = (data) => {
