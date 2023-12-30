@@ -176,7 +176,7 @@ const Page = () => {
               className="w-full border border-black h-full relative flex items-center p-2"
             >
               <span className="h-full w-full text-sm">
-                Choose Product Thumbnail
+                Choose Product Thumbnail*
               </span>
               <input
                 type="file"
@@ -222,7 +222,7 @@ const Page = () => {
               className="w-full border border-black h-full relative flex items-center p-2"
             >
               <span className="h-full w-full text-sm">
-                Choose Product Gallery
+                Choose Product Gallery*
               </span>
               <input
                 type="file"
@@ -241,7 +241,7 @@ const Page = () => {
         </div>
 
         <label htmlFor="name" className="flex flex-col gap-y-1">
-          <span className="text-sm">Enter Product Name</span>
+          <span className="text-sm">Enter Product Name*</span>
           <input
             type="text"
             name="name"
@@ -253,7 +253,7 @@ const Page = () => {
         </label>
 
         <label htmlFor="description" className="flex flex-col gap-y-1">
-          <span className="text-sm">Enter Product Description</span>
+          <span className="text-sm">Enter Product Description*</span>
           <textarea
             name="description"
             id="description"
@@ -269,7 +269,7 @@ const Page = () => {
             htmlFor="regularPrice"
             className="flex flex-col gap-y-1 w-full"
           >
-            <span className="text-sm">Enter Regular Price</span>
+            <span className="text-sm">Enter Regular Price*</span>
             <input
               type="number"
               name="regularPrice"
@@ -290,7 +290,6 @@ const Page = () => {
               name="discountedPrice"
               id="discountedPrice"
               min={1}
-              {...register("discountedPrice", { required: true })}
               placeholder="i.e. $145"
               className="w-full"
             />
@@ -308,7 +307,6 @@ const Page = () => {
               name="frontStickerPrice"
               id="frontStickerPrice"
               min={1}
-              {...register("frontStickerPrice", { required: true })}
               placeholder="i.e. $25"
               className="w-full"
             />
@@ -323,7 +321,6 @@ const Page = () => {
               name="backStickerPrice"
               id="backStickerPrice"
               min={1}
-              {...register("backStickerPrice", { required: true })}
               placeholder="i.e. $15"
               className="w-full"
             />
@@ -332,7 +329,7 @@ const Page = () => {
 
         <div className="flex lg:flex-row flex-col gap-4 md:w-3/4 w-full">
           <label htmlFor="category" className="flex flex-col gap-y-1 w-full">
-            <span className="text-sm">Choose Product Category</span>
+            <span className="text-sm">Choose Product Category*</span>
             {fetchingCategories ? (
               <>
                 <Skeleton className="h-full w-full" />
@@ -355,7 +352,7 @@ const Page = () => {
             )}
           </label>
           <label htmlFor="sizes" className="flex flex-col gap-y-1 w-full">
-            <span className="text-sm">Choose Product Sizes</span>
+            <span className="text-sm">Choose Product Sizes*</span>
             <Select
               name="sizes"
               id="sizes"
