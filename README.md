@@ -10,7 +10,7 @@ With its modern design and intuitive layout, the Home Page welcomes users to an 
 
 ## Features
 
-- Total Pages `x`
+- Total Pages `x21`
   - Home Page `x1`
   - Shop Page `x4`
     - All Products `x1`
