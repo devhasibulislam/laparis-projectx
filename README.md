@@ -133,10 +133,10 @@ RAZORPAY_KEY_SECRET="RAZORPAY_RAZORPAY_KEY_SECRET"
 
 # Important `Links`
 
-[x] Client Side [Click Here](https://laparis-projectx-csr.vercel.app)
-[x] Server Side [Click Here](https://laparis-projectx-ssr.vercel.app)
-[x] Inspiration [Click Here](https://cs-laparis.myshopify.com)
+- [x] Client Side [Click Here](https://laparis-projectx-csr.vercel.app)
+- [x] Server Side [Click Here](https://laparis-projectx-ssr.vercel.app)
+- [x] Inspiration [Click Here](https://cs-laparis.myshopify.com)
 
 # Author
 
-[x] [Hasibul Islam](https://bento.me/devhasibulislam) `MERN Stack Developer`
+- [x] [Hasibul Islam](https://bento.me/devhasibulislam) `MERN Stack Developer`
