@@ -141,6 +141,7 @@ const Page = () => {
           <option value="" disabled>
             Short by
           </option>
+          <option value="all">All</option>
           <option value="size">Size</option>
           <option value="price">Price</option>
           <option value="category">Category</option>

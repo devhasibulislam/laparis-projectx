@@ -241,7 +241,7 @@ const Page = () => {
             <Image
               src={thumbnailPreview || product?.thumbnail?.url}
               alt={product?.thumbnail?.public_id || "thumbnail"}
-              radius="none"
+              
               width={100}
               height={100}
               className="h-[100px] w-[100px] object-cover"
@@ -272,7 +272,7 @@ const Page = () => {
                       key={index}
                       src={item?.url}
                       alt={item?.public_id}
-                      radius="none"
+                      
                       width={100}
                       height={100}
                       className="h-[100px] w-[100px] object-cover"
@@ -289,7 +289,7 @@ const Page = () => {
                         alt={"gallery" + index}
                         width={100}
                         height={100}
-                        radius="none"
+                        
                         className="h-[100px] w-[100px] object-cover"
                       />
                       <button
@@ -452,7 +452,7 @@ const Page = () => {
 
         <button
           type="submit"
-          className="py-2 bg-primary text-white md:w-3/4 w-full"
+          className="py-2 bg-primary text-white md:w-3/4 w-full rounded"
         >
           Update Product
         </button>

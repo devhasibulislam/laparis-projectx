@@ -81,7 +81,7 @@ function CategoryCard({ category }) {
 
   return (
     <>
-      <Card key={category?._id} className="p-1" radius="none">
+      <Card key={category?._id} className="p-1" >
         <CardHeader className="justify-between">
           {category?.name}
           {category?.name === "Men Items" ||

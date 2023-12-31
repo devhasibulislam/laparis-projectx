@@ -47,7 +47,7 @@ const Banner = () => {
           height={656}
           alt="Girl's Image with Zoom"
           src="/banner/banner1.png"
-          radius="none"
+          
         />
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-4">
@@ -58,7 +58,7 @@ const Banner = () => {
             height={580}
             alt="Banner hero Image"
             src="/banner/banner3.png"
-            radius="none"
+            
           />
           <article className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 z-50">
             <h1 className={kaushanScript.className + " " + "text-3xl"}>
@@ -79,7 +79,7 @@ const Banner = () => {
             height={656}
             alt="Boy's Image with Zoom"
             src="/banner/banner2.png"
-            radius="none"
+            
           />
           <article className="flex flex-col gap-y-2">
             <h1

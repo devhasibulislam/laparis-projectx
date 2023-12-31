@@ -180,7 +180,7 @@ const Page = () => {
             )}
             <label
               htmlFor="thumbnail"
-              className="w-full border border-black h-full relative flex items-center p-2"
+              className="w-full border border-black h-full relative flex items-center p-2 rounded"
             >
               <span className="h-full w-full text-sm">
                 Choose Product Thumbnail*
@@ -194,7 +194,7 @@ const Page = () => {
                   required: true,
                   onChange: (event) => handleThumbnailPreview(event),
                 })}
-                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer rounded"
               />
             </label>
           </div>
@@ -226,7 +226,7 @@ const Page = () => {
             )}
             <label
               htmlFor="gallery"
-              className="w-full border border-black h-full relative flex items-center p-2"
+              className="w-full border border-black h-full relative flex items-center p-2 rounded"
             >
               <span className="h-full w-full text-sm">
                 Choose Product Gallery*
@@ -241,7 +241,7 @@ const Page = () => {
                   required: true,
                   onChange: (event) => handleSetGalleryPreview(event),
                 })}
-                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer rounded"
               />
             </label>
           </div>
@@ -384,7 +384,7 @@ const Page = () => {
 
         <button
           type="submit"
-          className="py-2 bg-primary text-white md:w-3/4 w-full"
+          className="py-2 bg-primary text-white md:w-3/4 w-full rounded"
         >
           Create Product
         </button>

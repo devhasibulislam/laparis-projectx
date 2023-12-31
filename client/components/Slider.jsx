@@ -74,7 +74,7 @@ const Slider = () => {
               height={700}
               alt="Slider Image with delay"
               src="/sliders/slider2.png"
-              radius="none"
+              
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 z-50 text-white">
               <h1
@@ -106,7 +106,7 @@ const Slider = () => {
               height={700}
               alt="Slider Image with delay"
               src="/sliders/slider3.png"
-              radius="none"
+              
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 z-50 text-white">
               <h1

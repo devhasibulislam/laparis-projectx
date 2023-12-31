@@ -31,13 +31,13 @@ input[type="radio"] {
   input,
   textarea,
   select {
-    @apply focus:!ring-0 focus:!outline-0 focus:!outline-offset-0 focus:!border-primary;
+    @apply !rounded;
   }
   
   textarea {
-    @apply form-textarea text-sm resize-none;
+    @apply form-textarea text-sm resize-none !rounded;
   }
   
   select {
-    @apply form-select text-sm resize-none rounded-none;
+    @apply form-select text-sm resize-none;
   }

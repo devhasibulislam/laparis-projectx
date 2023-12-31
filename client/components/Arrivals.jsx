@@ -86,7 +86,7 @@ const Arrivals = () => {
         <>
           <div className="flex w-full flex-col gap-y-6">
             <Tabs
-              radius="none"
+              
               aria-label="Dynamic tabs"
               items={tabs}
               classNames={{
@@ -111,7 +111,7 @@ const Arrivals = () => {
               showAnchorIcon
               variant="solid"
               className="w-fit mx-auto"
-              radius="none"
+              
             >
               Show More
             </Button>

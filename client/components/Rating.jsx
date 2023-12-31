@@ -85,7 +85,7 @@ const Rating = ({ id }) => {
       <Button
         color="primary"
         size="md"
-        radius="none"
+        
         onPress={() => setShowRating(!showRating)}
       >
         Reviews

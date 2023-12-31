@@ -277,7 +277,7 @@ function MyCart() {
             <div className="flex flex-row gap-x-2">
               <Button
                 variant="bordered"
-                radius="none"
+                
                 size="sm"
                 className={modalItem === "cart" && "bg-black text-white"}
                 onPress={() => setModalItem("cart")}
@@ -286,7 +286,7 @@ function MyCart() {
               </Button>
               <Button
                 variant="bordered"
-                radius="none"
+                
                 size="sm"
                 className={modalItem === "checkout" && "bg-black text-white"}
                 onPress={() => setModalItem("checkout")}

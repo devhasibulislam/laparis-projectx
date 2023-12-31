@@ -169,7 +169,7 @@ const Page = () => {
                 width={50}
                 src={product.thumbnail.url}
                 alt={product.thumbnail.public_id}
-                radius="none"
+                
                 onClick={() => setImageSrc(product.thumbnail.url)}
                 className="cursor-pointer h-[70px] w-[50px] object-cover"
               />
@@ -181,7 +181,7 @@ const Page = () => {
                   src={item.url}
                   alt={item.public_id}
                   key={index}
-                  radius="none"
+                  
                   onClick={() => setImageSrc(item.url)}
                   className="cursor-pointer h-[70px] w-[50px] object-cover"
                 />
@@ -307,7 +307,7 @@ const Page = () => {
 
               <div className="flex flex-row gap-x-2">
                 <Button
-                  radius="none"
+                  
                   size="md"
                   color="primary"
                   className="w-full"
@@ -321,7 +321,7 @@ const Page = () => {
                     aria-label="Favorite"
                     color="primary"
                     size="md"
-                    radius="none"
+                    
                     onPress={() => update({ favorite: product?._id })}
                   >
                     <MdFavoriteBorder className="h-5 w-5" />
