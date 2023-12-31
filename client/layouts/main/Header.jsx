@@ -61,6 +61,7 @@ const Header = () => {
           height={80}
           width={160}
           onClick={() => router.push("/")}
+          className="cursor-pointer"
         />
 
         {/* menu items */}
