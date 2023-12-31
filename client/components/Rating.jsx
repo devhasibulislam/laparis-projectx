@@ -108,10 +108,10 @@ const Rating = ({ id }) => {
               onSubmit={handleSubmit(handleReview)}
               className="flex md:flex-row flex-col gap-4 items-center"
             >
-              <input
-                type="text"
+              <textarea
                 name="feedback"
                 id="feedback"
+                rows={3}
                 {...register("feedback", { required: true })}
                 placeholder="Add your thoughts"
                 className="w-full"
@@ -148,7 +148,7 @@ const Rating = ({ id }) => {
 
               <button
                 type="submit"
-                className="p-2 h-full bg-primary text-white text-sm"
+                className="p-2 h-full bg-primary text-white text-sm rounded"
               >
                 Submit
               </button>
