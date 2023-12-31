@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, children }) => {
           <div className="w-full h-full flex justify-center items-center">
             <div
               ref={modalRef}
-              className="lg:w-2/5 md:w-3/4 w-4/5 max-h-[80%] mx-auto bg-white p-8 border-2 border-secondary rounded overflow-y-auto"
+              className="lg:w-1/2 md:w-3/4 w-5/6 max-h-[80%] mx-auto bg-white p-8 border-2 border-secondary rounded overflow-y-auto"
             >
               {children}
             </div>
