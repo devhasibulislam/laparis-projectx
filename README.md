@@ -35,6 +35,8 @@ With its modern design and intuitive layout, the Home Page welcomes users to an 
   - Cart and Checkout
   - Payment Integration `razorpay`
   - Favorites List
+  - Profile Update
+  - User Own Orders
 - Add & Read Reviews
 - Photo Preview Before Upload
 - Intuitive and user-friendly design
