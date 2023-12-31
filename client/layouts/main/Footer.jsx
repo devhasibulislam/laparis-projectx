@@ -254,7 +254,7 @@ const Footer = () => {
       <Divider className="my-4" />
 
       <p className="text-xs text-gray-500 text-center">
-        &copy; {year}. Laparis. All rights reserved.
+        &copy; {year}. crymsun. All rights reserved.
       </p>
     </footer>
   );
