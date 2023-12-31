@@ -260,10 +260,10 @@ const Page = () => {
                     <section className="flex flex-col gap-y-4">
                       <div className="flex md:flex-row flex-col gap-4">
                         <div className="w-full h-full flex flex-col gap-y-4">
-                          <h2 className="w-fit mx-auto font-semibold text-xl">
-                            Add Front Side Stickers
-                          </h2>
                           <div className="w-fit mx-auto h-full relative border">
+                            <h2 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold text-xl">
+                              Front Sticker
+                            </h2>
                             <input
                               type="file"
                               name="stickers"
@@ -289,10 +289,10 @@ const Page = () => {
                         />
 
                         <div className="w-full h-full flex flex-col gap-y-4">
-                          <h2 className="w-fit mx-auto font-semibold text-xl">
-                            Add Back Side Stickers
-                          </h2>
                           <div className="w-fit mx-auto h-full relative border">
+                            <h2 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold text-xl">
+                              Back Sticker
+                            </h2>
                             <input
                               type="file"
                               name="stickers"
