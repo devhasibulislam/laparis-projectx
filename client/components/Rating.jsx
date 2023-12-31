@@ -85,14 +85,17 @@ const Rating = ({ id }) => {
       <Button
         color="primary"
         size="md"
-        
         onPress={() => setShowRating(!showRating)}
       >
         Reviews
       </Button>
 
       {showRating && (
-        <Modal isOpen={showRating} onClose={() => setShowRating(false)}>
+        <Modal
+          className="lg:w-1/3 md:w-3/4 w-5/6"
+          isOpen={showRating}
+          onClose={() => setShowRating(false)}
+        >
           <div className="flex flex-col gap-y-6 w-full">
             <form
               onSubmit={handleSubmit(handleReview)}

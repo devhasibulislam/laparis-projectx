@@ -43,6 +43,7 @@ import { MdBackHand } from "react-icons/md";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Rating from "@/components/Rating";
+import Modal from "@/components/Modal";
 
 const Page = () => {
   const { id } = useParams();
@@ -67,6 +68,7 @@ const Page = () => {
     frontStickerPreview === null ? backStickerPreview : frontStickerPreview,
     backStickerPreview === null ? frontStickerPreview : backStickerPreview,
   ];
+  const [showStickerModal, setShowStickerModal] = useState(false);
 
   useEffect(() => {
     if (product.thumbnail) {
@@ -239,69 +241,146 @@ const Page = () => {
                     onChange={(event) => setQuantity(event.target.value)}
                   />
                 </Tooltip>
-                {product?.frontStickerPrice !== 0 && (
-                  <>
-                    <Tooltip content="Choose Front-Side Sticker">
-                      <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
-                        <MdFrontHand className="h-6 w-6 cursor-pointer" />
+                <Button
+                  size="md"
+                  color="primary"
+                  radius="sm"
+                  className="w-full"
+                  onPress={() => setShowStickerModal(!showStickerModal)}
+                >
+                  Add Stickers
+                </Button>
 
-                        <input
-                          type="file"
-                          name="stickers"
-                          id="stickers"
-                          accept="image/png, image/jpeg, image/jpg"
-                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                          onChange={handleFrontStickerPreview}
-                        />
-                      </span>
-                    </Tooltip>
-                    {frontStickerPreview && (
-                      <NextImage
-                        src={frontStickerPreview}
-                        alt="sticker"
-                        height={36}
-                        width={30}
-                        className="h-full object-cover"
-                        onClick={() => setOpenLightBox(true)}
-                      />
-                    )}
-                  </>
-                )}
-                {product?.backStickerPrice !== 0 && (
-                  <>
-                    <Tooltip content="Choose Back-Side Sticker">
-                      <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
-                        <MdBackHand className="h-6 w-6 cursor-pointer" />
+                {showStickerModal && (
+                  <Modal
+                    isOpen={showStickerModal}
+                    onClose={() => setShowStickerModal(false)}
+                    className="lg:w-1/3 md:w-3/4 w-5/6"
+                  >
+                    <section className="flex flex-col gap-y-4">
+                      <div className="flex md:flex-row flex-col gap-4">
+                        <div className="w-full h-full flex flex-col gap-y-4">
+                          <h2 className="w-fit mx-auto font-semibold text-xl">
+                            Add Front Side Stickers
+                          </h2>
+                          <div className="w-fit mx-auto h-full relative border">
+                            <input
+                              type="file"
+                              name="stickers"
+                              id="stickers"
+                              accept="image/png, image/jpeg, image/jpg"
+                              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                              onChange={handleFrontStickerPreview}
+                            />
+                            <NextImage
+                              src={frontStickerPreview || "/front.png"}
+                              alt="sticker"
+                              height={360}
+                              width={180}
+                              className="h-[360px] w-full max-w-full object-contain"
+                              onClick={() => setOpenLightBox(true)}
+                            />
+                          </div>
+                        </div>
 
-                        <input
-                          type="file"
-                          name="stickers"
-                          id="stickers"
-                          accept="image/png, image/jpeg, image/jpg"
-                          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                          onChange={handleBackStickerPreview}
+                        <Divider
+                          className="h-56 my-auto md:block hidden"
+                          orientation="vertical"
                         />
-                      </span>
-                    </Tooltip>
-                    {backStickerPreview && (
-                      <NextImage
-                        src={backStickerPreview}
-                        alt="sticker"
-                        height={36}
-                        width={30}
-                        className="h-full object-cover"
-                        onClick={() => setOpenLightBox(true)}
-                      />
-                    )}
-                    <Lightbox
-                      open={openLightBox}
-                      close={() => setOpenLightBox(false)}
-                      disableSlider={true}
-                      slides={lightBoxImages.map((image) => ({
-                        src: image,
-                      }))}
-                    />
-                  </>
+
+                        <div className="w-full h-full flex flex-col gap-y-4">
+                          <h2 className="w-fit mx-auto font-semibold text-xl">
+                            Add Back Side Stickers
+                          </h2>
+                          <div className="w-fit mx-auto h-full relative border">
+                            <input
+                              type="file"
+                              name="stickers"
+                              id="stickers"
+                              accept="image/png, image/jpeg, image/jpg"
+                              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                              onChange={handleBackStickerPreview}
+                            />
+                            <NextImage
+                              src={backStickerPreview || "/back.png"}
+                              alt="sticker"
+                              height={360}
+                              width={180}
+                              className="h-[360px] w-full max-w-full object-contain"
+                              onClick={() => setOpenLightBox(true)}
+                            />
+                          </div>
+                        </div>
+
+                        {/* {product?.frontStickerPrice !== 0 && (
+                        <>
+                          <Tooltip content="Choose Front-Side Sticker">
+                            <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
+                              <MdFrontHand className="h-6 w-6 cursor-pointer" />
+                              <input
+                                type="file"
+                                name="stickers"
+                                id="stickers"
+                                accept="image/png, image/jpeg, image/jpg"
+                                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                                onChange={handleFrontStickerPreview}
+                              />
+                            </span>
+                          </Tooltip>
+                          {frontStickerPreview && (
+                            <NextImage
+                              src={frontStickerPreview}
+                              alt="sticker"
+                              height={36}
+                              width={30}
+                              className="h-full object-cover"
+                              onClick={() => setOpenLightBox(true)}
+                            />
+                          )}
+                        </>
+                      )}
+                      {product?.backStickerPrice !== 0 && (
+                        <>
+                          <Tooltip content="Choose Back-Side Sticker">
+                            <span className="relative border px-4 cursor-pointer h-full flex flex-row justify-center items-center border-black">
+                              <MdBackHand className="h-6 w-6 cursor-pointer" />
+
+                              <input
+                                type="file"
+                                name="stickers"
+                                id="stickers"
+                                accept="image/png, image/jpeg, image/jpg"
+                                className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                                onChange={handleBackStickerPreview}
+                              />
+                            </span>
+                          </Tooltip>
+                          {backStickerPreview && (
+                            <NextImage
+                              src={backStickerPreview}
+                              alt="sticker"
+                              height={36}
+                              width={30}
+                              className="h-full object-cover"
+                              onClick={() => setOpenLightBox(true)}
+                            />
+                          )}
+                          <Lightbox
+                            open={openLightBox}
+                            close={() => setOpenLightBox(false)}
+                            disableSlider={true}
+                            slides={lightBoxImages.map((image) => ({
+                              src: image,
+                            }))}
+                          />
+                        </>
+                      )} */}
+                      </div>
+                      <p className="text-center text-sm">
+                        Click on the photo to choose sticker
+                      </p>
+                    </section>
+                  </Modal>
                 )}
               </div>
 

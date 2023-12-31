@@ -248,7 +248,11 @@ function SearchProducts() {
         </button>
       </Tooltip>
       {showSearch && (
-        <Modal isOpen={showSearch} onClose={() => setShowSearch(false)}>
+        <Modal
+          className={"lg:w-1/3 md:w-3/4 w-5/6"}
+          isOpen={showSearch}
+          onClose={() => setShowSearch(false)}
+        >
           <Search />
         </Modal>
       )}
@@ -272,12 +276,15 @@ function MyCart() {
         </button>
       </Tooltip>
       {showCart && (
-        <Modal isOpen={showCart} onClose={() => setShowCart(false)}>
+        <Modal
+          className={"lg:w-3/5 md:w-3/4 w-5/6"}
+          isOpen={showCart}
+          onClose={() => setShowCart(false)}
+        >
           <div className="w-full h-full flex flex-col gap-y-4">
             <div className="flex flex-row gap-x-2">
               <Button
                 variant="bordered"
-                
                 size="sm"
                 className={modalItem === "cart" && "bg-black text-white"}
                 onPress={() => setModalItem("cart")}
@@ -286,7 +293,6 @@ function MyCart() {
               </Button>
               <Button
                 variant="bordered"
-                
                 size="sm"
                 className={modalItem === "checkout" && "bg-black text-white"}
                 onPress={() => setModalItem("checkout")}
@@ -324,7 +330,7 @@ function MyFavorites() {
         </button>
       </Tooltip>
       {showFavorites && (
-        <Modal isOpen={showFavorites} onClose={() => setShowFavorites(false)}>
+        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showFavorites} onClose={() => setShowFavorites(false)}>
           <Favorites />
         </Modal>
       )}
@@ -345,7 +351,7 @@ function UserRegister() {
       </button>
 
       {showRegister && (
-        <Modal isOpen={showRegister} onClose={() => setShowRegister(false)}>
+        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showRegister} onClose={() => setShowRegister(false)}>
           <Register />
         </Modal>
       )}
@@ -366,7 +372,7 @@ function UserLogin() {
       </button>
 
       {showLogin && (
-        <Modal isOpen={showLogin} onClose={() => setShowLogin(false)}>
+        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showLogin} onClose={() => setShowLogin(false)}>
           <Login />
         </Modal>
       )}
@@ -387,7 +393,7 @@ function UserRecover() {
       </button>
 
       {showRecover && (
-        <Modal isOpen={showRecover} onClose={() => setShowRecover(false)}>
+        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showRecover} onClose={() => setShowRecover(false)}>
           <Recover />
         </Modal>
       )}
