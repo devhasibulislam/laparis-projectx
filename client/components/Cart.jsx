@@ -98,14 +98,14 @@ const Cart = () => {
                   </td>
                   <td className="px-6 py-4">
                     <span className="flex flex-row gap-x-2 items-center">
-                      {stickers?.map((sticker) => (
+                      {stickers?.length > 0 ? stickers?.map((sticker) => (
                         <Avatar
                           key={sticker?._id}
                           src={sticker?.url}
                           alt={sticker?.public_id}
                           size="sm"
                         />
-                      ))}
+                      )) : "N/A"}
                     </span>
                   </td>
                   <td className="px-6 py-4">{size}</td>
