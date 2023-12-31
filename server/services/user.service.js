@@ -220,6 +220,7 @@ exports.persistLogin = async (req, res) => {
   const user = await User.findById(req.user._id).populate([
     "favorites",
     "cart.product",
+    "purchases.product",
   ]);
 
   res.status(200).json({
@@ -359,5 +360,41 @@ exports.getAllUser = async (res) => {
     }
   } catch (error) {
     next(error);
+  }
+};
+
+/* update user info */
+exports.updateUserInfo = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    res.status(404).json({
+      acknowledgement: false,
+      message: "Not Found",
+      description: "User not found",
+    });
+  } else {
+    const result = await User.updateOne(
+      { _id: req.params.id },
+      { $set: req.body },
+      {
+        runValidators: false,
+        returnOriginal: false,
+      }
+    );
+
+    if (result) {
+      res.status(200).json({
+        acknowledgement: true,
+        message: "OK",
+        description: "Successfully updated user info",
+      });
+    } else {
+      res.status(500).json({
+        acknowledgement: false,
+        message: "Internal Server Error",
+        description: "Something went wrong",
+      });
+    }
   }
 };

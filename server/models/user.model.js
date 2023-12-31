@@ -74,6 +74,12 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
+    // for address
+    address: {
+      type: String,
+      trim: true,
+    },
+
     // for carting orders
     cart: [
       {

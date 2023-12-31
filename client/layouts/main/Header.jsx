@@ -45,6 +45,7 @@ import Login from "@/components/Login";
 import Recover from "@/components/Recover";
 import { useSelector } from "react-redux";
 import Checkout from "@/components/Checkout";
+import UserOption from "@/components/UserOption";
 
 const Header = () => {
   const pathname = usePathname();
@@ -171,6 +172,7 @@ function MobileMenu() {
 
 function AuthMenu() {
   const [showMenu, setShowMenu] = useState(false);
+  const [showUserOption, setUserShowOption] = useState(false);
   const user = useSelector((state) => state.user);
   const auth = useMemo(() => user.auth || {}, [user]);
   const router = useRouter();
@@ -192,19 +194,45 @@ function AuthMenu() {
           <div className="absolute top-full mt-2 right-0 h-fit w-fit py-2 px-4 bg-white z-50 border flex flex-col gap-y-2 rounded">
             {Object.keys(auth).length > 0 ? (
               <>
-                <button
-                  className="flex flex-row items-center gap-x-2"
-                  onClick={() =>
-                    auth?.role === "admin" &&
-                    (window.location.href = "/dashboard")
-                  }
-                  disabled={auth?.role === "user"}
-                >
-                  <Avatar icon={<AvatarIcon />} className="w-5 h-5 text-tiny" />
-                  <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    {auth?.name.replace(/(\w+)\s(\w)\w*/, "$1 $2")}.
-                  </span>
-                </button>
+                {auth?.role === "admin" && (
+                  <button
+                    className="flex flex-row items-center gap-x-2"
+                    onClick={() => (window.location.href = "/dashboard")}
+                  >
+                    <Avatar
+                      icon={<AvatarIcon />}
+                      className="w-5 h-5 text-tiny"
+                    />
+                    <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      {auth?.name.replace(/(\w+)\s(\w)\w*/, "$1 $2")}.
+                    </span>
+                  </button>
+                )}
+
+                {auth?.role === "user" && (
+                  <button
+                    className="flex flex-row items-center gap-x-2"
+                    onClick={() => setUserShowOption(!showUserOption)}
+                  >
+                    <Avatar
+                      icon={<AvatarIcon />}
+                      className="w-5 h-5 text-tiny"
+                    />
+                    <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      {auth?.name.replace(/(\w+)\s(\w)\w*/, "$1 $2")}.
+                    </span>
+                  </button>
+                )}
+
+                {showUserOption && (
+                  <Modal
+                    className={"lg:w-3/5 md:w-3/4 w-5/6"}
+                    isOpen={showUserOption}
+                    onClose={() => setUserShowOption(false)}
+                  >
+                    <UserOption />
+                  </Modal>
+                )}
 
                 <button
                   className="flex flex-row items-center gap-x-2"
@@ -330,7 +358,11 @@ function MyFavorites() {
         </button>
       </Tooltip>
       {showFavorites && (
-        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showFavorites} onClose={() => setShowFavorites(false)}>
+        <Modal
+          className={"lg:w-1/3 md:w-3/4 w-5/6"}
+          isOpen={showFavorites}
+          onClose={() => setShowFavorites(false)}
+        >
           <Favorites />
         </Modal>
       )}
@@ -351,7 +383,11 @@ function UserRegister() {
       </button>
 
       {showRegister && (
-        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showRegister} onClose={() => setShowRegister(false)}>
+        <Modal
+          className={"lg:w-1/3 md:w-3/4 w-5/6"}
+          isOpen={showRegister}
+          onClose={() => setShowRegister(false)}
+        >
           <Register />
         </Modal>
       )}
@@ -372,7 +408,11 @@ function UserLogin() {
       </button>
 
       {showLogin && (
-        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showLogin} onClose={() => setShowLogin(false)}>
+        <Modal
+          className={"lg:w-1/3 md:w-3/4 w-5/6"}
+          isOpen={showLogin}
+          onClose={() => setShowLogin(false)}
+        >
           <Login />
         </Modal>
       )}
@@ -393,7 +433,11 @@ function UserRecover() {
       </button>
 
       {showRecover && (
-        <Modal className={"lg:w-1/3 md:w-3/4 w-5/6"} isOpen={showRecover} onClose={() => setShowRecover(false)}>
+        <Modal
+          className={"lg:w-1/3 md:w-3/4 w-5/6"}
+          isOpen={showRecover}
+          onClose={() => setShowRecover(false)}
+        >
           <Recover />
         </Modal>
       )}

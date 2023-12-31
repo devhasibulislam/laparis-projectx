@@ -196,7 +196,7 @@ const Checkout = () => {
             {...register("address", { required: true })}
           />
         </label>
-        <button type="submit" className="py-2 bg-primary text-white">
+        <button type="submit" className="py-2 bg-primary text-white rounded">
           Pay Now
         </button>
       </form>

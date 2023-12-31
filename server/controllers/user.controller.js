@@ -103,3 +103,14 @@ exports.getAllUser = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* update user info */
+exports.updateUserInfo = async (req, res, next) => {
+  try {
+    await userService.updateUserInfo(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};

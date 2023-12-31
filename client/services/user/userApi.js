@@ -54,6 +54,20 @@ export const userApi = laparisApi.injectEndpoints({
         },
       }),
     }),
+
+    // update user info
+    updateUserInfo: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/user/${id}`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body,
+      }),
+
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -61,4 +75,5 @@ export const {
   useUpdateUserMutation,
   useRemoveFromCartMutation,
   useGetAllUserQuery,
+  useUpdateUserInfoMutation,
 } = userApi;
