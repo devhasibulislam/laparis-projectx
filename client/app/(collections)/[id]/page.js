@@ -260,7 +260,7 @@ const Page = () => {
                     <section className="flex flex-col gap-y-4">
                       <div className="flex md:flex-row flex-col gap-4">
                         <div className="w-full h-full flex flex-col gap-y-4">
-                          <div className="w-fit mx-auto h-full relative border">
+                          <div className="w-fit mx-auto h-full relative border rounded">
                             <h2 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold text-xl">
                               Front Sticker
                             </h2>
@@ -277,7 +277,7 @@ const Page = () => {
                               alt="sticker"
                               height={360}
                               width={180}
-                              className="h-[360px] w-full max-w-full object-contain"
+                              className="h-[360px] w-full max-w-full object-contain rounded"
                               onClick={() => setOpenLightBox(true)}
                             />
                           </div>
@@ -289,7 +289,7 @@ const Page = () => {
                         />
 
                         <div className="w-full h-full flex flex-col gap-y-4">
-                          <div className="w-fit mx-auto h-full relative border">
+                          <div className="w-fit mx-auto h-full relative border rounded">
                             <h2 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold text-xl">
                               Back Sticker
                             </h2>
@@ -306,7 +306,7 @@ const Page = () => {
                               alt="sticker"
                               height={360}
                               width={180}
-                              className="h-[360px] w-full max-w-full object-contain"
+                              className="h-[360px] w-full max-w-full object-contain rounded"
                               onClick={() => setOpenLightBox(true)}
                             />
                           </div>
