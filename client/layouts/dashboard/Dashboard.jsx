@@ -85,7 +85,7 @@ const Dashboard = ({ children }) => {
           )}
         </div>
         <footer className="text-center p-2 text-sm">
-          &copy; {new Date().getFullYear()}. Laparis. All rights reserved.{" "}
+          &copy; {new Date().getFullYear()}. crymsun. All rights reserved.{" "}
           <Link href="https://bento.me/devhasibulislam" className="underline">
             @devhasibulislam
           </Link>
