@@ -56,7 +56,7 @@ const Brands = () => {
                 height={75}
                 alt={"Brand Image with delay" + index}
                 src={brand}
-                radius="none"
+                
               />
             </div>
           </SwiperSlide>

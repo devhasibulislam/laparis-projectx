@@ -58,7 +58,7 @@ const Grub = ({ product }) => {
           alt={product?.thumbnail?.public_id}
           height={250}
           className="h-[250px] w-full object-cover"
-          radius="none"
+          
         />
         <h2
           className="font-semibold cursor-pointer hover:underline line-clamp-2"
@@ -71,7 +71,7 @@ const Grub = ({ product }) => {
           <Chip
             size="sm"
             className="absolute top-3 right-3 z-50 shadow bg-white text-black"
-            radius="none"
+            
           >
             {Math.round(
               calculatePercentageDifference(
@@ -110,8 +110,8 @@ const Grub = ({ product }) => {
           <Link
             href={`/${product?._id}`}
             size="sm"
-            radius="none"
-            className="w-full bg-black text-white text-center flex justify-center items-center"
+            
+            className="w-full bg-black text-white text-center flex justify-center items-center rounded"
           >
             Add to Cart
           </Link>
@@ -123,7 +123,7 @@ const Grub = ({ product }) => {
           >
             <Button
               isIconOnly
-              radius="none"
+              radius="full"
               size="sm"
               className=" bg-black text-white"
               onPress={() => update({ favorite: product?._id })}

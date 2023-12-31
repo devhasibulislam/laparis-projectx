@@ -76,7 +76,7 @@ const Page = () => {
 
         <button
           type="submit"
-          className="py-2 bg-primary text-white md:w-3/4 w-full"
+          className="py-2 bg-primary text-white md:w-3/4 w-full rounded"
         >
           Create Category
         </button>

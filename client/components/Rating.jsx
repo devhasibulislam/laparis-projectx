@@ -22,9 +22,12 @@ import {
 } from "@/services/product/productApi";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { IoIosStarOutline } from "react-icons/io";
+import { IoIosStar } from "react-icons/io";
 
 const Rating = ({ id }) => {
   const [showRating, setShowRating] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(0);
   const { register, handleSubmit, reset } = useForm();
   const [
     addReview,
@@ -77,7 +80,11 @@ const Rating = ({ id }) => {
   ]);
 
   const handleReview = (data) => {
-    addReview({ id, body: data });
+    addReview({ id, body: { feedback: data.feedback, star: selectedRating } });
+  };
+
+  const handleStarClick = (rating) => {
+    setSelectedRating(rating);
   };
 
   return (
@@ -85,28 +92,31 @@ const Rating = ({ id }) => {
       <Button
         color="primary"
         size="md"
-        radius="none"
         onPress={() => setShowRating(!showRating)}
       >
         Reviews
       </Button>
 
       {showRating && (
-        <Modal isOpen={showRating} onClose={() => setShowRating(false)}>
+        <Modal
+          className="lg:w-1/3 md:w-3/4 w-5/6"
+          isOpen={showRating}
+          onClose={() => setShowRating(false)}
+        >
           <div className="flex flex-col gap-y-6 w-full">
             <form
               onSubmit={handleSubmit(handleReview)}
               className="flex md:flex-row flex-col gap-4 items-center"
             >
-              <input
-                type="text"
+              <textarea
                 name="feedback"
                 id="feedback"
+                rows={3}
                 {...register("feedback", { required: true })}
                 placeholder="Add your thoughts"
                 className="w-full"
               />
-              <input
+              {/* <input
                 type="number"
                 name="star"
                 id="star"
@@ -115,10 +125,30 @@ const Rating = ({ id }) => {
                 {...register("star", { required: true })}
                 placeholder="Enter Rating (1 to 5)"
                 className="w-full"
-              />
+              /> */}
+
+              <div className="flex flex-row gap-x-2">
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <button
+                    key={rating}
+                    type="button"
+                    className={`text-yellow-500 ${
+                      rating <= selectedRating ? "text-yellow-500" : ""
+                    }`}
+                    onClick={() => handleStarClick(rating)}
+                  >
+                    {rating <= selectedRating ? (
+                      <IoIosStar className="h-5 w-5" />
+                    ) : (
+                      <IoIosStarOutline className="h-5 w-5" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
               <button
                 type="submit"
-                className="p-2 h-full bg-primary text-white text-sm"
+                className="p-2 h-full bg-primary text-white text-sm rounded"
               >
                 Submit
               </button>

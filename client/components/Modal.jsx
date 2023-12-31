@@ -15,7 +15,7 @@
 
 import React, { useEffect, useRef } from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children, className }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, children }) => {
           <div className="w-full h-full flex justify-center items-center">
             <div
               ref={modalRef}
-              className="lg:w-2/5 md:w-3/4 w-4/5 max-h-[80%] mx-auto bg-white p-8 border-2 border-secondary rounded overflow-y-auto"
+              className={`max-h-[80%] mx-auto bg-white p-8 border-2 border-secondary rounded overflow-y-auto ${className}`}
             >
               {children}
             </div>

@@ -59,5 +59,13 @@ router.patch(
 // get all user
 router.get("/all", verify, authorize("admin"), userController.getAllUser);
 
+// update an user information
+router.patch(
+  "/:id",
+  verify,
+  authorize("user"),
+  userController.updateUserInfo
+);
+
 /* export user router */
 module.exports = router;
