@@ -302,49 +302,6 @@ exports.updateUser = async (req, res) => {
         description: "Something went wrong",
       });
     }
-  } else if (req.body.status && req.body.purchaseId) {
-    // Find the user within the user object
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-      res.status(404).json({
-        acknowledgement: false,
-        message: "Not Found",
-        description: "User not found",
-      });
-    } else {
-      // Find the particular purchase object within the purchases array and update its status
-      const purchase = user.purchases.find(
-        (p) => p._id === req.body.purchaseId
-      );
-      if (purchase) {
-        purchase.status = req.body.status;
-      } else {
-        res.status(404).json({
-          acknowledgement: false,
-          message: "Not Found",
-          description: "Purchase not found",
-        });
-        return;
-      }
-
-      // Save the updated user object
-      const result = await user.save();
-
-      if (result) {
-        res.status(200).json({
-          acknowledgement: true,
-          message: "OK",
-          description: "Successfully updated purchase status",
-        });
-      } else {
-        res.status(500).json({
-          acknowledgement: false,
-          message: "Internal Server Error",
-          description: "Something went wrong",
-        });
-      }
-    }
   } else {
     const cart = req.body;
 

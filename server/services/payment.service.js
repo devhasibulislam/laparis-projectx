@@ -143,8 +143,6 @@ exports.modifyOrderStatus = async (req, res) => {
         (p) => p._id == req.body.purchaseId
       );
 
-      console.log(purchase);
-
       if (Object.keys(purchase).length > 0) {
         purchase.status = req.body.status;
       } else {
