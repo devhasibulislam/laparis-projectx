@@ -33,31 +33,7 @@ const Page = () => {
     updateStatus,
     { isLoading: updatingStatus, data: statusData, error: statusDataError },
   ] = useModifyOrderStatusMutation();
-  const [sortingOption, setSortingOption] = useState("");
-
-  const sortedUsers = useMemo(() => {
-    // Mapping sorting options to corresponding statuses
-    const sortingOptionsMapping = {
-      "order-confirmed": "Order Confirmed",
-      "order-shipped": "Order Shipped",
-      "out-of-delivery": "Out of Delivery",
-      "order-delivered": "Order Delivered",
-    };
-
-    // Sorting logic based on the selected option
-    return users?.slice().sort((a, b) => {
-      const statusA = a.purchases[0]?.status;
-      const statusB = b.purchases[0]?.status;
-
-      if (sortingOption === "all" || !sortingOptionsMapping[sortingOption]) {
-        // If no sorting option selected or "all", return unsorted users
-        return 0;
-      }
-
-      // Use localeCompare for string comparison
-      return statusA.localeCompare(statusB);
-    });
-  }, [users, sortingOption]);
+  const [sortingOption, setSortingOption] = useState("all");
 
   useEffect(() => {
     if (fetchingUsers) {
@@ -106,6 +82,16 @@ const Page = () => {
     statusData,
     statusDataError,
   ]);
+
+  const filteredUsers = useMemo(() => {
+    if (sortingOption === "all") {
+      return users;
+    }
+
+    return users?.filter((user) =>
+      user?.purchases?.some((purchase) => purchase.status === sortingOption)
+    );
+  }, [users, sortingOption]);
 
   return (
     <Dashboard>
@@ -157,7 +143,7 @@ const Page = () => {
             </tr>
           </thead>
           <tbody>
-            {sortedUsers?.map((user) =>
+            {filteredUsers?.map((user) =>
               user?.purchases?.map(
                 ({ product, stickers, quantity, size, price, status, _id }) => (
                   <tr
