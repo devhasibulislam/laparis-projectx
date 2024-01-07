@@ -108,6 +108,13 @@ exports.verifyOrder = async (req, res) => {
           description: "Something went wrong",
         });
       } else {
+        // remove the cart
+        await User.findByIdAndUpdate(user._id, {
+          $set: {
+            cart: [],
+          },
+        });
+
         res.status(200).json({
           acknowledgement: true,
           message: "OK",
@@ -115,5 +122,62 @@ exports.verifyOrder = async (req, res) => {
         });
       }
     }
+  }
+};
+
+/* modify an order status */
+exports.modifyOrderStatus = async (req, res) => {
+  if (req.body.status && req.body.purchaseId && req.body.userId) {
+    // Find the user within the user object
+    const user = await User.findById(req.body.userId);
+
+    if (!user) {
+      res.status(404).json({
+        acknowledgement: false,
+        message: "Not Found",
+        description: "User not found",
+      });
+    } else {
+      // Find the particular purchase object within the purchases array and update its status
+      const purchase = user.purchases.find(
+        (p) => p._id == req.body.purchaseId
+      );
+
+      console.log(purchase);
+
+      if (Object.keys(purchase).length > 0) {
+        purchase.status = req.body.status;
+      } else {
+        res.status(404).json({
+          acknowledgement: false,
+          message: "Not Found",
+          description: "Purchase not found",
+        });
+        return;
+      }
+
+      // Save the updated user object
+      const result = await user.save();
+
+      if (result) {
+        res.status(200).json({
+          acknowledgement: true,
+          message: "OK",
+          description: "Successfully updated purchase status",
+        });
+      } else {
+        res.status(500).json({
+          acknowledgement: false,
+          message: "Internal Server Error",
+          description: "Something went wrong",
+        });
+      }
+    }
+  } else {
+    res.status(400).json({
+      acknowledgement: false,
+      message: "Bad Request",
+      description: "Missing required fields",
+    });
   }
 };

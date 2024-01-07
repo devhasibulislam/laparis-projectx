@@ -13,7 +13,7 @@
  * Date: 21, December 2023
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { Avatar } from "@nextui-org/react";
@@ -23,6 +23,11 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Cart = () => {
   const user = useSelector((state) => state.user.auth);
+  const cart = useMemo(
+    () => user?.cart || JSON.parse(localStorage.getItem("cart")) || [],
+    [user?.cart, localStorage.getItem("cart")]
+  );
+
   const [
     removeCart,
     { isLoading: cartRemoving, data: cartData, error: cartErrorData },
@@ -44,7 +49,7 @@ const Cart = () => {
     }
   }, [cartRemoving, cartData, cartErrorData]);
 
-  return user?.cart?.length === 0 || Object.keys(user).length === 0 ? (
+  return cart?.length === 0 ? (
     <>
       <p className="text-lg">No Products Added in Cart!</p>
     </>
@@ -78,60 +83,76 @@ const Cart = () => {
             </tr>
           </thead>
           <tbody>
-            {user?.cart?.map(
-              ({ product, stickers, quantity, size, price, _id }) => (
-                <tr
-                  key={product?._id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="px-6 py-4">
-                    <Avatar
-                      src={product?.thumbnail?.url}
-                      alt={product?.thumbnail?.public_id}
-                      size="sm"
-                    />
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="whitespace-nowrap w-60 overflow-x-auto block scrollbar-hide">
-                      {product?.name}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="flex flex-row gap-x-2 items-center">
-                      {stickers?.length > 0 ? stickers?.map((sticker) => (
-                        <Avatar
-                          key={sticker?._id}
-                          src={sticker?.url}
-                          alt={sticker?.public_id}
-                          size="sm"
-                        />
-                      )) : "N/A"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">{size}</td>
-                  <td className="px-6 py-4">{quantity}</td>
-                  <td className="px-6 py-4">{price}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="flex flex-row gap-1 items-center">
-                      <button
-                        className="p-1.5 border rounded-full bg-green-500 text-white"
-                        onClick={() =>
-                          (window.location.href = `/${product?._id}`)
+            {cart?.map(({ product, stickers, quantity, size, price, _id }) => (
+              <tr
+                key={product?._id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                <td className="px-6 py-4">
+                  <Avatar
+                    src={product?.thumbnail?.url}
+                    alt={product?.thumbnail?.public_id}
+                    size="sm"
+                  />
+                </td>
+                <td className="px-6 py-4">
+                  <span className="whitespace-nowrap w-60 overflow-x-auto block scrollbar-hide">
+                    {product?.name}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="flex flex-row gap-x-2 items-center">
+                    {stickers?.length > 0
+                      ? stickers?.map((sticker) => (
+                          <Avatar
+                            key={sticker?._id}
+                            src={sticker?.url}
+                            alt={sticker?.public_id}
+                            size="sm"
+                          />
+                        ))
+                      : "N/A"}
+                  </span>
+                </td>
+                <td className="px-6 py-4">{size}</td>
+                <td className="px-6 py-4">{quantity}</td>
+                <td className="px-6 py-4">{price}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className="flex flex-row gap-1 items-center">
+                    <button
+                      className="p-1.5 border rounded-full bg-green-500 text-white"
+                      onClick={() =>
+                        (window.location.href = `/${product?._id}`)
+                      }
+                    >
+                      <MdOutlineRemoveRedEye className="h-4 w-4" />
+                    </button>
+                    <button
+                      className="p-1.5 border rounded-full bg-red-500 text-white"
+                      onClick={() => {
+                        if (Object.keys(user).length > 0) {
+                          removeCart(_id);
+                        } else {
+                          // remove from local storage
+                          const cart = JSON.parse(localStorage.getItem("cart"));
+
+                          const filteredCart = cart.filter(
+                            (item) => item._id !== _id
+                          );
+
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify(filteredCart)
+                          );
                         }
-                      >
-                        <MdOutlineRemoveRedEye className="h-4 w-4" />
-                      </button>
-                      <button
-                        className="p-1.5 border rounded-full bg-red-500 text-white"
-                        onClick={() => removeCart(_id)}
-                      >
-                        <FaRegTrashAlt className="h-4 w-4" />
-                      </button>
-                    </span>
-                  </td>
-                </tr>
-              )
-            )}
+                      }}
+                    >
+                      <FaRegTrashAlt className="h-4 w-4" />
+                    </button>
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

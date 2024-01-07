@@ -27,6 +27,8 @@ export const paymentApi = laparisApi.injectEndpoints({
         },
         body,
       }),
+
+      invalidatesTags: ["User"],
     }),
 
     // verify an order
@@ -39,8 +41,24 @@ export const paymentApi = laparisApi.injectEndpoints({
         },
         body,
       }),
+
+      invalidatesTags: ["User"],
+    }),
+
+    // modify an order status
+    modifyOrderStatus: build.mutation({
+      query: (body) => ({
+        url: "/payment/order-status",
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body,
+      }),
+
+      invalidatesTags: ["User"],
     }),
   }),
 });
 
-export const { useCreateOrderMutation, useVerifyOrderMutation } = paymentApi;
+export const { useCreateOrderMutation, useVerifyOrderMutation, useModifyOrderStatusMutation } = paymentApi;

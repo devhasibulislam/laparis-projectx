@@ -58,7 +58,7 @@ const Page = () => {
             id="name"
             {...register("name", { required: true })}
             placeholder="i.e. Hasibul Islam"
-            className="md:w-3/4 w-full"
+            className="lg:w-1/2 md:w-3/4 w-full"
           />
         </label>
 
@@ -70,13 +70,13 @@ const Page = () => {
             rows={5}
             {...register("description", { required: true })}
             placeholder="i.e. https://devhasibulislam.vercel.app"
-            className="md:w-3/4 w-full"
+            className="lg:w-1/2 md:w-3/4 w-full"
           />
         </label>
 
         <button
           type="submit"
-          className="py-2 bg-primary text-white md:w-3/4 w-full rounded"
+          className="py-2 bg-primary text-white lg:w-1/2 md:w-3/4 w-full rounded"
         >
           Create Category
         </button>

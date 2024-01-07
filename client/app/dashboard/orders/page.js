@@ -16,9 +16,10 @@
 "use client";
 
 import Dashboard from "@/layouts/dashboard/Dashboard";
+import { useModifyOrderStatusMutation } from "@/services/payment/paymentApi";
 import { useGetAllUserQuery } from "@/services/user/userApi";
 import { Avatar } from "@nextui-org/react";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const Page = () => {
@@ -28,6 +29,35 @@ const Page = () => {
     error: usersDataError,
   } = useGetAllUserQuery();
   const users = useMemo(() => usersData?.data || [], [usersData]);
+  const [
+    updateStatus,
+    { isLoading: updatingStatus, data: statusData, error: statusDataError },
+  ] = useModifyOrderStatusMutation();
+  const [sortingOption, setSortingOption] = useState("");
+
+  const sortedUsers = useMemo(() => {
+    // Mapping sorting options to corresponding statuses
+    const sortingOptionsMapping = {
+      "order-confirmed": "Order Confirmed",
+      "order-shipped": "Order Shipped",
+      "out-of-delivery": "Out of Delivery",
+      "order-delivered": "Order Delivered",
+    };
+
+    // Sorting logic based on the selected option
+    return users?.slice().sort((a, b) => {
+      const statusA = a.purchases[0]?.status;
+      const statusB = b.purchases[0]?.status;
+
+      if (sortingOption === "all" || !sortingOptionsMapping[sortingOption]) {
+        // If no sorting option selected or "all", return unsorted users
+        return 0;
+      }
+
+      // Use localeCompare for string comparison
+      return statusA.localeCompare(statusB);
+    });
+  }, [users, sortingOption]);
 
   useEffect(() => {
     if (fetchingUsers) {
@@ -43,18 +73,66 @@ const Page = () => {
     }
 
     if (usersDataError?.data) {
-      toast.error(usersDataError?.data?.message || "Something went wrong", {
+      toast.error(usersDataError?.data?.description || "Something went wrong", {
         id: "getUsers",
       });
     }
-  }, [fetchingUsers, usersData, usersDataError]);
+
+    if (updatingStatus) {
+      toast.loading("Updating status...", {
+        id: "updateStatus",
+      });
+    }
+
+    if (statusData) {
+      toast.success(statusData?.description, {
+        id: "updateStatus",
+      });
+    }
+
+    if (statusDataError?.data) {
+      toast.error(
+        statusDataError?.data?.description || "Something went wrong",
+        {
+          id: "updateStatus",
+        }
+      );
+    }
+  }, [
+    fetchingUsers,
+    usersData,
+    usersDataError,
+    updatingStatus,
+    statusData,
+    statusDataError,
+  ]);
 
   return (
     <Dashboard>
+      <div className="flex md:flex-row md:justify-between flex-col gap-4 mb-4">
+        <div></div>
+
+        <select
+          name="sorting"
+          id="sorting"
+          value={sortingOption}
+          onChange={(e) => setSortingOption(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="order-confirmed">Order Confirmed</option>
+          <option value="order-shipped">Order Shipped</option>
+          <option value="out-of-delivery">Out of Delivery</option>
+          <option value="order-delivered">Order Delivered</option>
+        </select>
+      </div>
+
       <div className="relative overflow-x-auto sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
+              <th scope="col" className="px-6 py-3">
+                User
+              </th>
               <th scope="col" className="px-6 py-3">
                 Thumbnail
               </th>
@@ -73,16 +151,20 @@ const Page = () => {
               <th scope="col" className="px-6 py-3">
                 Price
               </th>
+              <th scope="col" className="px-6 py-3">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
-            {users?.map((user) =>
+            {sortedUsers?.map((user) =>
               user?.purchases?.map(
-                ({ product, stickers, quantity, size, price, _id }) => (
+                ({ product, stickers, quantity, size, price, status, _id }) => (
                   <tr
-                    key={product?._id}
+                    key={_id}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
+                    <td className="px-6 py-4">{user?.name}</td>
                     <td className="px-6 py-4">
                       <Avatar
                         src={product?.thumbnail?.url}
@@ -112,6 +194,25 @@ const Page = () => {
                     <td className="px-6 py-4">{size}</td>
                     <td className="px-6 py-4">{quantity}</td>
                     <td className="px-6 py-4">{price}</td>
+                    <td className="px-6 py-4">
+                      <select
+                        name="status"
+                        id="status"
+                        value={status}
+                        onChange={(e) =>
+                          updateStatus({
+                            status: e.target.value,
+                            purchaseId: _id,
+                            userId: user?._id,
+                          })
+                        }
+                      >
+                        <option value="order-confirmed">Order Confirmed</option>
+                        <option value="order-shipped">Order Shipped</option>
+                        <option value="out-of-delivery">Out of Delivery</option>
+                        <option value="order-delivered">Order Delivered</option>
+                      </select>
+                    </td>
                   </tr>
                 )
               )

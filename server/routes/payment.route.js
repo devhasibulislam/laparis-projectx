@@ -42,5 +42,13 @@ router.post(
   paymentController.verifyOrder
 );
 
+// modify an order status
+router.patch(
+  "/order-status",
+  verify,
+  authorize("admin"),
+  paymentController.modifyOrderStatus
+);
+
 /* export user router */
 module.exports = router;

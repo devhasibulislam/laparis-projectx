@@ -24,7 +24,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-full h-full border rounded md:col-span-3 p-4 overflow-y-auto md:block hidden">
+    <aside className="w-full h-full border rounded lg:col-span-2 md:col-span-3 p-4 overflow-y-auto md:block hidden">
       <div className="flex flex-col h-full">
         <div className="flex flex-col gap-y-4">
           {routes?.map((route) => (

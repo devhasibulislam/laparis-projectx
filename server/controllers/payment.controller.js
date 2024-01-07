@@ -37,3 +37,14 @@ exports.verifyOrder = async (req, res, next) => {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
 };
+
+/* modify an order status */
+exports.modifyOrderStatus = async (req, res, next) => {
+  try {
+    await paymentService.modifyOrderStatus(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};

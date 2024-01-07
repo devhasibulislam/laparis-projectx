@@ -102,6 +102,14 @@ const userSchema = new mongoose.Schema(
           required: [true, "Please, provide product size"],
         },
         price: Number,
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 
@@ -126,7 +134,25 @@ const userSchema = new mongoose.Schema(
           type: String,
           required: [true, "Please, provide product size"],
         },
+        status: {
+          type: String,
+          enum: [
+            "order-confirmed",
+            "order-shipped",
+            "order-delivered",
+            "out-of-delivery",
+          ],
+          default: "order-confirmed",
+        },
         price: Number,
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+        updatedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 

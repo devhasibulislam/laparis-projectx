@@ -50,7 +50,7 @@ const Checkout = () => {
     { isLoading: orderVerifying, data: verifiedData, error: verificationError },
   ] = useVerifyOrderMutation();
 
-  const totalPrice = user?.cart?.reduce((sum, item) => sum + item.price, 0);
+  const totalPrice = user?.cart?.reduce((sum, item) => sum + item.price, 0) || JSON.parse(localStorage.getItem("cart")).reduce((sum, item) => sum + item.price, 0);
 
   useEffect(() => {
     async function verifyPayment(data) {
@@ -108,15 +108,19 @@ const Checkout = () => {
     }
 
     if (orderVerifying) {
+      console.log(1);
       toast.loading("Verifying your order...", { id: "verifyOrder" });
     }
 
     if (verifiedData) {
+      console.log(2);
+      console.log(verifiedData);
       toast.success(verifiedData?.description, { id: "verifyOrder" });
       console.log(verifiedData.data);
     }
 
     if (verificationError?.data) {
+      console.log(3);
       toast.error(
         verificationError?.data?.description || "Something went wrong",
         {
@@ -141,7 +145,7 @@ const Checkout = () => {
 
   return user?.cart?.length === 0 || Object.keys(user).length === 0 ? (
     <>
-      <p className="text-lg">No Products Added to Cart!</p>
+      <p className="text-lg">Cart is Empty or Login to Checkout!</p>
     </>
   ) : (
     <section className="flex flex-col gap-y-4">

@@ -162,11 +162,14 @@ function UserOrders() {
             <th scope="col" className="px-6 py-3">
               Price
             </th>
+            <th scope="col" className="px-6 py-3">
+              Status
+            </th>
           </tr>
         </thead>
         <tbody>
           {user?.purchases?.map(
-            ({ product, stickers, quantity, size, price }) => (
+            ({ product, stickers, quantity, size, price, status }) => (
               <tr
                 key={product?._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -200,6 +203,7 @@ function UserOrders() {
                 <td className="px-6 py-4">{size}</td>
                 <td className="px-6 py-4">{quantity}</td>
                 <td className="px-6 py-4">{price}</td>
+                <td className="px-6 py-4">{status}</td>
               </tr>
             )
           )}

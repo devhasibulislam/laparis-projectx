@@ -53,6 +53,8 @@ export const userApi = laparisApi.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       }),
+
+      providesTags: ["User"],
     }),
 
     // update user info

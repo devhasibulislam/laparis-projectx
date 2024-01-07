@@ -166,7 +166,7 @@ const Page = () => {
         onSubmit={handleSubmit(handleAddProduct)}
         className="flex flex-col gap-y-4"
       >
-        <div className="flex flex-col gap-y-4 items-center md:w-3/4 w-full">
+        <div className="flex flex-col gap-y-4 items-center lg:w-1/2 md:w-3/4 w-full">
           {/* thumbnail section */}
           <div className="flex flex-col gap-y-1 w-full">
             {thumbnailPreview && (
@@ -255,7 +255,7 @@ const Page = () => {
             id="name"
             {...register("name", { required: true })}
             placeholder="i.e. Hasibul Islam"
-            className="md:w-3/4 w-full"
+            className="lg:w-1/2 md:w-3/4 w-full"
           />
         </label>
 
@@ -267,11 +267,11 @@ const Page = () => {
             rows={5}
             {...register("description", { required: true })}
             placeholder="i.e. https://devhasibulislam.vercel.app"
-            className="md:w-3/4 w-full"
+            className="lg:w-1/2 md:w-3/4 w-full"
           />
         </label>
 
-        <div className="flex md:flex-row flex-col gap-4 md:w-3/4 w-full">
+        <div className="flex md:flex-row flex-col gap-4 lg:w-1/2 md:w-3/4 w-full">
           <label
             htmlFor="regularPrice"
             className="flex flex-col gap-y-1 w-full"
@@ -304,7 +304,7 @@ const Page = () => {
           </label>
         </div>
 
-        <div className="flex md:flex-row flex-col gap-4 md:w-3/4 w-full">
+        <div className="flex md:flex-row flex-col gap-4 lg:w-1/2 md:w-3/4 w-full">
           <label
             htmlFor="frontStickerPrice"
             className="flex flex-col gap-y-1 w-full"
@@ -337,7 +337,7 @@ const Page = () => {
           </label>
         </div>
 
-        <div className="flex lg:flex-row flex-col gap-4 md:w-3/4 w-full">
+        <div className="flex lg:flex-row flex-col gap-4 lg:w-1/2 md:w-3/4 w-full">
           <label htmlFor="category" className="flex flex-col gap-y-1 w-full">
             <span className="text-sm">Choose Product Category*</span>
             {fetchingCategories ? (
@@ -384,7 +384,7 @@ const Page = () => {
 
         <button
           type="submit"
-          className="py-2 bg-primary text-white md:w-3/4 w-full rounded"
+          className="py-2 bg-primary text-white lg:w-1/2 md:w-3/4 w-full rounded"
         >
           Create Product
         </button>

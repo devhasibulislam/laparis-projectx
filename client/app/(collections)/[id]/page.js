@@ -44,6 +44,7 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import Rating from "@/components/Rating";
 import Modal from "@/components/Modal";
+import { useSelector } from "react-redux";
 
 const Page = () => {
   const { id } = useParams();
@@ -69,6 +70,7 @@ const Page = () => {
     backStickerPreview === null ? frontStickerPreview : backStickerPreview,
   ];
   const [showStickerModal, setShowStickerModal] = useState(false);
+  const user = useSelector((state) => state.user.auth);
 
   useEffect(() => {
     if (product.thumbnail) {
@@ -138,14 +140,16 @@ const Page = () => {
   const finalPrice = totalPrice > 0 ? totalPrice : 0;
 
   function handleAddToCart() {
-    if (frontStickerPreview === null && backStickerPreview === null) {
-      update({
-        product: product._id,
-        quantity,
-        size,
-        price: finalPrice,
-      });
-    } else {
+    let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const newItem = {
+      product: product._id,
+      quantity,
+      size,
+      price: finalPrice,
+    };
+
+    if (frontStickerPreview !== null || backStickerPreview !== null) {
       const formData = new FormData();
 
       formData.append("product", product._id);
@@ -155,7 +159,21 @@ const Page = () => {
       formData.append("size", size);
       formData.append("price", finalPrice);
 
-      update(formData);
+      // Assuming 'update' function accepts formData and adds to the cart
+
+      if (Object.keys(user).length > 0) {
+        update(formData);
+      } else {
+        cartItems.push(formData);
+        localStorage.setItem("cart", JSON.stringify(cartItems));
+      }
+    } else {
+      if (Object.keys(user).length > 0) {
+        update(newItem);
+      } else {
+        cartItems.push({ ...newItem, product: product, _id: Date.now() });
+        localStorage.setItem("cart", JSON.stringify(cartItems));
+      }
     }
   }
 
@@ -241,15 +259,17 @@ const Page = () => {
                     onChange={(event) => setQuantity(event.target.value)}
                   />
                 </Tooltip>
-                <Button
-                  size="md"
-                  color="primary"
-                  radius="sm"
-                  className="w-full"
-                  onPress={() => setShowStickerModal(!showStickerModal)}
-                >
-                  Add Stickers
-                </Button>
+                {Object.keys(user).length > 0 && (
+                  <Button
+                    size="md"
+                    color="primary"
+                    radius="sm"
+                    className="w-full"
+                    onPress={() => setShowStickerModal(!showStickerModal)}
+                  >
+                    Add Stickers
+                  </Button>
+                )}
 
                 {showStickerModal && (
                   <Modal
